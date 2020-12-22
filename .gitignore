@@ -1,0 +1,9 @@
+.*
+!.gitignore
+
+*.out
+*.o
+*.a
+*.d
+*.dSYM
+test*
