@@ -10,7 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+LIBNAME = libftprintf
+CONTENTS = \
+    ft_printf.c
+
+NAME = $(LIBNAME).a
+HEADER = $(LIBNAME).h
+OBJS = $(CONTENTS:.c=.o)
+SYSTEM = $(shell uname)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -40,7 +47,7 @@ fclean: clean
 
 re: fclean all
 
-$(NAME): ft_printf.o
+$(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 %.o: %.c
