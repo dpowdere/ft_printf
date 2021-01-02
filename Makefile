@@ -10,45 +10,58 @@
 #                                                                              #
 # **************************************************************************** #
 
-LIBNAME = libftprintf
-CONTENTS = \
+LIBNAME := libftprintf
+CONTENTS := \
     ft_printf.c
 
-NAME = $(LIBNAME).a
-HEADER = $(LIBNAME).h
-OBJS = $(CONTENTS:.c=.o)
-SYSTEM = $(shell uname)
+NAME := $(LIBNAME).a
+HEADER := $(LIBNAME).h
+OBJS := $(CONTENTS:.c=.o)
+DEPS := $(CONTENTS:.c=.d)
+SYSTEM := $(shell uname)
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror -g3
+DEPFLAGS = -MM -MP -MT "$(@:.d=.o) $@" -MF $@
 
-AR = ar
-ARFLAGS = rcusv
+AR := ar
+ARFLAGS := rcusv
 ifneq ($(SYSTEM), Darwin)
   ifeq ($(SYSTEM), Linux)
-    ARFLAGS = rcuUsv
+    ARFLAGS := rcuUsv
   else
-    ARFLAGS = rcsv
+    ARFLAGS := rcsv
   endif
 endif
 
-.PHONY: all clean fclean re
+.PHONY: all clean clean_ fclean FORCE re
+
+$(NAME): $(OBJS) libft/libft.a
+	$(AR) $(ARFLAGS) $@ $^
 
 all: $(NAME)
 
-clean:
-	-$(MAKE) clean -C libft
-	$(RM) *.gch
-	$(RM) *.o
+clean_:
+	$(RM) *.o *.d *.gch *.out
 
-fclean: clean
-	-$(MAKE) fclean -C libft
-	$(RM) $(NAME)
+clean: clean_
+	@$(MAKE) -C libft clean
+
+fclean: clean_
+	$(RM) $(NAME) *.dSYM
+	@$(MAKE) -C libft fclean
 
 re: fclean all
 
-$(NAME): $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
-
-%.o: %.c
+%.o: %.c %.d
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+%.d: %.c
+	$(CPP) $(DEPFLAGS) $< -o /dev/null
+
+libft/libft.a: FORCE
+	$(MAKE) -C libft
+
+FORCE:
+
+-include $(DEPS)

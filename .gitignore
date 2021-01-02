@@ -1,9 +1,12 @@
 .*
 !.gitignore
 
-*.out
-*.o
 *.a
 *.d
 *.dSYM
+*.gch
+*.o
+*.out
+*.swp
+
 test*
