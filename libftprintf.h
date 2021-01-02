@@ -16,6 +16,8 @@
 # include <stdarg.h>
 # include <unistd.h>
 
+# include "utils/utils.h"
+
 # define STDOUT 1
 
 # define PRINTF_WRITE_ERROR	-1

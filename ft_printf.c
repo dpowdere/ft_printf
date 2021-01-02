@@ -19,20 +19,13 @@ int		ft_find_format_specifier(const char **start, int *total_size_or_error)
 {
 	const char	*cursor;
 	int			size;
-	int			partial_size;
 
 	cursor = *start;
 	while (*cursor && *cursor != '%')
 		++cursor;
 	size = (int)(cursor - *start);
 	*total_size_or_error += size;
-	while ((partial_size = write(STDOUT, *start, size)) < size
-			&& partial_size >= 0)
-	{
-		*start = *start + partial_size;
-		size -= partial_size;
-	}
-	if (partial_size < 0)
+	if (ft_write(STDOUT, *start, size) < 0)
 	{
 		*total_size_or_error = PRINTF_WRITE_ERROR;
 		return (FIND_ERROR);

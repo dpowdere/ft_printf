@@ -12,10 +12,11 @@
 
 LIBNAME := libftprintf
 CONTENTS := \
-    ft_printf.c
+    ft_printf.c \
+\
+    utils/ft_write.c
 
 NAME := $(LIBNAME).a
-HEADER := $(LIBNAME).h
 OBJS := $(CONTENTS:.c=.o)
 DEPS := $(CONTENTS:.c=.d)
 SYSTEM := $(shell uname)
@@ -34,22 +35,18 @@ ifneq ($(SYSTEM), Darwin)
   endif
 endif
 
-.PHONY: all clean clean_ fclean FORCE re
+.PHONY: all clean fclean re
 
-$(NAME): $(OBJS) libft/libft.a
+$(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 all: $(NAME)
 
-clean_:
-	$(RM) *.o *.d *.gch *.out
+clean:
+	$(RM) *.o */*.o *.d */*.d *.gch */*.gch *.out
 
-clean: clean_
-	@$(MAKE) -C libft clean
-
-fclean: clean_
+fclean: clean
 	$(RM) $(NAME) *.dSYM
-	@$(MAKE) -C libft fclean
 
 re: fclean all
 
@@ -58,10 +55,5 @@ re: fclean all
 
 %.d: %.c
 	$(CPP) $(DEPFLAGS) $< -o /dev/null
-
-libft/libft.a: FORCE
-	$(MAKE) -C libft
-
-FORCE:
 
 -include $(DEPS)
