@@ -12,23 +12,22 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#include <unistd.h>
 
 #include "libftprintf.h"
 
 static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 {
-	static t_func functions[SPEC_COUNT] = SPEC_HANDLERS;
+	static t_spec_ft handlers[SPEC_COUNT] = SPEC_HANDLERS;
 
 	if (type == INIT_TOOLBOX)
 	{
 		toolbox->cumulative_size = 0;
 		toolbox->error = PRINTF_NO_ERROR;
-		toolbox->ft = &functions;
+		toolbox->handlers = &handlers;
 		toolbox->cursor = NULL;
 	}
 	toolbox->spec.specifier = YET_NO_SPEC;
-	toolbox->spec.minimum_field_width = DEFAULT_MIN_FIELD_WIDTH;
+	toolbox->spec.width = DEFAULT_MIN_FIELD_WIDTH;
 	toolbox->spec.precision = DEFAULT_PRECISION;
 	toolbox->spec.left_justify = NO;
 	toolbox->spec.zero_pad = NO;
@@ -71,17 +70,17 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 
 	if (toolbox->error)
 		return ;
-	if (toolbox->spec.minimum_field_width == TAKE_FROM_ARG)
-		toolbox->spec.minimum_field_width = va_arg(*arg_ptr, int);
+	if (toolbox->spec.width == TAKE_FROM_ARG)
+		toolbox->spec.width = va_arg(*arg_ptr, int);
 	if (toolbox->spec.precision == TAKE_FROM_ARG)
 		toolbox->spec.precision = va_arg(*arg_ptr, int);
 	i = 0;
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;
-	(*toolbox->ft)[i](toolbox, arg_ptr);
+	(*toolbox->handlers)[i](toolbox, arg_ptr);
 }
 
-# define FRAGMENT_START format
+#define FRAGMENT_START format
 
 int			ft_printf(const char *format, ...)
 {

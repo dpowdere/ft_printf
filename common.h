@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 21:53:39 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/02 21:54:26 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/03 16:44:57 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/03 17:47:57 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef COMMON_H
+# define COMMON_H
 
+# include <stdarg.h>
 # include <stddef.h>
-# include <sys/types.h>
 # include <unistd.h>
 
-void	*ft_memset(void *b, int c, size_t len);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlen(const char *s);
-ssize_t	ft_write(int fd, const void *buf, size_t count);
+# include "utils/utils.h"
+
+# define STDOUT 1
+
+# define PRINTF_NO_ERROR		0
+# define PRINTF_WRITE_ERROR		-1
+# define PRINTF_NOSPEC_ERROR	-2
+# define PRINTF_MALLOC_ERROR	-4
+
+struct s_spec;
+struct s_toolbox;
+typedef struct s_spec		t_spec;
+typedef struct s_toolbox	t_toolbox;
+typedef void				(*t_spec_ft)(t_toolbox *, va_list *);
 
 #endif

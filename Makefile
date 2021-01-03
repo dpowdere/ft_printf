@@ -15,10 +15,17 @@ CONTENTS := \
     ft_printf.c \
 \
     specs/ft_spec_c.c \
+    specs/ft_spec_hex.c \
+    specs/ft_spec_int.c \
+    specs/ft_spec_p.c \
     specs/ft_spec_percent.c \
     specs/ft_spec_s.c \
 \
+    utils/ft_print_field.c \
+\
+    utils/ft_memset.c \
     utils/ft_strchr.c \
+    utils/ft_strlen.c \
     utils/ft_write.c
 
 NAME := $(LIBNAME).a
