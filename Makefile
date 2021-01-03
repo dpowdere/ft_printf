@@ -14,6 +14,11 @@ LIBNAME := libftprintf
 CONTENTS := \
     ft_printf.c \
 \
+    specs/ft_spec_c.c \
+    specs/ft_spec_percent.c \
+    specs/ft_spec_s.c \
+\
+    utils/ft_strchr.c \
     utils/ft_write.c
 
 NAME := $(LIBNAME).a
