@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdarg.h>
+
 #include "../libftprintf.h"
 
 void	ft_spec_i(t_toolbox *toolbox, va_list *arg_ptr)

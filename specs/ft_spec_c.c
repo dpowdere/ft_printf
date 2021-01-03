@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdarg.h>
+
 #include "../libftprintf.h"
 
 void	ft_spec_c(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	(void)toolbox;
-	(void)arg_ptr;
+	char c;
+
+	c = va_arg(*arg_ptr, char);
+	ft_print_field(&c, 1, toolbox);
 }
