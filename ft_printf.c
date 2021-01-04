@@ -39,7 +39,8 @@ static void	ft_print_before_spec(const char **start, t_toolbox *toolbox)
 		++toolbox->cursor;
 	if (ft_write(STDOUT, *start, (size_t)(toolbox->cursor - *start)) < 0)
 		toolbox->error = PRINTF_WRITE_ERROR;
-	++toolbox->cursor;
+	if (*toolbox->cursor == SPEC_START_MARKER)
+		++toolbox->cursor;
 	*start = toolbox->cursor;
 }
 
