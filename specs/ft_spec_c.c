@@ -16,8 +16,8 @@
 
 void	ft_spec_c(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	char c;
+	int c;
 
-	c = va_arg(*arg_ptr, char);
-	ft_print_field(&c, 1, toolbox);
+	c = va_arg(*arg_ptr, int);
+	ft_print_field((char *)&c, 1, toolbox);
 }

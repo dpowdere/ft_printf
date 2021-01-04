@@ -21,6 +21,8 @@ CONTENTS := \
     specs/ft_spec_percent.c \
     specs/ft_spec_s.c \
 \
+    utils/ft_ll_base.c \
+    utils/ft_format_ll.c \
     utils/ft_print_field.c \
 \
     utils/ft_memset.c \
