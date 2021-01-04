@@ -79,6 +79,7 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;
 	(*toolbox->handlers)[i](toolbox, arg_ptr);
+	ft_reset(RESET_SPEC_INFO, toolbox);
 }
 
 #define FRAGMENT_START format

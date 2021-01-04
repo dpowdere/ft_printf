@@ -19,7 +19,6 @@
 typedef struct	s_toolbox
 {
 	const char	*cursor;
-	const char	*fragment_start;
 	int			cumulative_size;
 	int			error;
 	t_spec		spec;
