@@ -11,23 +11,41 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
+#include <stddef.h>
+#include <stdlib.h>
 
 #include "../libftprintf.h"
 
+#define DOES_NOT_MATTER 0
+
 void	ft_spec_i(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	(void)toolbox;
-	(void)arg_ptr;
+	int						n;
+	char					*s;
+	t_int_format_options	opts;
+
+	n = va_arg(*arg_ptr, int);
+	opts.base = 10;
+	opts.min_digits = toolbox->spec.precision;
+	opts.use_uppercase = DOES_NOT_MATTER;
+	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
+	s = ft_format_lli((long long int)n, opts);
+	ft_print_field(s, ft_strlen(s), toolbox);
+	free(s);
 }
 
 void	ft_spec_u(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	(void)toolbox;
-	(void)arg_ptr;
-}
+	unsigned int			n;
+	char					*s;
+	t_int_format_options	opts;
 
-void	ft_spec_d(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	(void)toolbox;
-	(void)arg_ptr;
+	n = va_arg(*arg_ptr, unsigned int);
+	opts.base = 10;
+	opts.min_digits = toolbox->spec.precision;
+	opts.use_uppercase = DOES_NOT_MATTER;
+	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
+	s = ft_format_llu((unsigned long long int)n, opts);
+	ft_print_field(s, ft_strlen(s), toolbox);
+	free(s);
 }

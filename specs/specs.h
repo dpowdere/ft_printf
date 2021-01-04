@@ -18,9 +18,9 @@
 # define SPEC_START_MARKER '%'
 
 # define S(x)	ft_spec_ ## x
+# define ft_spec_d	ft_spec_i
 
 void						ft_spec_c(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_d(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_i(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_p(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_percent(t_toolbox *t, va_list *arg_ptr);
