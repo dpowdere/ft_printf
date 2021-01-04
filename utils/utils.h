@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:53:39 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 16:52:27 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/04 23:36:29 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 void			*ft_memset(void *b, int c, size_t len);
 char			*ft_strchr(const char *s, int c);
+char			*ft_strdup(const char *s);
 size_t			ft_strlen(const char *s);
 ssize_t			ft_write(int fd, const void *buf, size_t count);
 
@@ -37,9 +38,12 @@ typedef struct	s_int_format_options
 	t_sign_presentation	sp;
 }				t_int_format_options;
 
+#define NULL_POINTER	"(nil)"
+
 char			*ft_lli_base(long long int n, int base, int use_uppercase);
 char			*ft_llu_base(unsigned long long n, int base, int use_uppercase);
 char			*ft_format_lli(long long int n, t_int_format_options o);
 char			*ft_format_llu(unsigned long long n, t_int_format_options o);
+char			*ft_format_pointer(void *p, int min_digits);
 
 #endif

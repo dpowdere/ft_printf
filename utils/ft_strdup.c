@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_p.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:34:55 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 23:16:36 by dpowdere         ###   ########.fr       */
+/*   Created: 2020/11/06 12:17:34 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/04 23:31:26 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#include <errno.h>
+#include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
-
-void	ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
+char	*ft_strdup(const char *s)
 {
-	void *p;
-	char *s;
+	extern int	errno;
+	char		*dup;
+	size_t		bufsize;
 
-	p = va_arg(*arg_ptr, void *);
-	s = ft_format_pointer(p, toolbox->spec.precision);
-	ft_print_field(s, ft_strlen(s), toolbox);
-	free(s);
+	if (!s)
+		return (NULL);
+	bufsize = 0;
+	while (s[bufsize++])
+		;
+	dup = (char *)malloc(bufsize);
+	if (!dup)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	while (bufsize-- > 0)
+		dup[bufsize] = s[bufsize];
+	return (dup);
 }
