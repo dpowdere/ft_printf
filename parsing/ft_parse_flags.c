@@ -14,6 +14,16 @@
 
 int	ft_parse_flags(t_toolbox *toolbox)
 {
-	(void)toolbox;
+	char	*c;
+
+	while (*toolbox->cursor &&
+			(c = ft_strchr(FLAG_SPECIFIERS, *toolbox->cursor)) != NULL)
+	{
+		if (*c == '0')
+			toolbox->spec.zero_pad = 1;
+		else if (*c == '-')
+			toolbox->spec.left_justify = 1;
+		++toolbox->cursor;
+	}
 	return (PARSING_SUCCESS);
 }

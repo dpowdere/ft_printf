@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef PARSING_H
+# define PARSING_H
 
-#include "common.h"
+# include "common.h"
 
 typedef int	(*t_stair_step)(t_toolbox *toolbox);
 
@@ -34,4 +34,4 @@ int			ft_parse_specifier(t_toolbox *toolbox);
 # define STAIRS	{ P(flags), P(width), P(precision), P(size), P(specifier) }
 # define STAIR_STEPS	5
 
-# endif
+#endif
