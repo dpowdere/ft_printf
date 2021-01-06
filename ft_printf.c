@@ -33,24 +33,25 @@ static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 	toolbox->spec.zero_pad = NO;
 }
 
-static void	ft_print_before_spec(const char **start, t_toolbox *toolbox)
+static void	ft_print_before_spec(t_toolbox *toolbox)
 {
+	const char *start;
+
+	start = toolbox->cursor;
 	while (*toolbox->cursor && *toolbox->cursor != SPEC_START_MARKER)
 		++toolbox->cursor;
-	if (ft_write(STDOUT, *start, (size_t)(toolbox->cursor - *start)) < 0)
+	if (ft_write(STDOUT, start, (size_t)(toolbox->cursor - start)) < 0)
 		toolbox->error = PRINTF_WRITE_ERROR;
+	toolbox->cumulative_size += toolbox->cursor - start;
 	if (*toolbox->cursor == SPEC_START_MARKER)
 		++toolbox->cursor;
-	*start = toolbox->cursor;
 }
 
-static void	ft_parse_spec(const char **start, t_toolbox *toolbox)
+static void	ft_parse_spec(t_toolbox *toolbox)
 {
 	static t_stair_step	parsing_stairs[STAIR_STEPS] = STAIRS;
 	int					step;
 
-	if (toolbox->error)
-		return ;
 	step = 0;
 	while (step < STAIR_STEPS)
 	{
@@ -60,15 +61,12 @@ static void	ft_parse_spec(const char **start, t_toolbox *toolbox)
 	}
 	if (*toolbox->cursor)
 		++toolbox->cursor;
-	*start = toolbox->cursor;
 }
 
 static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	int	i;
 
-	if (toolbox->error)
-		return ;
 	if (toolbox->spec.width == TAKE_FROM_ARG)
 		toolbox->spec.width = va_arg(*arg_ptr, int);
 	if (toolbox->spec.precision == TAKE_FROM_ARG)
@@ -78,10 +76,7 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;
 	(*toolbox->handlers)[i](toolbox, arg_ptr);
-	ft_reset(RESET_SPEC_INFO, toolbox);
 }
-
-#define FRAGMENT_START format
 
 int			ft_printf(const char *format, ...)
 {
@@ -90,12 +85,16 @@ int			ft_printf(const char *format, ...)
 
 	va_start(arg_ptr, format);
 	ft_reset(INIT_TOOLBOX, &toolbox);
-	toolbox.cursor = FRAGMENT_START;
+	toolbox.cursor = format;
 	while (*toolbox.cursor && !toolbox.error)
 	{
-		ft_print_before_spec(&FRAGMENT_START, &toolbox);
-		ft_parse_spec(&FRAGMENT_START, &toolbox);
-		ft_print_arg_by_spec(&toolbox, &arg_ptr);
+		ft_print_before_spec(&toolbox);
+		if (*toolbox.cursor && !toolbox.error)
+		{
+			ft_parse_spec(&toolbox);
+			ft_print_arg_by_spec(&toolbox, &arg_ptr);
+		}
+		ft_reset(RESET_SPEC_INFO, &toolbox);
 	}
 	va_end(arg_ptr);
 	return (toolbox.error ? toolbox.error : toolbox.cumulative_size);
