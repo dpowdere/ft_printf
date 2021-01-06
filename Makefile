@@ -30,6 +30,7 @@ CONTENTS := \
     utils/ft_strchr.c \
     utils/ft_strdup.c \
     utils/ft_strlen.c \
+    utils/ft_strpfx.c \
     utils/ft_write.c
 
 NAME := $(LIBNAME).a
@@ -39,7 +40,7 @@ SYSTEM := $(shell uname)
 
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror -g3
-DEPFLAGS = -MM -MP -MT "$(@:.d=.o) $@" -MF $@
+DEPFLAGS = -MMD -MP
 
 AR := ar
 ARFLAGS := rcusv
@@ -66,10 +67,7 @@ fclean: clean
 
 re: fclean all
 
-%.o: %.c %.d
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-%.d: %.c
-	$(CPP) $(DEPFLAGS) $< -o /dev/null
+%.o: %.c
+	$(CC) $(CFLAGS) -c $(DEPFLAGS) -o $@ $<
 
 -include $(DEPS)

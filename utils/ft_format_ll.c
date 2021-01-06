@@ -12,67 +12,67 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "utils.h"
 
 #define ALWAYS_NON_NEGATIVE 0
 
-static void		ft_fill_non_negative(t_sign_presentation sp, char *s1, char *s2)
+static void		ft_fill_non_negative(t_sign_presentation sp,
+								char *str, char *augmented_str,
+								size_t basic_size)
 {
 	size_t	i;
-	size_t	size1;
-	size_t	size2;
+	size_t	augmented_size;
 
-	size1 = sizeof(s1);
-	size2 = sizeof(s2);
+	augmented_size = ft_strlen(augmented_str);
+	printf(">>> size1: %lu\n", basic_size);
+	printf(">>> size2: %lu\n", augmented_size);
 	i = 0;
 	if (sp == SIGN_PRESENTATION_MINUS_SPACE)
-		s2[i++] = ' ';
+		augmented_str[i++] = ' ';
 	else if (sp == SIGN_PRESENTATION_MINUS_PLUS)
-		s2[i++] = '+';
-	while (i < size2)
+		augmented_str[i++] = '+';
+	while (i < augmented_size)
 	{
-		if (i < size2 - size1)
-			s2[i] = '0';
+		if (i < augmented_size - basic_size)
+			augmented_str[i] = '0';
 		else
-			s2[i] = s1[i - (size2 - size1)];
+			augmented_str[i] = str[i - (augmented_size - basic_size)];
 		++i;
 	}
-	s2[i] = '\0';
+	augmented_str[i] = '\0';
 }
 
-static void		ft_fill_negative(char *s1, char *s2)
+static void		ft_fill_negative(char *s, char *augmented_str,
+								size_t basic_size, size_t augmented_size)
 {
 	size_t	i;
-	size_t	size1;
-	size_t	size2;
 
-	size1 = sizeof(s1);
-	size2 = sizeof(s2);
-	s2[0] = '-';
+	augmented_str[0] = '-';
 	i = 1;
-	while (i < size2)
+	while (i < augmented_size)
 	{
-		if (i < size2 - size1 + 1)
-			s2[i] = '0';
+		if (i < augmented_size - basic_size + 1)
+			augmented_str[i] = '0';
 		else
-			s2[i] = s1[i - (size2 - size1 + 1)];
+			augmented_str[i] = s[i - (augmented_size - basic_size + 1)];
 		++i;
 	}
-	s2[i] = '\0';
+	augmented_str[i] = '\0';
 }
 
-static size_t	ft_augmented_size(size_t size, int min_digits,
+static size_t	ft_augmented_size(size_t basic_size, int min_digits,
 					t_sign_presentation sp, int is_negative)
 {
 	size_t augmented_size;
 
-	if (is_negative && size < (size_t)min_digits + 1)
+	if (is_negative && basic_size < (size_t)min_digits + 1)
 		augmented_size = (size_t)min_digits + 1;
-	else if (!is_negative && size < (size_t)min_digits)
+	else if (!is_negative && basic_size < (size_t)min_digits)
 		augmented_size = (size_t)min_digits;
 	else
-		augmented_size = size;
+		augmented_size = basic_size;
 	if (!is_negative && sp != SIGN_PRESENTATION_MINUS_ONLY)
 		augmented_size += 1;
 	return (augmented_size);
@@ -80,47 +80,50 @@ static size_t	ft_augmented_size(size_t size, int min_digits,
 
 char			*ft_format_lli(long long int n, t_int_format_options o)
 {
-	char	*s1;
-	char	*s2;
-	size_t	size1;
-	size_t	size2;
+	char	*str;
+	char	*augmented_str;
+	size_t	basic_size;
+	size_t	augmented_size;
 	int		is_negative;
 
-	if ((s1 = ft_lli_base(n, o.base, o.use_uppercase)) == NULL)
+	if ((str = ft_lli_base(n, o.base, o.use_uppercase)) == NULL)
 		return (NULL);
 	is_negative = (n < 0);
-	size1 = ft_strlen(s1);
-	if ((!is_negative && (size_t)o.min_digits <= size1 &&
+	basic_size = ft_strlen(str);
+	if ((!is_negative && (size_t)o.min_digits <= basic_size &&
 				o.sp == SIGN_PRESENTATION_MINUS_ONLY)
-			|| (is_negative && (size_t)o.min_digits < size1))
-		return (s1);
-	size2 = ft_augmented_size(size1, o.min_digits, o.sp, is_negative);
-	if ((s2 = malloc(size2 + 1)) == NULL)
+			|| (is_negative && (size_t)o.min_digits < basic_size))
+		return (str);
+	augmented_size = ft_augmented_size(basic_size, o.min_digits,
+										o.sp, is_negative);
+	if ((augmented_str = malloc(augmented_size + 1)) == NULL)
 		return (NULL);
-	if (n < 0)
-		ft_fill_negative(s1, s2);
+	if (is_negative)
+		ft_fill_negative(str, augmented_str, basic_size, augmented_size);
 	else
-		ft_fill_non_negative(o.sp, s1, s2);
-	free(s1);
-	return (s2);
+		ft_fill_non_negative(o.sp, str, augmented_str, basic_size);
+	free(str);
+	return (augmented_str);
 }
 
 char			*ft_format_llu(unsigned long long int n, t_int_format_options o)
 {
-	char	*s1;
-	char	*s2;
-	size_t	size1;
-	size_t	size2;
+	char	*str;
+	char	*augmented_str;
+	size_t	basic_size;
+	size_t	augmented_size;
 
-	if ((s1 = ft_llu_base(n, o.base, o.use_uppercase)) == NULL)
+	if ((str = ft_llu_base(n, o.base, o.use_uppercase)) == NULL)
 		return (NULL);
-	size1 = ft_strlen(s1);
-	if ((size_t)o.min_digits <= size1 && o.sp == SIGN_PRESENTATION_MINUS_ONLY)
-		return (s1);
-	size2 = ft_augmented_size(size1, o.min_digits, o.sp, ALWAYS_NON_NEGATIVE);
-	if ((s2 = malloc(size2 + 1)) == NULL)
+	basic_size = ft_strlen(str);
+	if ((size_t)o.min_digits <= basic_size
+			&& o.sp == SIGN_PRESENTATION_MINUS_ONLY)
+		return (str);
+	augmented_size = ft_augmented_size(basic_size, o.min_digits,
+										o.sp, ALWAYS_NON_NEGATIVE);
+	if ((augmented_str = malloc(augmented_size + 1)) == NULL)
 		return (NULL);
-	ft_fill_non_negative(o.sp, s1, s2);
-	free(s1);
-	return (s2);
+	ft_fill_non_negative(o.sp, str, augmented_str, basic_size);
+	free(str);
+	return (augmented_str);
 }

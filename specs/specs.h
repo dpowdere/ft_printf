@@ -47,7 +47,7 @@ typedef struct				s_spec
 
 # define YET_NO_SPEC				'\0'
 # define DEFAULT_MIN_FIELD_WIDTH	0
-# define DEFAULT_PRECISION			-1
+# define DEFAULT_PRECISION			0
 # define TAKE_FROM_ARG				-2
 
 # define YES	1

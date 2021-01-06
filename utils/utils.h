@@ -21,6 +21,8 @@ void			*ft_memset(void *b, int c, size_t len);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strdup(const char *s);
 size_t			ft_strlen(const char *s);
+char			*ft_strpfx(const char *prefix, const char *str,
+							int free_prefix, int free_str);
 ssize_t			ft_write(int fd, const void *buf, size_t count);
 
 typedef enum	e_sign_presentation
@@ -38,7 +40,7 @@ typedef struct	s_int_format_options
 	t_sign_presentation	sp;
 }				t_int_format_options;
 
-#define NULL_POINTER	"(nil)"
+# define NULL_POINTER	"(nil)"
 
 char			*ft_lli_base(long long int n, int base, int use_uppercase);
 char			*ft_llu_base(unsigned long long n, int base, int use_uppercase);
