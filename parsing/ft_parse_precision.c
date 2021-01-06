@@ -12,8 +12,23 @@
 
 #include "../libftprintf.h"
 
-int	ft_parse_precision(t_toolbox *toolbox)
+void	ft_parse_precision(t_toolbox *toolbox)
 {
-	(void)toolbox;
-	return (PARSING_SUCCESS);
+	int n;
+
+	if (*toolbox->cursor && *toolbox->cursor == '.')
+		++toolbox->cursor;
+	n = 0;
+	while (*toolbox->cursor &&
+			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')
+	{
+		n = n * 10 + (*toolbox->cursor - '0');
+		++toolbox->cursor;
+	}
+	if (*toolbox->cursor == '\0')
+	{
+		toolbox->error = PRINTF_NOSPEC_ERROR;
+		return ;
+	}
+	toolbox->spec.precision = n;
 }

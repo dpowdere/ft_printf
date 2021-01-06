@@ -26,6 +26,7 @@ CONTENTS := \
     parsing/ft_parse_precision.c \
     parsing/ft_parse_size.c \
     parsing/ft_parse_specifier.c \
+    parsing/ft_normalize_result.c \
 \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \

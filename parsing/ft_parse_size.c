@@ -12,8 +12,8 @@
 
 #include "../libftprintf.h"
 
-int	ft_parse_size(t_toolbox *toolbox)
+void	ft_parse_size(t_toolbox *toolbox)
 {
-	(void)toolbox;
-	return (PARSING_SUCCESS);
+	if (*toolbox->cursor == '\0')
+		toolbox->error = PRINTF_NOSPEC_ERROR;
 }

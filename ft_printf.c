@@ -53,8 +53,11 @@ static void	ft_parse_spec(const char **start, t_toolbox *toolbox)
 		return ;
 	step = 0;
 	while (step < STAIR_STEPS)
-		if (parsing_stairs[step++](toolbox) == PARSING_FAIL)
+	{
+		parsing_stairs[step++](toolbox);
+		if (toolbox->error)
 			return ;
+	}
 	if (*toolbox->cursor)
 		++toolbox->cursor;
 	*start = toolbox->cursor;
@@ -70,6 +73,7 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 		toolbox->spec.width = va_arg(*arg_ptr, int);
 	if (toolbox->spec.precision == TAKE_FROM_ARG)
 		toolbox->spec.precision = va_arg(*arg_ptr, int);
+	ft_normalize_directives(toolbox);
 	i = 0;
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;

@@ -10,10 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+
 #include "../libftprintf.h"
 
-int	ft_parse_width(t_toolbox *toolbox)
+void	ft_parse_width(t_toolbox *toolbox)
 {
-	(void)toolbox;
-	return (PARSING_SUCCESS);
+	int			n;
+	const char	*position;
+
+	n = 0;
+	position = toolbox->cursor;
+	while (*toolbox->cursor &&
+			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')
+	{
+		n = n * 10 + (*toolbox->cursor - '0');
+		++toolbox->cursor;
+	}
+	if (position != toolbox->cursor)
+		toolbox->spec.width = n;
+	if (*toolbox->cursor == '\0')
+		toolbox->error = PRINTF_NOSPEC_ERROR;
 }

@@ -12,7 +12,7 @@
 
 #include "../libftprintf.h"
 
-int	ft_parse_specifier(t_toolbox *toolbox)
+void	ft_parse_specifier(t_toolbox *toolbox)
 {
 	char *specifier;
 
@@ -23,8 +23,7 @@ int	ft_parse_specifier(t_toolbox *toolbox)
 	if (specifier == NULL)
 	{
 		toolbox->error = PRINTF_NOSPEC_ERROR;
-		return (PARSING_FAIL);
+		return ;
 	}
 	toolbox->spec.specifier = *specifier;
-	return (PARSING_SUCCESS);
 }
