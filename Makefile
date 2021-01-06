@@ -21,6 +21,12 @@ CONTENTS := \
     specs/ft_spec_percent.c \
     specs/ft_spec_s.c \
 \
+    parsing/ft_parse_flags.c \
+    parsing/ft_parse_width.c \
+    parsing/ft_parse_precision.c \
+    parsing/ft_parse_size.c \
+    parsing/ft_parse_specifier.c \
+\
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
     utils/ft_format_pointer.c \

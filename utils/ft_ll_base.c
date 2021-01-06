@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "utils.h"
+#include "../include/utils.h"
 
 #define LOWER_DIGITS "0123456789abcdefghijklmnopqrstuvwxyz"
 #define UPPER_DIGITS "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"

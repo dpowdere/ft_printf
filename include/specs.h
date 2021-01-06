@@ -13,7 +13,7 @@
 #ifndef SPECS_H
 # define SPECS_H
 
-# include "../common.h"
+# include "common.h"
 
 # define SPEC_START_MARKER '%'
 

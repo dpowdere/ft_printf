@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 17:02:35 by dpowdere          #+#    #+#             */
-/*   Updated: 2020/12/28 18:28:47 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/06 18:37:08 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,15 @@ static void	ft_print_before_spec(const char **start, t_toolbox *toolbox)
 
 static void	ft_parse_spec(const char **start, t_toolbox *toolbox)
 {
-	char *specifier;
+	static t_stair_step	parsing_stairs[STAIR_STEPS] = STAIRS;
+	int					step;
 
 	if (toolbox->error)
 		return ;
-	specifier = NULL;
-	while (*toolbox->cursor &&
-			(specifier = ft_strchr(SPECIFIERS, *toolbox->cursor)) == NULL)
-		++toolbox->cursor;
-	if (specifier == NULL)
-	{
-		toolbox->error = PRINTF_NOSPEC_ERROR;
-		return ;
-	}
-	toolbox->spec.specifier = *specifier;
+	step = 0;
+	while (step < STAIR_STEPS)
+		if (parsing_stairs[step++](toolbox) == PARSING_FAIL)
+			return ;
 	if (*toolbox->cursor)
 		++toolbox->cursor;
 	*start = toolbox->cursor;

@@ -12,9 +12,8 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdio.h>
 
-#include "utils.h"
+#include "../include/utils.h"
 
 #define ALWAYS_NON_NEGATIVE 0
 
@@ -26,8 +25,6 @@ static void		ft_fill_non_negative(t_sign_presentation sp,
 	size_t	augmented_size;
 
 	augmented_size = ft_strlen(augmented_str);
-	printf(">>> size1: %lu\n", basic_size);
-	printf(">>> size2: %lu\n", augmented_size);
 	i = 0;
 	if (sp == SIGN_PRESENTATION_MINUS_SPACE)
 		augmented_str[i++] = ' ';

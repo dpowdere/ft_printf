@@ -13,8 +13,9 @@
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
 
-# include "common.h"
-# include "specs/specs.h"
+# include "include/common.h"
+# include "include/specs.h"
+# include "include/parsing.h"
 
 typedef struct	s_toolbox
 {
