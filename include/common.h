@@ -17,8 +17,6 @@
 # include <stddef.h>
 # include <unistd.h>
 
-# include "utils.h"
-
 # define STDOUT 1
 
 # define PRINTF_NO_ERROR		0

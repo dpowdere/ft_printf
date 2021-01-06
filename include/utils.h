@@ -41,6 +41,7 @@ typedef struct	s_int_format_options
 }				t_int_format_options;
 
 # define NULL_POINTER	"(nil)"
+# define NULL_STRING	"(null)"
 
 char			*ft_lli_base(long long int n, int base, int use_uppercase);
 char			*ft_llu_base(unsigned long long n, int base, int use_uppercase);

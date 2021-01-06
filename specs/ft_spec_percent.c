@@ -17,5 +17,6 @@
 void	ft_spec_percent(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	(void)arg_ptr;
-	ft_print_field("%", 1, toolbox);
+	ft_write(STDOUT, "%", 1);
+	toolbox->cumulative_size += 1;
 }

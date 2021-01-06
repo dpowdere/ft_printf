@@ -18,6 +18,8 @@ void	ft_parse_precision(t_toolbox *toolbox)
 
 	if (*toolbox->cursor && *toolbox->cursor == '.')
 		++toolbox->cursor;
+	else
+		return ;
 	n = 0;
 	while (*toolbox->cursor &&
 			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')

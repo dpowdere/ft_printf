@@ -14,6 +14,7 @@
 # define LIBFTPRINTF_H
 
 # include "include/common.h"
+# include "include/utils.h"
 # include "include/specs.h"
 # include "include/parsing.h"
 

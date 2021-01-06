@@ -11,13 +11,22 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
+#include <stddef.h>
+#include <stddef.h>
 
 #include "../libftprintf.h"
 
 void	ft_spec_s(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	char	*s;
+	size_t	max_len;
 
 	s = va_arg(*arg_ptr, char *);
-	ft_print_field(s, ft_strlen(s), toolbox);
+	if (s == NULL)
+		s = NULL_STRING;
+	max_len = ft_strlen(s);
+	if (toolbox->spec.precision >= 0
+			&& (size_t)toolbox->spec.precision < max_len)
+		max_len = toolbox->spec.precision;
+	ft_print_field(s, max_len, toolbox);
 }
