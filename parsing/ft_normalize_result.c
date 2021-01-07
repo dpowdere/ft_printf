@@ -14,5 +14,7 @@
 
 void	ft_normalize_directives(t_toolbox *toolbox)
 {
-	(void)toolbox;
+	if (toolbox->spec.precision == UNDEFINED
+			&& ft_strchr(NUM_SPECIRIERS, toolbox->spec.specifier))
+		toolbox->spec.precision = 0;
 }

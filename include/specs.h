@@ -29,6 +29,7 @@ void						ft_spec_u(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_upper_x(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 
+# define NUM_SPECIRIERS	"iudXxp"
 # define SPECIFIERS		"sciudXxp%"
 # define SPEC_COUNT		9
 # define STR_HDLRS		S(s), S(c)
@@ -48,9 +49,11 @@ typedef struct				s_spec
 	int		zero_pad: 1;
 }							t_spec;
 
+# define UNDEFINED					-1
+
 # define YET_NO_SPEC				'\0'
 # define DEFAULT_MIN_FIELD_WIDTH	0
-# define DEFAULT_PRECISION			-1
+# define DEFAULT_PRECISION			UNDEFINED
 # define TAKE_FROM_ARG				-2
 
 # define YES	1
