@@ -19,12 +19,12 @@
 
 static void		ft_fill_non_negative(t_sign_presentation sp,
 								char *str, char *augmented_str,
-								size_t basic_size)
+								size_t augmented_size)
 {
 	size_t	i;
-	size_t	augmented_size;
+	size_t	basic_size;
 
-	augmented_size = ft_strlen(augmented_str);
+	basic_size = ft_strlen(str);
 	i = 0;
 	if (sp == SIGN_PRESENTATION_MINUS_SPACE)
 		augmented_str[i++] = ' ';
@@ -98,7 +98,7 @@ char			*ft_format_lli(long long int n, t_int_format_options o)
 	if (is_negative)
 		ft_fill_negative(str, augmented_str, basic_size, augmented_size);
 	else
-		ft_fill_non_negative(o.sp, str, augmented_str, basic_size);
+		ft_fill_non_negative(o.sp, str, augmented_str, augmented_size);
 	free(str);
 	return (augmented_str);
 }
@@ -120,7 +120,7 @@ char			*ft_format_llu(unsigned long long int n, t_int_format_options o)
 										o.sp, ALWAYS_NON_NEGATIVE);
 	if ((augmented_str = malloc(augmented_size + 1)) == NULL)
 		return (NULL);
-	ft_fill_non_negative(o.sp, str, augmented_str, basic_size);
+	ft_fill_non_negative(o.sp, str, augmented_str, augmented_size);
 	free(str);
 	return (augmented_str);
 }
