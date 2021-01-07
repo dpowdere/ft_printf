@@ -41,12 +41,12 @@ void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 
 typedef struct				s_spec
 {
-	char	specifier;
-	int		size;
-	int		width;
-	int		precision;
-	int		left_justify: 1;
-	int		zero_pad: 1;
+	char			specifier;
+	int				size;
+	int				width;
+	int				precision;
+	unsigned int	left_justify: 1;
+	unsigned int	zero_pad: 1;
 }							t_spec;
 
 # define UNDEFINED					-1
@@ -56,7 +56,7 @@ typedef struct				s_spec
 # define DEFAULT_PRECISION			UNDEFINED
 # define TAKE_FROM_ARG				-2
 
-# define YES	1
-# define NO		0
+# define YES	1u
+# define NO		0u
 
 #endif

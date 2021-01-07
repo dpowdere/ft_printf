@@ -20,9 +20,9 @@ void	ft_parse_flags(t_toolbox *toolbox)
 			(c = ft_strchr(FLAG_SPECIFIERS, *toolbox->cursor)) != NULL)
 	{
 		if (*c == '0')
-			toolbox->spec.zero_pad = 1;
+			toolbox->spec.zero_pad = YES;
 		else if (*c == '-')
-			toolbox->spec.left_justify = 1;
+			toolbox->spec.left_justify = YES;
 		++toolbox->cursor;
 	}
 	if (*toolbox->cursor == '\0')

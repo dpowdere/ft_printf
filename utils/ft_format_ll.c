@@ -53,7 +53,7 @@ static void		ft_fill_negative(char *s, char *augmented_str,
 		if (i < augmented_size - basic_size + 1)
 			augmented_str[i] = '0';
 		else
-			augmented_str[i] = s[i - (augmented_size - basic_size + 1)];
+			augmented_str[i] = s[i - (augmented_size - basic_size)];
 		++i;
 	}
 	augmented_str[i] = '\0';
