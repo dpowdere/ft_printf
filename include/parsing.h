@@ -33,6 +33,6 @@ void			ft_parse_specifier(t_toolbox *toolbox);
 /*
 ** Normalizing and accessing parsed data
 */
-void		ft_normalize_directives(t_toolbox *toolbox);
+void			ft_normalize_directives(t_toolbox *toolbox);
 
 #endif

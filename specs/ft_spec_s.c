@@ -19,14 +19,16 @@
 void	ft_spec_s(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	char	*s;
+	int		is_arg_null;
 	size_t	max_len;
 
 	s = va_arg(*arg_ptr, char *);
-	if (s == NULL)
+	is_arg_null = s == NULL;
+	if (is_arg_null)
 		s = NULL_STRING;
 	max_len = ft_strlen(s);
 	if (toolbox->spec.precision >= 0
 			&& (size_t)toolbox->spec.precision < max_len)
-		max_len = toolbox->spec.precision;
+		max_len = (is_arg_null ? 0 : toolbox->spec.precision);
 	ft_print_field(s, max_len, toolbox);
 }
