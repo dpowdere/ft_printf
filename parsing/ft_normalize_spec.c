@@ -14,8 +14,8 @@
 
 void	ft_normalize_spec(t_spec *spec, t_effector eff)
 {
-	if (spec->width >= 1 && spec->zero_pad && spec->precision == UNDEFINED
-			&& ft_strchr(NUM_SPECIRIERS, spec->specifier))
+	if (spec->width >= 1 && spec->zero_pad && spec->precision == UNDEFINED &&
+			!spec->left_justify && ft_strchr(NUM_SPECIRIERS, spec->specifier))
 	{
 		if (eff == E_NUMBER_NEGATIVE || (eff == E_NUMBER_NON_NEGATIVE &&
 				(spec->show_plus || spec->show_space_plus)))
