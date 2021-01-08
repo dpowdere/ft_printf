@@ -18,6 +18,8 @@
 
 #define USE_UPPERCASE		1
 #define DONT_USE_UPPERCASE	0
+#define DONT_FREE_PREFIX	0
+#define DO_FREE_STRING		1
 
 static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 										int use_uppercase)
@@ -29,16 +31,20 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 	size_t					typing_width;
 
 	n = va_arg(*arg_ptr, unsigned int);
-	if (n == 0)
-		eff = E_NUMBER_ZERO;
-	else
-		eff = E_NUMBER_NON_NEGATIVE;
+	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_NON_NEGATIVE);
 	ft_normalize_spec(&toolbox->spec, eff);
 	opts.base = 16;
-	opts.min_digits = toolbox->spec.precision;
 	opts.use_uppercase = use_uppercase;
 	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
+	if (toolbox->spec.precision == UNDEFINED)
+		opts.min_digits = 0;
+	else
+		opts.min_digits = toolbox->spec.precision;
 	s = ft_format_llu((unsigned long long int)n, opts);
+	if (toolbox->spec.show_plus)
+		s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+	else if (toolbox->spec.show_space_plus)
+		s = ft_strpfx(" ", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);

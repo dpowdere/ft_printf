@@ -21,8 +21,11 @@
 static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec)
 {
 	opts->base = 10;
-	opts->min_digits = spec->precision;
 	opts->use_uppercase = DOES_NOT_MATTER;
+	if (spec->precision == UNDEFINED)
+		opts->min_digits = 0;
+	else
+		opts->min_digits = spec->precision;
 	if (spec->show_plus)
 		opts->sp = SIGN_PRESENTATION_MINUS_PLUS;
 	else if (spec->show_space_plus)

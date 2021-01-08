@@ -23,10 +23,4 @@ void	ft_normalize_spec(t_spec *spec, t_effector eff)
 		else
 			spec->precision = spec->width;
 	}
-	if (spec->precision == UNDEFINED
-			&& ft_strchr(NUM_SPECIRIERS, spec->specifier))
-		spec->precision = 0;
-	if (spec->width == UNDEFINED)
-		spec->width = 0;
-
 }

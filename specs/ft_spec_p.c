@@ -17,11 +17,16 @@
 
 void	ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	void *p;
-	char *s;
+	void	*p;
+	char	*s;
+	int		min_digits;
 
 	p = va_arg(*arg_ptr, void *);
-	s = ft_format_pointer(p, toolbox->spec.precision);
+	if (toolbox->spec.precision == UNDEFINED)
+		min_digits = 0;
+	else
+		min_digits = toolbox->spec.precision;
+	s = ft_format_pointer(p, min_digits);
 	ft_print_field(s, ft_strlen(s), toolbox);
 	free(s);
 }
