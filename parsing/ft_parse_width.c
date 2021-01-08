@@ -19,6 +19,12 @@ void	ft_parse_width(t_toolbox *toolbox)
 	int			n;
 	const char	*position;
 
+	if (*toolbox->cursor && *toolbox->cursor == '*')
+	{
+		toolbox->spec.width = TAKE_FROM_ARG;
+		++toolbox->cursor;
+		return ;
+	}
 	n = 0;
 	position = toolbox->cursor;
 	while (*toolbox->cursor &&

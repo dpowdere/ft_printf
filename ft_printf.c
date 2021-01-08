@@ -70,9 +70,20 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 	int	i;
 
 	if (toolbox->spec.width == TAKE_FROM_ARG)
+	{
 		toolbox->spec.width = va_arg(*arg_ptr, int);
+		if (toolbox->spec.width < 0)
+		{
+			toolbox->spec.width = -toolbox->spec.width;
+			toolbox->spec.left_justify = YES;
+		}
+	}
 	if (toolbox->spec.precision == TAKE_FROM_ARG)
+	{
 		toolbox->spec.precision = va_arg(*arg_ptr, int);
+		if (toolbox->spec.precision < 0)
+			toolbox->spec.precision = 0;
+	}
 	i = 0;
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;

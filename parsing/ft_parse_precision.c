@@ -20,6 +20,12 @@ void	ft_parse_precision(t_toolbox *toolbox)
 		++toolbox->cursor;
 	else
 		return ;
+	if (*toolbox->cursor && *toolbox->cursor == '*')
+	{
+		toolbox->spec.precision = TAKE_FROM_ARG;
+		++toolbox->cursor;
+		return ;
+	}
 	n = 0;
 	while (*toolbox->cursor &&
 			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')
