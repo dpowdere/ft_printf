@@ -29,7 +29,7 @@ typedef enum	e_sign_presentation
 {
 	SIGN_PRESENTATION_MINUS_ONLY,
 	SIGN_PRESENTATION_MINUS_PLUS,
-	SIGN_PRESENTATION_MINUS_SPACE
+	SIGN_PRESENTATION_MINUS_SPACE,
 }				t_sign_presentation;
 
 typedef struct	s_int_format_options

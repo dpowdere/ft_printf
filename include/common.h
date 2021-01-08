@@ -21,7 +21,7 @@
 
 # define PRINTF_NO_ERROR		0
 # define PRINTF_WRITE_ERROR		-1
-# define PRINTF_NOSPEC_ERROR	-2
+# define PRINTF_PARSE_ERROR		-2
 # define PRINTF_MALLOC_ERROR	-4
 
 struct s_spec;

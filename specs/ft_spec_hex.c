@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdlib.h>
 
 #include "../libftprintf.h"
@@ -23,15 +24,23 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 {
 	unsigned int			n;
 	char					*s;
+	t_effector				eff;
 	t_int_format_options	opts;
+	size_t					typing_width;
 
 	n = va_arg(*arg_ptr, unsigned int);
+	if (n == 0)
+		eff = E_NUMBER_ZERO;
+	else
+		eff = E_NUMBER_NON_NEGATIVE;
+	ft_normalize_spec(&toolbox->spec, eff);
 	opts.base = 16;
 	opts.min_digits = toolbox->spec.precision;
 	opts.use_uppercase = use_uppercase;
 	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
 	s = ft_format_llu((unsigned long long int)n, opts);
-	ft_print_field(s, ft_strlen(s), toolbox);
+	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
+	ft_print_field(s, typing_width, toolbox);
 	free(s);
 }
 

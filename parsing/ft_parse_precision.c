@@ -29,7 +29,7 @@ void	ft_parse_precision(t_toolbox *toolbox)
 	}
 	if (*toolbox->cursor == '\0')
 	{
-		toolbox->error = PRINTF_NOSPEC_ERROR;
+		toolbox->error = PRINTF_PARSE_ERROR;
 		return ;
 	}
 	toolbox->spec.precision = n;

@@ -37,7 +37,7 @@ void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 # define OTHER_HDLRS	S(p), S(percent)
 # define SPEC_HANDLERS	{ STR_HDLRS, INT_HDLRS, OTHER_HDLRS }
 
-# define FLAG_SPECIFIERS "-0"
+# define FLAG_SPECIFIERS "-+ 0"
 
 typedef struct				s_spec
 {
@@ -47,14 +47,15 @@ typedef struct				s_spec
 	int				precision;
 	unsigned int	left_justify: 1;
 	unsigned int	zero_pad: 1;
+	unsigned int	show_plus: 1;
+	unsigned int	show_space_plus: 1;
 }							t_spec;
 
 # define UNDEFINED					-1
-
-# define YET_NO_SPEC				'\0'
-# define DEFAULT_MIN_FIELD_WIDTH	0
-# define DEFAULT_PRECISION			UNDEFINED
 # define TAKE_FROM_ARG				-2
+
+# define DEFAULT_WIDTH				UNDEFINED
+# define DEFAULT_PRECISION			UNDEFINED
 
 # define YES	1u
 # define NO		0u

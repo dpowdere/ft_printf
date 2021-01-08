@@ -26,8 +26,8 @@ static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 		toolbox->handlers = &handlers;
 		toolbox->cursor = NULL;
 	}
-	toolbox->spec.specifier = YET_NO_SPEC;
-	toolbox->spec.width = DEFAULT_MIN_FIELD_WIDTH;
+	toolbox->spec.specifier = UNDEFINED;
+	toolbox->spec.width = DEFAULT_WIDTH;
 	toolbox->spec.precision = DEFAULT_PRECISION;
 	toolbox->spec.left_justify = NO;
 	toolbox->spec.zero_pad = NO;
@@ -71,7 +71,6 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 		toolbox->spec.width = va_arg(*arg_ptr, int);
 	if (toolbox->spec.precision == TAKE_FROM_ARG)
 		toolbox->spec.precision = va_arg(*arg_ptr, int);
-	ft_normalize_directives(toolbox);
 	i = 0;
 	while (toolbox->spec.specifier != SPECIFIERS[i])
 		++i;

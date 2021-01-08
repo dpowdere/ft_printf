@@ -33,6 +33,16 @@ void			ft_parse_specifier(t_toolbox *toolbox);
 /*
 ** Normalizing and accessing parsed data
 */
-void			ft_normalize_directives(t_toolbox *toolbox);
+typedef enum	e_effector
+{
+	E_STRING_NULL,
+	E_STRING_NON_NULL,
+	E_NUMBER_ZERO,
+	E_NUMBER_NEGATIVE,
+	E_NUMBER_NON_NEGATIVE
+}				t_effector;
+
+void			ft_normalize_spec(t_spec *spec, t_effector eff);
+size_t			ft_get_typing_width(t_spec *spec, char *s, t_effector t);
 
 #endif

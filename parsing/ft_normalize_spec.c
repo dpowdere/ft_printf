@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_normalize_result.c                              :+:      :+:    :+:   */
+/*   ft_normalize_spec.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,21 @@
 
 #include "../libftprintf.h"
 
-void	ft_normalize_directives(t_toolbox *toolbox)
+void	ft_normalize_spec(t_spec *spec, t_effector eff)
 {
-	if (toolbox->spec.precision == UNDEFINED
-			&& ft_strchr(NUM_SPECIRIERS, toolbox->spec.specifier))
-		toolbox->spec.precision = 0;
+	if (spec->width >= 1 && spec->zero_pad && spec->precision == UNDEFINED
+			&& ft_strchr(NUM_SPECIRIERS, spec->specifier))
+	{
+		if (eff == E_NUMBER_NEGATIVE || (eff == E_NUMBER_NON_NEGATIVE &&
+				(spec->show_plus || spec->show_space_plus)))
+			spec->precision = spec->width - 1;
+		else
+			spec->precision = spec->width;
+	}
+	if (spec->precision == UNDEFINED
+			&& ft_strchr(NUM_SPECIRIERS, spec->specifier))
+		spec->precision = 0;
+	if (spec->width == UNDEFINED)
+		spec->width = 0;
+
 }

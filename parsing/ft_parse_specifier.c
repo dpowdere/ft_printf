@@ -22,7 +22,7 @@ void	ft_parse_specifier(t_toolbox *toolbox)
 		++toolbox->cursor;
 	if (specifier == NULL)
 	{
-		toolbox->error = PRINTF_NOSPEC_ERROR;
+		toolbox->error = PRINTF_PARSE_ERROR;
 		return ;
 	}
 	toolbox->spec.specifier = *specifier;

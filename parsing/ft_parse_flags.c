@@ -23,8 +23,12 @@ void	ft_parse_flags(t_toolbox *toolbox)
 			toolbox->spec.zero_pad = YES;
 		else if (*c == '-')
 			toolbox->spec.left_justify = YES;
+		else if (*c == '+')
+			toolbox->spec.show_plus = YES;
+		else if (*c == ' ')
+			toolbox->spec.show_space_plus = YES;
 		++toolbox->cursor;
 	}
 	if (*toolbox->cursor == '\0')
-		toolbox->error = PRINTF_NOSPEC_ERROR;
+		toolbox->error = PRINTF_PARSE_ERROR;
 }

@@ -30,5 +30,5 @@ void	ft_parse_width(t_toolbox *toolbox)
 	if (position != toolbox->cursor)
 		toolbox->spec.width = n;
 	if (*toolbox->cursor == '\0')
-		toolbox->error = PRINTF_NOSPEC_ERROR;
+		toolbox->error = PRINTF_PARSE_ERROR;
 }
