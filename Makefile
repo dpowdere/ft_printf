@@ -62,12 +62,14 @@ ifneq ($(SYSTEM), Darwin)
   endif
 endif
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 all: $(NAME)
+
+bonus: $(NAME)
 
 clean:
 	$(RM) *.o */*.o *.d */*.d *.gch */*.gch *.out
