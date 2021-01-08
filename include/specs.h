@@ -37,7 +37,7 @@ void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 # define OTHER_HDLRS	S(p), S(percent)
 # define SPEC_HANDLERS	{ STR_HDLRS, INT_HDLRS, OTHER_HDLRS }
 
-# define FLAG_SPECIFIERS "-+ 0"
+# define FLAG_SPECIFIERS "-+ 0#"
 
 typedef struct				s_spec
 {
