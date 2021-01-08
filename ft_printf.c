@@ -31,6 +31,8 @@ static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 	toolbox->spec.precision = DEFAULT_PRECISION;
 	toolbox->spec.left_justify = NO;
 	toolbox->spec.zero_pad = NO;
+	toolbox->spec.show_plus = NO;
+	toolbox->spec.show_space_plus = NO;
 }
 
 static void	ft_print_before_spec(t_toolbox *toolbox)
