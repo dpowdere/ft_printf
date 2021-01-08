@@ -29,9 +29,10 @@ void						ft_spec_u(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_upper_x(t_toolbox *t, va_list *arg_ptr);
 void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 
-# define NUM_SPECIRIERS	"iudXxp"
-# define SPECIFIERS		"sciudXxp%"
-# define SPEC_COUNT		9
+# define NUM_SPECIRIERS		"iudXxp"
+# define UNUM_SPECIFIERS	"uXxp"
+# define SPECIFIERS			"sciudXxp%"
+# define SPEC_COUNT			9
 # define STR_HDLRS		S(s), S(c)
 # define INT_HDLRS		S(i), S(u), S(d), S(upper_x), S(x)
 # define OTHER_HDLRS	S(p), S(percent)

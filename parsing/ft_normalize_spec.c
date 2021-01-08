@@ -23,4 +23,9 @@ void	ft_normalize_spec(t_spec *spec, t_effector eff)
 		else
 			spec->precision = spec->width;
 	}
+	if (ft_strchr(UNUM_SPECIFIERS, spec->specifier))
+	{
+		spec->show_plus = NO;
+		spec->show_space_plus = NO;
+	}
 }
