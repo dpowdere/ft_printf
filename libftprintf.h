@@ -13,6 +13,10 @@
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
 
+# ifndef DARWIN
+#  define DARWIN 1
+# endif
+
 # include "include/common.h"
 # include "include/utils.h"
 # include "include/specs.h"

@@ -47,12 +47,14 @@ DEPS := $(CONTENTS:.c=.d)
 SYSTEM := $(shell uname)
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
 DEPFLAGS = -MMD -MP
 
 AR := ar
 ARFLAGS := rcusv
+DARWIN := 1
 ifneq ($(SYSTEM), Darwin)
+  DARWIN := 0
   ifeq ($(SYSTEM), Linux)
     ARFLAGS := rcuUsv
   else
