@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_p.c                                        :+:      :+:    :+:   */
+/*   ft_spec_o.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:34:55 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 23:16:36 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/09 17:26:30 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/09 17:32:27 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,23 @@
 
 #include "../libftprintf.h"
 
-void	ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	void	*p;
-	char	*s;
-	int		min_digits;
+#define CASE_DOES_NOT_MATTER	0
 
-	p = va_arg(*arg_ptr, void *);
+void	ft_spec_o(t_toolbox *toolbox, va_list *arg_ptr)
+{
+	unsigned int			n;
+	char					*s;
+	t_int_format_options	opts;
+
+	n = va_arg(*arg_ptr, unsigned int);
+	opts.base = 8;
+	opts.use_uppercase = CASE_DOES_NOT_MATTER;
+	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
 	if (toolbox->spec.precision == UNSPECIFIED)
-		min_digits = 0;
+		opts.min_digits = 1;
 	else
-		min_digits = toolbox->spec.precision;
-	s = ft_format_pointer(p, min_digits);
+		opts.min_digits = toolbox->spec.precision;
+	s = ft_format_llu((unsigned long long int)n, opts);
 	ft_print_field(s, ft_strlen(s), toolbox);
 	free(s);
 }

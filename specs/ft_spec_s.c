@@ -30,7 +30,6 @@ void	ft_spec_s(t_toolbox *toolbox, va_list *arg_ptr)
 	}
 	else
 		eff = E_STRING_NON_NULL;
-	ft_normalize_spec(&toolbox->spec, eff);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 }

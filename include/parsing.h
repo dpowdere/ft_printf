@@ -38,11 +38,11 @@ typedef enum	e_effector
 	E_STRING_NULL,
 	E_STRING_NON_NULL,
 	E_NUMBER_ZERO,
-	E_NUMBER_NEGATIVE,
-	E_NUMBER_NON_NEGATIVE
+	E_NUMBER_POSITIVE,
+	E_NUMBER_NEGATIVE
 }				t_effector;
 
-void			ft_normalize_spec(t_spec *spec, t_effector eff);
+void			ft_normalize_spec(t_spec *spec, va_list *arg_ptr);
 size_t			ft_get_typing_width(t_spec *spec, char *s, t_effector t);
 
 #endif

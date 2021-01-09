@@ -15,8 +15,13 @@ CONTENTS := \
     ft_printf.c \
 \
     specs/ft_spec_c.c \
+    specs/ft_spec_e.c \
+    specs/ft_spec_f.c \
+    specs/ft_spec_g.c \
     specs/ft_spec_hex.c \
     specs/ft_spec_int.c \
+    specs/ft_spec_n.c \
+    specs/ft_spec_o.c \
     specs/ft_spec_p.c \
     specs/ft_spec_percent.c \
     specs/ft_spec_s.c \
