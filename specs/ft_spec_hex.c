@@ -32,6 +32,8 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 		if (opts->min_digits > 0 && eff == E_NUMBER_POSITIVE
 				&& (spec->show_plus || spec->show_space_plus))
 			opts->min_digits -= 1;
+		if (opts->min_digits > 1 && spec->alternative_form)
+			opts->min_digits -= 2;
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
@@ -56,8 +58,14 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 
 	n = va_arg(*arg_ptr, unsigned int);
 	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_POSITIVE);
+	if (eff == E_NUMBER_ZERO)
+		toolbox->spec.alternative_form = NO;
 	ft_set_opts(&opts, &toolbox->spec, eff, use_uppercase);
 	s = ft_format_llu((unsigned long long int)n, opts);
+	if (toolbox->spec.alternative_form && !use_uppercase)
+		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+	else if (toolbox->spec.alternative_form && use_uppercase)
+		s = ft_strpfx("0X", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	if (toolbox->spec.show_plus)
 		s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	else if (toolbox->spec.show_space_plus)

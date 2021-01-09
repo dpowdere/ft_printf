@@ -62,6 +62,7 @@ typedef struct				s_spec
 	unsigned int	left_justify: 1;
 	unsigned int	zero_pad: 1;
 	unsigned int	field_width_zero_pad: 1;
+	unsigned int	alternative_form: 1;
 	unsigned int	show_plus: 1;
 	unsigned int	show_space_plus: 1;
 }							t_spec;

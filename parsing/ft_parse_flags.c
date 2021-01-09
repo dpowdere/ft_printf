@@ -27,6 +27,8 @@ void	ft_parse_flags(t_toolbox *toolbox)
 			toolbox->spec.show_plus = YES;
 		else if (*c == ' ')
 			toolbox->spec.show_space_plus = YES;
+		else if (*c == '#')
+			toolbox->spec.alternative_form = YES;
 		++toolbox->cursor;
 	}
 	if (*toolbox->cursor == '\0')
