@@ -33,7 +33,7 @@ static inline void	ft_resolve_asterisks(t_spec *spec, va_list *arg_ptr)
 	}
 }
 
-void	ft_normalize_spec(t_spec *spec, va_list *arg_ptr)
+void				ft_normalize_spec(t_spec *spec, va_list *arg_ptr)
 {
 	char *match;
 

@@ -64,6 +64,11 @@ void				ft_spec_i(t_toolbox *toolbox, va_list *arg_ptr)
 	free(s);
 }
 
+void				ft_spec_d(t_toolbox *toolbox, va_list *arg_ptr)
+{
+	ft_spec_i(toolbox, arg_ptr);
+}
+
 void				ft_spec_u(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	unsigned int			n;

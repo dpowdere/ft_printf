@@ -36,7 +36,6 @@ CONTENTS := \
 \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
-    utils/ft_format_pointer.c \
     utils/ft_print_field.c \
 \
     utils/ft_memset.c \
