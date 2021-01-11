@@ -43,6 +43,16 @@ typedef enum	e_effector
 	E_NUMBER_POSITIVE,
 	E_NUMBER_NEGATIVE
 }				t_effector;
+/*
+** E_STRING_NULL		NULL pointer passed in as `char *` argument;
+** E_STRING_NON_NULL	`char *` argument, being a valid (null-terminated)
+**						or invalid (non null-terminated) C-string;
+** E_POINTER_NULL		NULL pointer passed in as `void *` argument;
+** E_POINTER_NOT_NULL	non NULL pointer passed in as `void *` argument;
+** E_NUMBER_ZERO		0 passed in as %iduoXxEeFfGg parameter;
+** E_NUMBER_POSITIVE	positive number passed in as any number type;
+** E_NUMBER_NEGATIVE	negative number passed in as any signed number type
+*/
 
 void			ft_normalize_spec(t_spec *spec, va_list *arg_ptr);
 size_t			ft_get_typing_width(t_spec *spec, char *s, t_effector t);
