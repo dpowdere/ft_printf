@@ -50,8 +50,8 @@ OBJS := $(CONTENTS:.c=.o)
 DEPS := $(CONTENTS:.c=.d)
 SYSTEM := $(shell uname)
 
-CC := gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
+CC := clang
+CFLAGS = -fPIC -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
 DEPFLAGS = -MMD -MP
 
 AR := ar
