@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 16:44:57 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/03 17:47:57 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:46:13 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdarg.h>
 # include <stddef.h>
+# include <stdint.h>
 # include <unistd.h>
 
 # define STDOUT 1
@@ -29,5 +30,8 @@ struct s_toolbox;
 typedef struct s_spec		t_spec;
 typedef struct s_toolbox	t_toolbox;
 typedef void				(*t_spec_ft)(t_toolbox *, va_list *);
+
+typedef intmax_t			t_max;
+typedef uintmax_t			t_umax;
 
 #endif

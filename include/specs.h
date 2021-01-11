@@ -56,7 +56,7 @@ void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 typedef struct				s_spec
 {
 	char			specifier;
-	int				size;
+	t_size			size;
 	int				width;
 	int				precision;
 	unsigned int	left_justify: 1;

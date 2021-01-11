@@ -46,16 +46,16 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 
 void				ft_spec_o(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	unsigned int			n;
 	char					*s;
+	size_t					typing_width;
+	t_umax					n;
 	t_effector				eff;
 	t_int_format_options	opts;
-	size_t					typing_width;
 
-	n = va_arg(*arg_ptr, unsigned int);
+	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
 	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_POSITIVE);
 	ft_set_opts(&opts, &toolbox->spec, eff);
-	s = ft_format_llu((unsigned long long int)n, opts);
+	s = ft_format_llu((t_umax)n, opts);
 	if (toolbox->spec.alternative_form && s[0] != '0'
 			&& !(toolbox->spec.precision == 0 && n == 0))
 		s = ft_strpfx("0", s, DONT_FREE_PREFIX, DO_FREE_STRING);

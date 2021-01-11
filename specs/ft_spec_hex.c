@@ -48,18 +48,18 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 										int use_uppercase)
 {
-	unsigned int			n;
+	t_umax					n;
 	char					*s;
 	t_effector				eff;
 	t_int_format_options	opts;
 	size_t					typing_width;
 
-	n = va_arg(*arg_ptr, unsigned int);
+	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
 	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_POSITIVE);
 	if (eff == E_NUMBER_ZERO)
 		toolbox->spec.alternative_form = NO;
 	ft_set_opts(&opts, &toolbox->spec, eff, use_uppercase);
-	s = ft_format_llu((unsigned long long int)n, opts);
+	s = ft_format_llu((t_umax)n, opts);
 	if (toolbox->spec.alternative_form && !use_uppercase)
 		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	else if (toolbox->spec.alternative_form && use_uppercase)

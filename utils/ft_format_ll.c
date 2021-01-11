@@ -75,13 +75,13 @@ static size_t	ft_augmented_size(size_t basic_size, int min_digits,
 	return (augmented_size);
 }
 
-char			*ft_format_lli(long long int n, t_int_format_options o)
+char			*ft_format_lli(t_max n, t_int_format_options o)
 {
+	int		is_negative;
 	char	*str;
 	char	*augmented_str;
 	size_t	basic_size;
 	size_t	augmented_size;
-	int		is_negative;
 
 	if ((str = ft_lli_base(n, o.base, o.use_uppercase)) == NULL)
 		return (NULL);
@@ -103,7 +103,7 @@ char			*ft_format_lli(long long int n, t_int_format_options o)
 	return (augmented_str);
 }
 
-char			*ft_format_llu(unsigned long long int n, t_int_format_options o)
+char			*ft_format_llu(t_umax n, t_int_format_options o)
 {
 	char	*str;
 	char	*augmented_str;

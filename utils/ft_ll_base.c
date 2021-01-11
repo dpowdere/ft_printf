@@ -19,7 +19,7 @@
 #define UPPER_DIGITS "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define DIGITS	(use_upper_case ? UPPER_DIGITS : LOWER_DIGITS)
 
-char	*ft_lli_base(long long int n, int base, int use_upper_case)
+char	*ft_lli_base(t_max n, int base, int use_upper_case)
 {
 	long long	power;
 	long long	i;
@@ -48,7 +48,7 @@ char	*ft_lli_base(long long int n, int base, int use_upper_case)
 	return (s);
 }
 
-char	*ft_llu_base(unsigned long long int n, int base, int use_upper_case)
+char	*ft_llu_base(t_umax n, int base, int use_upper_case)
 {
 	unsigned long long	power;
 	unsigned long long	i;

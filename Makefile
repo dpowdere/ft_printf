@@ -37,6 +37,7 @@ CONTENTS := \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
     utils/ft_print_field.c \
+    utils/ft_get_va_arg.c \
 \
     utils/ft_memset.c \
     utils/ft_strchr.c \
@@ -79,7 +80,7 @@ clean:
 	$(RM) *.o */*.o *.d */*.d *.gch */*.gch *.out
 
 fclean: clean
-	$(RM) $(NAME) *.dSYM
+	$(RM) -R $(NAME) *.dSYM
 
 re: fclean all
 

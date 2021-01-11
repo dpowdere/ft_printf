@@ -43,9 +43,9 @@ void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	void					*p;
 	char					*s;
+	size_t					typing_width;
 	t_effector				eff;
 	t_int_format_options	opts;
-	size_t					typing_width;
 
 	p = va_arg(*arg_ptr, void *);
 	eff = (p == NULL ? E_POINTER_NULL : E_POINTER_NON_NULL);
@@ -54,7 +54,7 @@ void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
 	else
 	{
 		ft_set_opts(&opts, &toolbox->spec, eff);
-		s = ft_format_llu((unsigned long long int)p, opts);
+		s = ft_format_llu((t_umax)p, opts);
 		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 		if (toolbox->spec.show_plus)
 			s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);

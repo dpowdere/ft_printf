@@ -27,6 +27,7 @@ static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 		toolbox->cursor = NULL;
 	}
 	toolbox->spec.specifier = UNSPECIFIED;
+	toolbox->spec.size = SIZE_DEFAULT;
 	toolbox->spec.width = UNSPECIFIED;
 	toolbox->spec.precision = UNSPECIFIED;
 	toolbox->spec.left_justify = NO;

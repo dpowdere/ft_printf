@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 21:53:39 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 23:36:29 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:39:29 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stddef.h>
 # include <sys/types.h>
 # include <unistd.h>
+
+# include "common.h"
 
 void			*ft_memset(void *b, int c, size_t len);
 char			*ft_strchr(const char *s, int c);
@@ -43,10 +45,25 @@ typedef struct	s_int_format_options
 # define NULL_POINTER	"(nil)"
 # define NULL_STRING	"(null)"
 
-char			*ft_lli_base(long long int n, int base, int use_uppercase);
-char			*ft_llu_base(unsigned long long n, int base, int use_uppercase);
-char			*ft_format_lli(long long int n, t_int_format_options o);
-char			*ft_format_llu(unsigned long long n, t_int_format_options o);
+char			*ft_lli_base(t_max n, int base, int use_uppercase);
+char			*ft_llu_base(t_umax n, int base, int use_uppercase);
+char			*ft_format_lli(t_max n, t_int_format_options o);
+char			*ft_format_llu(t_umax n, t_int_format_options o);
 char			*ft_format_pointer(void *p, int min_digits);
+
+typedef enum	e_size
+{
+	SIZE_HH,
+	SIZE_H,
+	SIZE_DEFAULT,
+	SIZE_L,
+	SIZE_LL,
+	SIZE_Z,
+	SIZE_T,
+	SIZE_J
+}				t_size;
+
+t_max			ft_get_signed_va_arg(va_list *arg_ptr, t_size type);
+t_umax			ft_get_unsigned_va_arg(va_list *arg_ptr, t_size type);
 
 #endif

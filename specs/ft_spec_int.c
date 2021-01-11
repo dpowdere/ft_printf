@@ -45,20 +45,20 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 
 void				ft_spec_i(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	int						n;
 	char					*s;
+	size_t					typing_width;
+	t_max					n;
 	t_effector				eff;
 	t_int_format_options	opts;
-	size_t					typing_width;
 
-	n = va_arg(*arg_ptr, int);
+	n = ft_get_signed_va_arg(arg_ptr, toolbox->spec.size);
 	eff = E_NUMBER_ZERO;
 	if (n > 0)
 		eff = E_NUMBER_POSITIVE;
 	if (n < 0)
 		eff = E_NUMBER_NEGATIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
-	s = ft_format_lli((long long int)n, opts);
+	s = ft_format_lli((t_max)n, opts);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
@@ -71,19 +71,19 @@ void				ft_spec_d(t_toolbox *toolbox, va_list *arg_ptr)
 
 void				ft_spec_u(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	unsigned int			n;
 	char					*s;
+	size_t					typing_width;
+	t_umax					n;
 	t_effector				eff;
 	t_int_format_options	opts;
-	size_t					typing_width;
 
-	n = va_arg(*arg_ptr, unsigned int);
+	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
 	if (n == 0)
 		eff = E_NUMBER_ZERO;
 	else
 		eff = E_NUMBER_POSITIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
-	s = ft_format_llu((unsigned long long int)n, opts);
+	s = ft_format_llu((t_umax)n, opts);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
