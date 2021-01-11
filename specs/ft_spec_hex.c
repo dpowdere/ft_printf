@@ -26,6 +26,8 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 {
 	opts->base = 16;
 	opts->use_uppercase = use_uppercase;
+	opts->min_digits = 1;
+	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
@@ -37,14 +39,10 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
-	else
-		opts->min_digits = 1;
 	if (spec->show_plus)
 		opts->sp = SIGN_PRESENTATION_MINUS_PLUS;
 	else if (spec->show_space_plus)
 		opts->sp = SIGN_PRESENTATION_MINUS_SPACE;
-	else
-		opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 }
 
 static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
