@@ -16,6 +16,5 @@
 
 void	ft_spec_n(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	(void)toolbox;
-	(void)arg_ptr;
+	*(va_arg(*arg_ptr, signed int *)) = (signed int)toolbox->cumulative_size;
 }
