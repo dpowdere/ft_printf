@@ -92,7 +92,8 @@ int			ft_printf(const char *format, ...)
 		if (*toolbox.cursor && !toolbox.error)
 		{
 			ft_parse_spec(&toolbox);
-			ft_print_arg_by_spec(&toolbox, &arg_ptr);
+			if (!toolbox.error)
+				ft_print_arg_by_spec(&toolbox, &arg_ptr);
 		}
 		ft_reset(RESET_SPEC_INFO, &toolbox);
 	}
