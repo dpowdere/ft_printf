@@ -77,10 +77,11 @@ all: $(NAME)
 bonus: $(NAME)
 
 clean:
-	$(RM) *.o */*.o *.d */*.d *.gch */*.gch *.out
+	$(RM) *.o */*.o *.d */*.d *.gch */*.gch
 
 fclean: clean
-	$(RM) -R $(NAME) *.dSYM
+	$(RM) -R *.dSYM core core.*
+	$(RM) $(NAME) *.out
 
 re: fclean all
 
