@@ -47,9 +47,9 @@ void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
 # define SIGNED_HNDLRS	S(i), S(d)
 # define UNSIGN_HNDLRS	S(u), S(o), S(upper_x), S(x)
 # define FLOAT_HNDLRS	S(upper_e), S(e), S(upper_f), S(f), S(upper_g), S(g)
-# define OTH_HNDLRS		S(p), S(n), S(percent)
+# define OTHER_HNDLRS	S(p), S(n), S(percent)
 # define INT_HNDLRS		SIGNED_HNDLRS, UNSIGN_HNDLRS
-# define SPEC_HANDLERS	{ STR_HNDLRS, INT_HNDLRS, FLOAT_HNDLRS, OTH_HNDLRS }
+# define SPEC_HANDLERS	{ STR_HNDLRS, INT_HNDLRS, FLOAT_HNDLRS, OTHER_HNDLRS }
 
 # define FLAG_SPECIFIERS "-+ 0#"
 

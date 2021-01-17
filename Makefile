@@ -70,13 +70,15 @@ endif
 .PHONY: all bonus clean fclean re
 
 $(NAME): $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
+	$(MAKE) -C ryu
+	$(AR) $(ARFLAGS) $@ $^ ryu/d2s.o ryu/d2fixed.o ryu/generic_128.o
 
 all: $(NAME)
 
 bonus: $(NAME)
 
 clean:
+	$(MAKE) -C ryu clean
 	$(RM) *.o */*.o *.d */*.d *.gch */*.gch
 
 fclean: clean
