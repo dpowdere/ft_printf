@@ -179,4 +179,4 @@ static inline uint64_t mulShiftAll64(uint64_t m, const uint64_t* const mul, cons
   return shiftright128(mid, hi, (uint32_t) (j - 64 - 1));
 }
 
-#endif // RYU_D2S_INTRINSICS_H
+#endif

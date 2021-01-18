@@ -4401,4 +4401,4 @@ static const uint64_t POW10_SPLIT_2[3133][3] = {
   {                    0u,                    0u,          33000000000u },
 };
 
-#endif // RYU_D2FIXED_FULL_TABLE_H
+#endif

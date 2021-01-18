@@ -36,7 +36,6 @@ CONTENTS := \
 \
     ryu/d2fixed.c \
     ryu/d2s.c \
-    ryu/generic_128.c \
 \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
