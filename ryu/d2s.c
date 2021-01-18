@@ -3,12 +3,6 @@
 //
 // -DRYU_ONLY_64_BIT_OPS Avoid using uint128_t or 64-bit intrinsics. Slower,
 //     depending on your compiler.
-//
-// -DRYU_OPTIMIZE_SIZE Use smaller lookup tables. Instead of storing every
-//     required power of 5, only store every 26th entry, and compute
-//     intermediate values with a multiplication. This reduces the lookup table
-//     size by about 10x (only one case, and only double) at the cost of some
-//     performance. Currently requires MSVC intrinsics.
 
 #include "ryu.h"
 
@@ -26,13 +20,7 @@
 #include "ryu/common.h"
 #include "ryu/digit_table.h"
 #include "ryu/d2s_intrinsics.h"
-
-// Include either the small or the full lookup tables depending on the mode.
-#if defined(RYU_OPTIMIZE_SIZE)
-#include "ryu/d2s_small_table.h"
-#else
 #include "ryu/d2s_full_table.h"
-#endif
 
 #define DOUBLE_MANTISSA_BITS 52
 #define DOUBLE_EXPONENT_BITS 11
@@ -109,13 +97,7 @@ static inline floating_decimal_64 d2d(const uint64_t ieeeMantissa, const uint32_
     e10 = (int32_t) q;
     const int32_t k = DOUBLE_POW5_INV_BITCOUNT + pow5bits((int32_t) q) - 1;
     const int32_t i = -e2 + (int32_t) q + k;
-#if defined(RYU_OPTIMIZE_SIZE)
-    uint64_t pow5[2];
-    double_computeInvPow5(q, pow5);
-    vr = mulShiftAll64(m2, pow5, i, &vp, &vm, mmShift);
-#else
     vr = mulShiftAll64(m2, DOUBLE_POW5_INV_SPLIT[q], i, &vp, &vm, mmShift);
-#endif
 #ifdef RYU_DEBUG
     printf("%" PRIu64 " * 2^%d / 10^%u\n", mv, e2, q);
     printf("V+=%" PRIu64 "\nV =%" PRIu64 "\nV-=%" PRIu64 "\n", vp, vr, vm);
@@ -144,13 +126,7 @@ static inline floating_decimal_64 d2d(const uint64_t ieeeMantissa, const uint32_
     const int32_t i = -e2 - (int32_t) q;
     const int32_t k = pow5bits(i) - DOUBLE_POW5_BITCOUNT;
     const int32_t j = (int32_t) q - k;
-#if defined(RYU_OPTIMIZE_SIZE)
-    uint64_t pow5[2];
-    double_computePow5(i, pow5);
-    vr = mulShiftAll64(m2, pow5, j, &vp, &vm, mmShift);
-#else
     vr = mulShiftAll64(m2, DOUBLE_POW5_SPLIT[i], j, &vp, &vm, mmShift);
-#endif
 #ifdef RYU_DEBUG
     printf("%" PRIu64 " * 5^%d / 10^%u\n", mv, -e2, q);
     printf("%u %d %d %d\n", q, i, k, j);

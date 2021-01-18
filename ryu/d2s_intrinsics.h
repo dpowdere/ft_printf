@@ -4,44 +4,6 @@
 #include <assert.h>
 #include <stdint.h>
 
-// ABSL avoids uint128_t on Win32 even if __SIZEOF_INT128__ is defined.
-// Let's do the same for now.
-#if defined(__SIZEOF_INT128__) && !defined(_MSC_VER) && !defined(RYU_ONLY_64_BIT_OPS)
-#define HAS_UINT128
-#elif defined(_MSC_VER) && !defined(RYU_ONLY_64_BIT_OPS) && defined(_M_X64)
-#define HAS_64_BIT_INTRINSICS
-#endif
-
-#if defined(HAS_UINT128)
-typedef __uint128_t uint128_t;
-#endif
-
-#if defined(HAS_64_BIT_INTRINSICS)
-
-#include <intrin.h>
-
-static inline uint64_t umul128(const uint64_t a, const uint64_t b, uint64_t* const productHi) {
-  return _umul128(a, b, productHi);
-}
-
-// Returns the lower 64 bits of (hi*2^64 + lo) >> dist, with 0 < dist < 64.
-static inline uint64_t shiftright128(const uint64_t lo, const uint64_t hi, const uint32_t dist) {
-  // For the __shiftright128 intrinsic, the shift value is always
-  // modulo 64.
-  // In the current implementation of the double-precision version
-  // of Ryu, the shift value is always < 64. (In the case
-  // RYU_OPTIMIZE_SIZE == 0, the shift value is in the range [49, 58].
-  // Otherwise in the range [2, 59].)
-  // However, this function is now also called by s2d, which requires supporting
-  // the larger shift range (TODO: what is the actual range?).
-  // Check this here in case a future change requires larger shift
-  // values. In this case this function needs to be adjusted.
-  assert(dist < 64);
-  return __shiftright128(lo, hi, (unsigned char) dist);
-}
-
-#else // defined(HAS_64_BIT_INTRINSICS)
-
 static inline uint64_t umul128(const uint64_t a, const uint64_t b, uint64_t* const productHi) {
   // The casts here help MSVC to avoid calls to the __allmul library function.
   const uint32_t aLo = (uint32_t)a;
@@ -78,8 +40,6 @@ static inline uint64_t shiftright128(const uint64_t lo, const uint64_t hi, const
   assert(dist > 0);
   return (hi << (64 - dist)) | (lo >> dist);
 }
-
-#endif // defined(HAS_64_BIT_INTRINSICS)
 
 static inline uint64_t div5(const uint64_t x) {
   return x / 5;
@@ -171,57 +131,6 @@ static inline bool multipleOfPowerOf2(const uint64_t value, const uint32_t p) {
 //    c. Split only the first factor into 31-bit pieces, which also guarantees
 //       no internal overflow, but requires extra work since the intermediate
 //       results are not perfectly aligned.
-#if defined(HAS_UINT128)
-
-// Best case: use 128-bit type.
-static inline uint64_t mulShift64(const uint64_t m, const uint64_t* const mul, const int32_t j) {
-  const uint128_t b0 = ((uint128_t) m) * mul[0];
-  const uint128_t b2 = ((uint128_t) m) * mul[1];
-  return (uint64_t) (((b0 >> 64) + b2) >> (j - 64));
-}
-
-static inline uint64_t mulShiftAll64(const uint64_t m, const uint64_t* const mul, const int32_t j,
-  uint64_t* const vp, uint64_t* const vm, const uint32_t mmShift) {
-//  m <<= 2;
-//  uint128_t b0 = ((uint128_t) m) * mul[0]; // 0
-//  uint128_t b2 = ((uint128_t) m) * mul[1]; // 64
-//
-//  uint128_t hi = (b0 >> 64) + b2;
-//  uint128_t lo = b0 & 0xffffffffffffffffull;
-//  uint128_t factor = (((uint128_t) mul[1]) << 64) + mul[0];
-//  uint128_t vpLo = lo + (factor << 1);
-//  *vp = (uint64_t) ((hi + (vpLo >> 64)) >> (j - 64));
-//  uint128_t vmLo = lo - (factor << mmShift);
-//  *vm = (uint64_t) ((hi + (vmLo >> 64) - (((uint128_t) 1ull) << 64)) >> (j - 64));
-//  return (uint64_t) (hi >> (j - 64));
-  *vp = mulShift64(4 * m + 2, mul, j);
-  *vm = mulShift64(4 * m - 1 - mmShift, mul, j);
-  return mulShift64(4 * m, mul, j);
-}
-
-#elif defined(HAS_64_BIT_INTRINSICS)
-
-static inline uint64_t mulShift64(const uint64_t m, const uint64_t* const mul, const int32_t j) {
-  // m is maximum 55 bits
-  uint64_t high1;                                   // 128
-  const uint64_t low1 = umul128(m, mul[1], &high1); // 64
-  uint64_t high0;                                   // 64
-  umul128(m, mul[0], &high0);                       // 0
-  const uint64_t sum = high0 + low1;
-  if (sum < high0) {
-    ++high1; // overflow into high1
-  }
-  return shiftright128(sum, high1, j - 64);
-}
-
-static inline uint64_t mulShiftAll64(const uint64_t m, const uint64_t* const mul, const int32_t j,
-  uint64_t* const vp, uint64_t* const vm, const uint32_t mmShift) {
-  *vp = mulShift64(4 * m + 2, mul, j);
-  *vm = mulShift64(4 * m - 1 - mmShift, mul, j);
-  return mulShift64(4 * m, mul, j);
-}
-
-#else // !defined(HAS_UINT128) && !defined(HAS_64_BIT_INTRINSICS)
 
 static inline uint64_t mulShift64(const uint64_t m, const uint64_t* const mul, const int32_t j) {
   // m is maximum 55 bits
@@ -269,7 +178,5 @@ static inline uint64_t mulShiftAll64(uint64_t m, const uint64_t* const mul, cons
 
   return shiftright128(mid, hi, (uint32_t) (j - 64 - 1));
 }
-
-#endif // HAS_64_BIT_INTRINSICS
 
 #endif // RYU_D2S_INTRINSICS_H
