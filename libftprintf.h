@@ -17,11 +17,11 @@
 #  define DARWIN 1
 # endif
 
-# include "include/common.h"
-# include "include/utils.h"
-# include "include/specs.h"
-# include "include/parsing.h"
-# include "include/ryu.h"
+# include "common.h"
+# include "utils.h"
+# include "specs.h"
+# include "parsing.h"
+# include "ryu.h"
 
 typedef struct	s_toolbox
 {
