@@ -1,29 +1,13 @@
-// Copyright 2018 Ulf Adams
-//
-// The contents of this file may be used under the terms of the Apache License,
-// Version 2.0.
-//
-//    (See accompanying file LICENSE-Apache or copy at
-//     http://www.apache.org/licenses/LICENSE-2.0)
-//
-// Alternatively, the contents of this file may be used under the terms of
-// the Boost Software License, Version 1.0.
-//    (See accompanying file LICENSE-Boost or copy at
-//     https://www.boost.org/LICENSE_1_0.txt)
-//
-// Unless required by applicable law or agreed to in writing, this software
-// is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied.
 #ifndef RYU_COMMON_H
-#define RYU_COMMON_H
+# define RYU_COMMON_H
 
-#include <assert.h>
-#include <stdint.h>
-#include <string.h>
+# include <assert.h>
+# include <stdint.h>
+# include <string.h>
 
-#if defined(_M_IX86) || defined(_M_ARM)
-#define RYU_32_BIT_PLATFORM
-#endif
+# if defined(_M_IX86) || defined(_M_ARM)
+#  define RYU_32_BIT_PLATFORM
+# endif
 
 // Returns the number of decimal digits in v, which must not contain more than 9 digits.
 static inline uint32_t decimalLength9(const uint32_t v) {
@@ -83,7 +67,9 @@ static inline uint32_t log10Pow5(const int32_t e) {
   return (((uint32_t) e) * 732923) >> 20;
 }
 
-static inline int copy_special_str(char * const result, const bool sign, const bool exponent, const bool mantissa) {
+static inline int	copy_special_str(char * const result, const bool sign,
+									const bool exponent, const bool mantissa)
+{
   if (mantissa) {
     memcpy(result, "NaN", 3);
     return 3;
@@ -111,4 +97,4 @@ static inline uint64_t double_to_bits(const double d) {
   return bits;
 }
 
-#endif // RYU_COMMON_H
+#endif

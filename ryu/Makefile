@@ -9,7 +9,8 @@ OBJ = $(SRC:.c=.o)
 ALIB = libryu.a
 
 INCLUDES = -I..
-CFLAGS += -g3
+CC = clang
+CFLAGS += -g3 -Wall -Wextra -Werror -fPIC
 
 .SUFFIXES: .c
 
