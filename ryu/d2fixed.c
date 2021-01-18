@@ -30,8 +30,7 @@ static inline uint32_t mulShift_mod1e9(const uint64_t m, const uint64_t* const m
   const uint64_t s1low = low2 + high1 + c1; // 128
   const uint32_t c2 = s1low < low2; // high1 + c1 can't overflow, so compare against low2
   const uint64_t s1high = high2 + c2;       // 192
-  //assert(j >= 128);
-  //assert(j <= 180);
+  // (128 <= j <= 180)
   if (j < 160) { // j: [128, 160)
     const uint64_t r0 = mod1e9(s1high);
     const uint64_t r1 = mod1e9((r0 << 32) | (s1low >> 32));
