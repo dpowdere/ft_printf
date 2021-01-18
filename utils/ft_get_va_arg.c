@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 t_max	ft_get_signed_va_arg(va_list *ap, t_size type)
 {

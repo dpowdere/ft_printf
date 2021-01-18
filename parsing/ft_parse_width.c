@@ -12,7 +12,7 @@
 
 #include <stddef.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 void	ft_parse_width(t_toolbox *toolbox)
 {

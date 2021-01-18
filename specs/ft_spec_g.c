@@ -14,8 +14,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
-#include "../include/ryu.h"
+#include "libftprintf.h"
 
 void	ft_spec_g(t_toolbox *toolbox, va_list *arg_ptr)
 {

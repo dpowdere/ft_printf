@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 void	ft_spec_n(t_toolbox *toolbox, va_list *ap)
 {

@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 #define DOES_NOT_MATTER 0
 

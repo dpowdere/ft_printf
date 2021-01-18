@@ -1,7 +1,7 @@
 #ifndef RYU_H
 # define RYU_H
 
-#include <inttypes.h>
+# include <inttypes.h>
 
 int d2s_buffered_n(double f, char* result);
 void d2s_buffered(double f, char* result);

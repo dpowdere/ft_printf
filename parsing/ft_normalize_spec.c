@@ -12,7 +12,7 @@
 
 #include <stdarg.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 static inline void	ft_resolve_asterisks(t_spec *spec, va_list *arg_ptr)
 {

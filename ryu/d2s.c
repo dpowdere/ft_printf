@@ -10,7 +10,7 @@
 //     size by about 10x (only one case, and only double) at the cost of some
 //     performance. Currently requires MSVC intrinsics.
 
-#include "ryu/ryu.h"
+#include "ryu.h"
 
 #include <assert.h>
 #include <stdbool.h>

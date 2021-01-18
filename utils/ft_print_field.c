@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 void	ft_print_field(char *str, size_t str_size, t_toolbox *toolbox)
 {

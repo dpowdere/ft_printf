@@ -2,7 +2,7 @@
 // -DRYU_ONLY_64_BIT_OPS Avoid using uint128_t or 64-bit intrinsics. Slower,
 //     depending on your compiler.
 
-#include "ryu/ryu.h"
+#include "ryu.h"
 
 #include <stdbool.h>
 #include <stdint.h>

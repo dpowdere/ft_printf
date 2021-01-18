@@ -12,7 +12,7 @@
 
 #include <stddef.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 /*
 ** NOTE: When the string `s` is taken from arguments and is not a NULL pointer

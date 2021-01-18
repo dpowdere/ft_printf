@@ -21,6 +21,7 @@
 # include "include/utils.h"
 # include "include/specs.h"
 # include "include/parsing.h"
+# include "include/ryu.h"
 
 typedef struct	s_toolbox
 {

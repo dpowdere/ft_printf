@@ -34,6 +34,10 @@ CONTENTS := \
     parsing/ft_normalize_spec.c \
     parsing/ft_get_typing_width.c \
 \
+    ryu/d2fixed.c \
+    ryu/d2s.c \
+    ryu/generic_128.c \
+\
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
     utils/ft_print_field.c \
@@ -49,10 +53,11 @@ CONTENTS := \
 NAME := $(LIBNAME).a
 OBJS := $(CONTENTS:.c=.o)
 DEPS := $(CONTENTS:.c=.d)
+INCLUDE := -I. -I./include
 SYSTEM := $(shell uname)
 
 CC := clang
-CFLAGS = -fPIC -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
+CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN) -fPIC
 DEPFLAGS = -MMD -MP
 
 AR := ar
@@ -70,15 +75,13 @@ endif
 .PHONY: all bonus clean fclean re
 
 $(NAME): $(OBJS)
-	$(MAKE) -C ryu
-	$(AR) $(ARFLAGS) $@ $^ ryu/d2s.o ryu/d2fixed.o ryu/generic_128.o
+	$(AR) $(ARFLAGS) $@ $^
 
 all: $(NAME)
 
 bonus: $(NAME)
 
 clean:
-	$(MAKE) -C ryu clean
 	$(RM) *.o */*.o *.d */*.d *.gch */*.gch
 
 fclean: clean
@@ -88,6 +91,6 @@ fclean: clean
 re: fclean all
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $(DEPFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDE) -c $(DEPFLAGS) -o $@ $<
 
 -include $(DEPS)

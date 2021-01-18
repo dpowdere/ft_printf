@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 #define DONT_USE_UPPERCASE	0
 #define DONT_FREE_PREFIX	0
