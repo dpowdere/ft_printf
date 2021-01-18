@@ -35,7 +35,6 @@ CONTENTS := \
     parsing/ft_get_typing_width.c \
 \
     ryu/d2fixed.c \
-    ryu/d2s.c \
 \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
