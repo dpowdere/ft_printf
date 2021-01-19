@@ -35,45 +35,6 @@ static inline uint64_t	umul128(const uint64_t a, const uint64_t b,
 }
 
 /*
-** (0 < dist < 64);
-*/
-static inline uint64_t	shiftright128(const uint64_t lo, const uint64_t hi,
-										const uint32_t dist)
-{
-	return ((hi << (64 - dist)) | (lo >> dist));
-}
-
-static inline uint64_t	div5(const uint64_t x)
-{
-	return (x / 5);
-}
-
-static inline uint64_t	div10(const uint64_t x)
-{
-	return (x / 10);
-}
-
-static inline uint64_t	div100(const uint64_t x)
-{
-	return (x / 100);
-}
-
-static inline uint64_t	div1e8(const uint64_t x)
-{
-	return (x / 100000000);
-}
-
-static inline uint64_t	div1e9(const uint64_t x)
-{
-	return (x / 1000000000);
-}
-
-static inline uint32_t	mod1e9(const uint64_t x)
-{
-	return ((uint32_t)(x - 1000000000 * div1e9(x)));
-}
-
-/*
 ** value != 0
 */
 static inline uint32_t	pow5Factor(uint64_t value)
@@ -82,30 +43,14 @@ static inline uint32_t	pow5Factor(uint64_t value)
 
 	while (true)
 	{
-		const uint64_t q = div5(value);
-		const uint32_t r = ((uint32_t) value) - 5 * ((uint32_t) q);
+		const uint64_t q = (uint64_t)value / 5;
+		const uint32_t r = (uint32_t)value - 5 * (uint32_t)q;
 		if (r != 0)
 			break ;
 		value = q;
 		++count;
 	}
 	return (count);
-}
-
-// Returns true if value is divisible by 5^p.
-static inline bool		multipleOfPowerOf5(const uint64_t value,
-											const uint32_t p)
-{
-	return pow5Factor(value) >= p;
-}
-
-// Returns true if value is divisible by 2^p.
-static inline bool		multipleOfPowerOf2(const uint64_t value,
-											const uint32_t p)
-{
-	// (value != 0)
-	// (p < 64)
-	return ((value & ((1ull << p) - 1)) == 0);
 }
 
 // We need a 64x128-bit multiplication and a subsequent 128-bit shift.
@@ -157,7 +102,7 @@ static inline uint64_t	mulShift64(const uint64_t m, const uint64_t* const mul,
 	const uint64_t sum = high0 + low1;
 	if (sum < high0)
 		++high1; // overflow into high1
-	return shiftright128(sum, high1, j - 64);
+	return (SHR128(sum, high1, j - 64));
 }
 
 // This is faster if we don't have a 64x64->128-bit multiplication.
@@ -177,14 +122,14 @@ static inline uint64_t	mulShiftAll64(uint64_t m, const uint64_t* const mul,
 	const uint64_t lo2 = lo + mul[0];
 	const uint64_t mid2 = mid + mul[1] + (lo2 < lo);
 	const uint64_t hi2 = hi + (mid2 < mid);
-	*vp = shiftright128(mid2, hi2, (uint32_t) (j - 64 - 1));
+	*vp = SHR128(mid2, hi2, (uint32_t)(j - 64 - 1));
 
 	if (mmShift == 1)
 	{
 		const uint64_t lo3 = lo - mul[0];
 		const uint64_t mid3 = mid - mul[1] - (lo3 > lo);
 		const uint64_t hi3 = hi - (mid3 > mid);
-		*vm = shiftright128(mid3, hi3, (uint32_t) (j - 64 - 1));
+		*vm = SHR128(mid3, hi3, (uint32_t)(j - 64 - 1));
 	}
 	else
 	{
@@ -194,10 +139,10 @@ static inline uint64_t	mulShiftAll64(uint64_t m, const uint64_t* const mul,
 		const uint64_t lo4 = lo3 - mul[0];
 		const uint64_t mid4 = mid3 - mul[1] - (lo4 > lo3);
 		const uint64_t hi4 = hi3 - (mid4 > mid3);
-		*vm = shiftright128(mid4, hi4, (uint32_t) (j - 64));
+		*vm = SHR128(mid4, hi4, (uint32_t)(j - 64));
 	}
 
-	return (shiftright128(mid, hi, (uint32_t)(j - 64 - 1)));
+	return (SHR128(mid, hi, (uint32_t)(j - 64 - 1)));
 }
 
 #endif

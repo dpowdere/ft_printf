@@ -35,16 +35,68 @@
 
 # include <stdint.h>
 
-int d2s_buffered_n(double f, char* result);
-void d2s_buffered(double f, char* result);
-char* d2s(double f);
+int		d2fixed_buffered_n(double d, uint32_t precision, char* result);
+void	d2fixed_buffered(double d, uint32_t precision, char* result);
+char*	d2fixed(double d, uint32_t precision);
 
-int d2fixed_buffered_n(double d, uint32_t precision, char* result);
-void d2fixed_buffered(double d, uint32_t precision, char* result);
-char* d2fixed(double d, uint32_t precision);
+int		d2exp_buffered_n(double d, uint32_t precision, char* result);
+void	d2exp_buffered(double d, uint32_t precision, char* result);
+char*	d2exp(double d, uint32_t precision);
 
-int d2exp_buffered_n(double d, uint32_t precision, char* result);
-void d2exp_buffered(double d, uint32_t precision, char* result);
-char* d2exp(double d, uint32_t precision);
+# define DOUBLE_MANTISSA_BITS 52
+# define DOUBLE_EXPONENT_BITS 11
+# define DOUBLE_BIAS 1023
+
+# define POW10_ADDITIONAL_BITS 120
+# define POW10_BITS4IX(ix)	((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))
+
+/*
+** Returns uint32_t floor(log_10(2^e)); requires 0 <= e <= 1650.
+**
+** The first value this approximation fails for is 2^1651
+** which is just greater than 10^297.
+*/
+# define LOG10_POW2(e)	(((uint32_t)(e) * 78913) >> 18)
+
+/*
+** Shift right 128
+** (0 < dist < 64);
+*/
+# define SHR128(lo, hi, dist)	(((hi) << (64 - (dist))) | ((lo) >> (dist)))
+
+/*
+** https://bugs.llvm.org/show_bug.cgi?id=38217
+*/
+# ifdef __clang__
+#  define MOD(x, y)	((x) - (y) * ((x) / (y)))
+# else
+#  define MOD(x, y)	((x) % (y))
+# endif
+
+# define D1E9 1000000000
+# define MOD1E9(x)	(MOD((x), D1E9))
+
+/*
+** Returns true if value is divisible by 5^p.
+*/
+# define IS_DIV_POW5(v, p)	(pow5Factor((uint64_t)(v)) >= (uint32_t)(p))
+
+/*
+** Returns true if value is divisible by 2^p.
+** ((uint64_t)value != 0)
+** ((uint32_t)p < 64)
+*/
+# define IS_DIV_POW2(v, p)	(((v) & ((1ull << (uint32_t)(p)) - 1)) == 0)
+
+/*
+** Index for exponent
+*/
+# define IX4EXP(e)	(((uint32_t)(e) + 15) / 16)
+
+/*
+** Length for index
+** +1 for ceil, +16 for mantissa, +8 to round up when dividing by 9
+*/
+# define LEN4IX(ix) ((LOG10_POW2(16 * (int32_t)ix) + 1 + 16 + 8) / 9)
 
 #endif

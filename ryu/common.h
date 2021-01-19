@@ -34,18 +34,6 @@ static inline uint32_t	decimalLength9(const uint32_t v)
 	return (1);
 }
 
-/*
-** Returns floor(log_10(2^e)); requires 0 <= e <= 1650.
-**
-** The first value this approximation fails for is 2^1651
-** which is just greater than 10^297.
-** (0 <= e <= 1650)
-*/
-static inline uint32_t	log10Pow2(const int32_t e)
-{
-	return (((uint32_t)e * 78913) >> 18);
-}
-
 static inline int		copy_special_str(char * const result, const bool sign,
 									const bool exponent, const bool mantissa)
 {
