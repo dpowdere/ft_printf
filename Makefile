@@ -35,12 +35,14 @@ CONTENTS := \
     parsing/ft_get_typing_width.c \
 \
     ryu/d2fixed.c \
+    ryu/ryu_utils.c \
 \
     utils/ft_ll_base.c \
     utils/ft_format_ll.c \
     utils/ft_print_field.c \
     utils/ft_get_va_arg.c \
 \
+    utils/ft_memcpy.c \
     utils/ft_memset.c \
     utils/ft_strchr.c \
     utils/ft_strdup.c \

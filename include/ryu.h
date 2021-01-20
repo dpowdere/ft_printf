@@ -35,6 +35,8 @@
 
 # include <stdint.h>
 
+# include "utils.h"
+
 int		d2fixed_buffered_n(double d, uint32_t precision, char* result);
 void	d2fixed_buffered(double d, uint32_t precision, char* result);
 char*	d2fixed(double d, uint32_t precision);
@@ -59,12 +61,6 @@ char*	d2exp(double d, uint32_t precision);
 # define LOG10_POW2(e)	(((uint32_t)(e) * 78913) >> 18)
 
 /*
-** Shift right 128
-** (0 < dist < 64);
-*/
-# define SHR128(lo, hi, dist)	(((hi) << (64 - (dist))) | ((lo) >> (dist)))
-
-/*
 ** https://bugs.llvm.org/show_bug.cgi?id=38217
 */
 # ifdef __clang__
@@ -75,11 +71,6 @@ char*	d2exp(double d, uint32_t precision);
 
 # define D1E9 1000000000
 # define MOD1E9(x)	(MOD((x), D1E9))
-
-/*
-** Returns true if value is divisible by 5^p.
-*/
-# define IS_DIV_POW5(v, p)	(pow5Factor((uint64_t)(v)) >= (uint32_t)(p))
 
 /*
 ** Returns true if value is divisible by 2^p.
@@ -98,5 +89,11 @@ char*	d2exp(double d, uint32_t precision);
 ** +1 for ceil, +16 for mantissa, +8 to round up when dividing by 9
 */
 # define LEN4IX(ix) ((LOG10_POW2(16 * (int32_t)ix) + 1 + 16 + 8) / 9)
+
+uint32_t	ft_decimal_len9(const uint32_t v);
+uint64_t	ft_double_to_bits(const double d);
+uint64_t	ft_umul128(const uint64_t a, const uint64_t b,
+						uint64_t *const product_hi);
+int			ft_is_div_pow5(uint64_t value, uint32_t p);
 
 #endif

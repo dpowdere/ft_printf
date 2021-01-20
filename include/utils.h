@@ -19,6 +19,7 @@
 
 # include "common.h"
 
+void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			*ft_memset(void *b, int c, size_t len);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strdup(const char *s);
