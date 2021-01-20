@@ -92,8 +92,12 @@ char*	d2exp(double d, uint32_t precision);
 
 uint32_t	ft_decimal_len9(const uint32_t v);
 uint64_t	ft_double_to_bits(const double d);
-uint64_t	ft_umul128(const uint64_t a, const uint64_t b,
+uint64_t	ft_umul128(const uint64_t a,
+						const uint64_t b,
 						uint64_t *const product_hi);
+uint32_t	ft_mul_shift_mod1e9(const uint64_t m,
+								const uint64_t *const mul,
+								const int32_t j);
 int			ft_is_div_pow5(uint64_t value, uint32_t p);
 
 #endif

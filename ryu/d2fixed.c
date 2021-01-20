@@ -6,38 +6,6 @@
 #include "ryu.h"
 #include "ryu_cache.h"
 
-static inline uint32_t	mulShift_mod1e9(const uint64_t m,
-									const uint64_t* const mul, const int32_t j)
-{
-	uint64_t high0;																	 // 64
-	const uint64_t low0 = ft_umul128(m, mul[0], &high0); // 0
-	uint64_t high1;																	 // 128
-	const uint64_t low1 = ft_umul128(m, mul[1], &high1); // 64
-	uint64_t high2;																	 // 192
-	const uint64_t low2 = ft_umul128(m, mul[2], &high2); // 128
-	const uint64_t s0low = low0;							// 0
-	(void) s0low; // unused
-	const uint64_t s0high = low1 + high0;		 // 64
-	const uint32_t c1 = s0high < low1;
-	const uint64_t s1low = low2 + high1 + c1; // 128
-	const uint32_t c2 = s1low < low2; // high1 + c1 can't overflow, so compare against low2
-	const uint64_t s1high = high2 + c2;			 // 192
-	// (128 <= j <= 180)
-	if (j < 160)
-	{ // j: [128, 160)
-		const uint64_t r0 = (uint32_t)MOD1E9(s1high);
-		const uint64_t r1 = (uint32_t)MOD1E9((r0 << 32) | (s1low >> 32));
-		const uint64_t r2 = ((r1 << 32) | (s1low & 0xffffffff));
-		return ((uint32_t)MOD1E9(r2 >> (j - 128)));
-	}
-	else
-	{ // j: [160, 192)
-		const uint64_t r0 = (uint32_t)MOD1E9(s1high);
-		const uint64_t r1 = ((r0 << 32) | (s1low >> 32));
-		return ((uint32_t)MOD1E9(r1 >> (j - 160)));
-	}
-}
-
 // Convert `digits` to a sequence of decimal digits. Append the digits to the result.
 // The caller has to guarantee that:
 //	 10^(olength-1) <= digits < 10^olength
@@ -228,8 +196,8 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			const uint32_t j = p10bits - e2;
 			// Temporary: j is usually around 128, and by shifting a bit, we push
 			// it to 128 or above, which is a slightly faster code path
-			// in mulShift_mod1e9. Instead, we can just increase the multipliers.
-			const uint32_t digits = mulShift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
+			// in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
+			const uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
 			if (nonzero)
 			{
 				append_nine_digits(digits, result + index);
@@ -281,8 +249,8 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 				break ;
 			}
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in mulShift_mod1e9. Instead, we can just increase the multipliers.
-			uint32_t digits = mulShift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
+			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
+			uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
 			if (i < blocks - 1)
 			{
 				append_nine_digits(digits, result + index);
@@ -437,8 +405,8 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 		{
 			const uint32_t j = p10bits - e2;
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in mulShift_mod1e9. Instead, we can just increase the multipliers.
-			digits = mulShift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
+			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
+			digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > precision)
@@ -477,8 +445,8 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 			const int32_t j = ADDITIONAL_BITS_2 + (-e2 - 16 * idx);
 			const uint32_t p = POW10_OFFSET_2[idx] + (uint32_t)i - MIN_BLOCK_2[idx];
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in mulShift_mod1e9. Instead, we can just increase the multipliers.
-			digits = (p >= POW10_OFFSET_2[idx + 1]) ? 0 : mulShift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
+			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
+			digits = (p >= POW10_OFFSET_2[idx + 1]) ? 0 : ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > precision)
