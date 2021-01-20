@@ -6,40 +6,41 @@
 #include "ryu.h"
 #include "ryu_cache.h"
 
-// Convert `digits` to a sequence of decimal digits. Append the digits to the result.
-// The caller has to guarantee that:
-//	 10^(olength-1) <= digits < 10^olength
-// e.g., by passing `olength` as `ft_decimal_len9(digits)`.
+/*
+** Convert `digits` to a sequence of decimal digits. Append the digits to the
+** result. The caller has to guarantee that:
+**
+**   10^(olength-1) <= digits < 10^olength
+**
+** e.g., by passing `olength` as `ft_decimal_len9(digits)`.
+*/
+
 static inline void		append_n_digits(const uint32_t olength,
 									uint32_t digits, char* const result)
 {
-	uint32_t i = 0;
+	uint32_t i;
+	uint32_t c;
+
+	i = 0;
 	while (digits >= 10000)
 	{
-		const uint32_t c = MOD(digits, 10000);
+		c = MOD(digits, 10000);
 		digits /= 10000;
-		const uint32_t c0 = (c % 100) << 1;
-		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + olength - i - 2, DIGIT_TABLE + c0, 2);
-		ft_memcpy(result + olength - i - 4, DIGIT_TABLE + c1, 2);
+		ft_memcpy(result + olength - i - 2, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(result + olength - i - 4, g_digit_tab + ((c / 100) << 1), 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
-		const uint32_t c = (digits % 100) << 1;
+		c = (digits % 100) << 1;
 		digits /= 100;
-		ft_memcpy(result + olength - i - 2, DIGIT_TABLE + c, 2);
+		ft_memcpy(result + olength - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
 	if (digits >= 10)
-	{
-		const uint32_t c = digits << 1;
-		ft_memcpy(result + olength - i - 2, DIGIT_TABLE + c, 2);
-	}
+		ft_memcpy(result + olength - i - 2, g_digit_tab + (digits << 1), 2);
 	else
-	{
 		result[0] = (char)('0' + digits);
-	}
 }
 
 /*
@@ -47,10 +48,11 @@ static inline void		append_n_digits(const uint32_t olength,
 ** followed by a decimal dot '.' followed by the remaining digits. The caller
 ** has to guarantee that:
 **
-**	 10^(olength-1) <= digits < 10^olength
+**   10^(olength-1) <= digits < 10^olength
 **
 ** e.g., by passing `olength` as `ft_decimal_len9(digits)`.
 */
+
 static inline void		append_d_digits(const uint32_t olength, uint32_t digits,
 									char* const result)
 {
@@ -61,23 +63,23 @@ static inline void		append_d_digits(const uint32_t olength, uint32_t digits,
 		digits /= 10000;
 		const uint32_t c0 = (c % 100) << 1;
 		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + olength + 1 - i - 2, DIGIT_TABLE + c0, 2);
-		ft_memcpy(result + olength + 1 - i - 4, DIGIT_TABLE + c1, 2);
+		ft_memcpy(result + olength + 1 - i - 2, g_digit_tab + c0, 2);
+		ft_memcpy(result + olength + 1 - i - 4, g_digit_tab + c1, 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
 		const uint32_t c = (digits % 100) << 1;
 		digits /= 100;
-		ft_memcpy(result + olength + 1 - i - 2, DIGIT_TABLE + c, 2);
+		ft_memcpy(result + olength + 1 - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
 	if (digits >= 10)
 	{
 		const uint32_t c = digits << 1;
-		result[2] = DIGIT_TABLE[c + 1];
+		result[2] = g_digit_tab[c + 1];
 		result[1] = '.';
-		result[0] = DIGIT_TABLE[c];
+		result[0] = g_digit_tab[c];
 	}
 	else
 	{
@@ -86,18 +88,22 @@ static inline void		append_d_digits(const uint32_t olength, uint32_t digits,
 	}
 }
 
-// Convert `digits` to decimal and write the last `count` decimal digits to result.
-// If `digits` contains additional digits, then those are silently ignored.
+/*
+** Convert `digits` to decimal and write the last `count` decimal digits to
+** result. If `digits` contains additional digits, then those are silently
+** ignored.
+*/
+
 static inline void		append_c_digits(const uint32_t count, uint32_t digits,
 									char* const result)
 {
-	// Copy pairs of digits from DIGIT_TABLE.
+	// Copy pairs of digits from g_digit_tab.
 	uint32_t i = 0;
 	for (; i < count - 1; i += 2)
 	{
 		const uint32_t c = (digits % 100) << 1;
 		digits /= 100;
-		ft_memcpy(result + count - i - 2, DIGIT_TABLE + c, 2);
+		ft_memcpy(result + count - i - 2, g_digit_tab + c, 2);
 	}
 	// Generate the last digit if count is odd.
 	if (i < count)
@@ -107,8 +113,11 @@ static inline void		append_c_digits(const uint32_t count, uint32_t digits,
 	}
 }
 
-// Convert `digits` to decimal and write the last 9 decimal digits to result.
-// If `digits` contains additional digits, then those are silently ignored.
+/*
+** Convert `digits` to decimal and write the last 9 decimal digits to result.
+** If `digits` contains additional digits, then those are silently ignored.
+*/
+
 static inline void		append_nine_digits(uint32_t digits, char* const result)
 {
 	if (digits == 0)
@@ -122,8 +131,8 @@ static inline void		append_nine_digits(uint32_t digits, char* const result)
 		digits /= 10000;
 		const uint32_t c0 = (c % 100) << 1;
 		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + 7 - i, DIGIT_TABLE + c0, 2);
-		ft_memcpy(result + 5 - i, DIGIT_TABLE + c1, 2);
+		ft_memcpy(result + 7 - i, g_digit_tab + c0, 2);
+		ft_memcpy(result + 5 - i, g_digit_tab + c1, 2);
 	}
 	result[0] = (char)('0' + digits);
 }
@@ -197,7 +206,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			// Temporary: j is usually around 128, and by shifting a bit, we push
 			// it to 128 or above, which is a slightly faster code path
 			// in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			const uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
+			const uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, g_pow10_split[g_pow10_offset[idx] + i], (int32_t)(j + 8));
 			if (nonzero)
 			{
 				append_nine_digits(digits, result + index);
@@ -223,23 +232,23 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 		// 0 = don't round up; 1 = round up unconditionally; 2 = round up if odd.
 		int roundUp = 0;
 		uint32_t i = 0;
-		if (blocks <= MIN_BLOCK_2[idx])
+		if (blocks <= g_min_block_2[idx])
 		{
 			i = blocks;
 			memset(result + index, '0', precision);
 			index += precision;
 		}
-		else if (i < MIN_BLOCK_2[idx])
+		else if (i < g_min_block_2[idx])
 		{
-			i = MIN_BLOCK_2[idx];
+			i = g_min_block_2[idx];
 			memset(result + index, '0', 9 * i);
 			index += 9 * i;
 		}
 		for (; i < blocks; ++i)
 		{
 			const int32_t j = ADDITIONAL_BITS_2 + (-e2 - 16 * idx);
-			const uint32_t p = POW10_OFFSET_2[idx] + i - MIN_BLOCK_2[idx];
-			if (p >= POW10_OFFSET_2[idx + 1])
+			const uint32_t p = g_pow10_offset_2[idx] + i - g_min_block_2[idx];
+			if (p >= g_pow10_offset_2[idx + 1])
 			{
 				// If the remaining digits are all 0, then we might as well use memset.
 				// No rounding required in this case.
@@ -250,7 +259,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			}
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
 			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
+			uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, g_pow10_split_2[p], j + 8);
 			if (i < blocks - 1)
 			{
 				append_nine_digits(digits, result + index);
@@ -406,7 +415,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 			const uint32_t j = p10bits - e2;
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
 			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			digits = ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT[POW10_OFFSET[idx] + i], (int32_t)(j + 8));
+			digits = ft_mul_shift_mod1e9(m2 << 8, g_pow10_split[g_pow10_offset[idx] + i], (int32_t)(j + 8));
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > precision)
@@ -440,13 +449,13 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 	if (e2 < 0 && availableDigits == 0)
 	{
 		const int32_t idx = -e2 / 16;
-		for (int32_t i = MIN_BLOCK_2[idx]; i < 200; ++i)
+		for (int32_t i = g_min_block_2[idx]; i < 200; ++i)
 		{
 			const int32_t j = ADDITIONAL_BITS_2 + (-e2 - 16 * idx);
-			const uint32_t p = POW10_OFFSET_2[idx] + (uint32_t)i - MIN_BLOCK_2[idx];
+			const uint32_t p = g_pow10_offset_2[idx] + (uint32_t)i - g_min_block_2[idx];
 			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
 			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			digits = (p >= POW10_OFFSET_2[idx + 1]) ? 0 : ft_mul_shift_mod1e9(m2 << 8, POW10_SPLIT_2[p], j + 8);
+			digits = (p >= g_pow10_offset_2[idx + 1]) ? 0 : ft_mul_shift_mod1e9(m2 << 8, g_pow10_split_2[p], j + 8);
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > precision)
@@ -568,13 +577,13 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 	if (exp >= 100)
 	{
 		const int32_t c = exp % 10;
-		ft_memcpy(result + index, DIGIT_TABLE + 2 * (exp / 10), 2);
+		ft_memcpy(result + index, g_digit_tab + 2 * (exp / 10), 2);
 		result[index + 2] = (char)('0' + c);
 		index += 3;
 	}
 	else
 	{
-		ft_memcpy(result + index, DIGIT_TABLE + 2 * exp, 2);
+		ft_memcpy(result + index, g_digit_tab + 2 * exp, 2);
 		index += 2;
 	}
 
