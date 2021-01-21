@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _ryu.h                                             :+:      :+:    :+:   */
+/*   ryu.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -30,8 +30,8 @@
 ** to count for `#`, `+` and ` ` printf flags.
 */
 
-#ifndef _RYU_H
-# define _RYU_H
+#ifndef RYU_H
+# define RYU_H
 
 # include <stdint.h>
 

@@ -57,12 +57,6 @@ struct s_toolbox;
 typedef struct s_toolbox	t_toolbox;
 typedef void				(*t_spec_ft)(t_toolbox *, va_list *);
 
-typedef enum				e_reset_type
-{
-	INIT_TOOLBOX,
-	RESET_SPEC_INFO
-}							t_reset_type;
-
 typedef enum				e_effector
 {
 	E_STRING_NULL,
@@ -127,6 +121,12 @@ typedef struct				s_int_format_options
 	int						use_uppercase;
 	t_sign_presentation		sp;
 }							t_int_format_options;
+
+typedef enum				e_reset_type
+{
+	INIT_TOOLBOX,
+	RESET_SPEC_INFO
+}							t_reset_type;
 
 void						ft_normalize_spec(t_spec *spec, va_list *arg_ptr);
 size_t						ft_get_typing_width(t_spec *spec, char *s,
