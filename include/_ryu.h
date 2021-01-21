@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ryu.h                                              :+:      :+:    :+:   */
+/*   _ryu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -30,13 +30,13 @@
 ** to count for `#`, `+` and ` ` printf flags.
 */
 
-#ifndef RYU_H
-# define RYU_H
+#ifndef _RYU_H
+# define _RYU_H
 
 # include <stdint.h>
 
-int		ft_dtoa_f(double d, uint32_t precision, char *result);
-int		ft_dtoa_e(double d, uint32_t precision, char *result);
+int			ft_dtoa_f(double d, uint32_t precision, char *result);
+int			ft_dtoa_e(double d, uint32_t precision, char *result);
 
 # define DOUBLE_MANTISSA_BITS 52
 # define DOUBLE_EXPONENT_BITS 11
@@ -83,27 +83,21 @@ int		ft_dtoa_e(double d, uint32_t precision, char *result);
 */
 # define LEN4IX(ix) ((LOG10_POW2(16 * (int32_t)ix) + 1 + 16 + 8) / 9)
 
+int			ft_is_div_pow5(uint64_t value, uint32_t p);
 uint32_t	ft_decimal_len9(const uint32_t v);
 uint64_t	ft_double_to_bits(const double d);
-uint64_t	ft_umul128(const uint64_t a,
-						const uint64_t b,
-						uint64_t *const product_hi);
+uint64_t	ft_umul128(const uint64_t a, const uint64_t b,
+					uint64_t *const product_hi);
 uint32_t	ft_mul_shift_mod1e9(const uint64_t m,
-								const uint64_t *const mul,
-								const int32_t j);
-int			ft_is_div_pow5(uint64_t value, uint32_t p);
+					const uint64_t *const mul, const int32_t j);
 void		ft_append_n_digits(const uint32_t olen,
-								uint32_t digits,
-								char *const result);
+					uint32_t digits, char *const result);
 void		ft_append_d_digits(const uint32_t olen,
-								uint32_t digits,
-								char *const result);
+					uint32_t digits, char *const result);
 void		ft_append_c_digits(const uint32_t count,
-								uint32_t digits,
-								char *const result);
+					uint32_t digits, char *const result);
 void		ft_append_nine_digits(uint32_t digits, char *const result);
 int			ft_copy_special_str_printf(char *const result,
-										const int sign,
-										const uint64_t mantissa);
+					const int sign, const uint64_t mantissa);
 
 #endif
