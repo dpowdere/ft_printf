@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_c.c                                        :+:      :+:    :+:   */
+/*   conv_c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:32:32 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/03 18:32:35 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:49:51 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:49:52 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "libftprintf.h"
 
-void	ft_spec_c(t_toolbox *toolbox, va_list *arg_ptr)
+void	ft_conv_c(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	int c;
 

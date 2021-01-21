@@ -1,42 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_precision.c                               :+:      :+:    :+:   */
+/*   parse_conversion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 18:51:48 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/06 18:52:29 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:42:46 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:43:04 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-void	ft_parse_precision(t_toolbox *toolbox)
+void	ft_parse_conversion(t_toolbox *toolbox)
 {
-	int n;
+	char *specifier;
 
-	if (*toolbox->cursor && *toolbox->cursor == '.')
-		++toolbox->cursor;
-	else
-		return ;
-	if (*toolbox->cursor && *toolbox->cursor == '*')
-	{
-		toolbox->spec.precision = TAKE_FROM_ARG;
-		++toolbox->cursor;
-		return ;
-	}
-	n = 0;
+	specifier = NULL;
 	while (*toolbox->cursor &&
-			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')
-	{
-		n = n * 10 + (*toolbox->cursor - '0');
+			(specifier = ft_strchr(SPECIFIERS, *toolbox->cursor)) == NULL)
 		++toolbox->cursor;
-	}
-	if (*toolbox->cursor == '\0')
+	if (specifier == NULL)
 	{
 		toolbox->error = PRINTF_PARSE_ERROR;
 		return ;
 	}
-	toolbox->spec.precision = n;
+	toolbox->spec.specifier = *specifier;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_p.c                                        :+:      :+:    :+:   */
+/*   conv_p.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:34:55 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 23:16:36 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:49:30 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:49:30 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 }
 
-void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
+void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	void					*p;
 	char					*s;
@@ -54,7 +54,7 @@ void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
 	else
 	{
 		ft_set_opts(&opts, &toolbox->spec, eff);
-		s = ft_format_llu((t_umax)p, opts);
+		s = ft_format_ju((t_umax)p, opts);
 		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 		if (toolbox->spec.show_plus)
 			s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);

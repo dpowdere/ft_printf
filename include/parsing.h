@@ -24,10 +24,10 @@ void			ft_parse_flags(t_toolbox *toolbox);
 void			ft_parse_width(t_toolbox *toolbox);
 void			ft_parse_precision(t_toolbox *toolbox);
 void			ft_parse_size(t_toolbox *toolbox);
-void			ft_parse_specifier(t_toolbox *toolbox);
+void			ft_parse_conversion(t_toolbox *toolbox);
 
 # define P(x)	ft_parse_ ## x
-# define STAIRS	{ P(flags), P(width), P(precision), P(size), P(specifier) }
+# define STAIRS	{ P(flags), P(width), P(precision), P(size), P(conversion) }
 # define STAIR_STEPS	5
 
 /*

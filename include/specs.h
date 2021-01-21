@@ -17,25 +17,25 @@
 
 # define SPEC_START_MARKER '%'
 
-# define S(x)	ft_spec_ ## x
+# define S(x)	ft_conv_ ## x
 
-void						ft_spec_c(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_d(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_e(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_f(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_g(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_i(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_n(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_o(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_p(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_percent(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_s(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_u(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_upper_e(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_upper_f(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_upper_g(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_upper_x(t_toolbox *t, va_list *arg_ptr);
-void						ft_spec_x(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_c(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_d(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_e(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_f(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_g(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_i(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_n(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_o(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_p(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_percent(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_s(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_u(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_upper_e(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_upper_f(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_upper_g(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_upper_x(t_toolbox *t, va_list *arg_ptr);
+void						ft_conv_x(t_toolbox *t, va_list *arg_ptr);
 
 # define NUM_SPECIFIERS			"iduoXxEeFfGg" "p"
 # define INT_SPECIFIERS			"iduoXx" "p"

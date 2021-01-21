@@ -46,10 +46,10 @@ typedef struct	s_int_format_options
 # define NULL_POINTER	"(nil)"
 # define NULL_STRING	"(null)"
 
-char			*ft_lli_base(t_max n, int base, int use_uppercase);
-char			*ft_llu_base(t_umax n, int base, int use_uppercase);
-char			*ft_format_lli(t_max n, t_int_format_options o);
-char			*ft_format_llu(t_umax n, t_int_format_options o);
+char			*ft_ji_base(t_max n, int base, int use_uppercase);
+char			*ft_ju_base(t_umax n, int base, int use_uppercase);
+char			*ft_format_ji(t_max n, t_int_format_options o);
+char			*ft_format_ju(t_umax n, t_int_format_options o);
 char			*ft_format_pointer(void *p, int min_digits);
 
 typedef enum	e_size

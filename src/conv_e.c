@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_s.c                                        :+:      :+:    :+:   */
+/*   conv_e.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:35:24 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/03 18:35:30 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:48:22 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:50:14 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include <stddef.h>
-#include <stddef.h>
+#include <stdlib.h>
 
 #include "libftprintf.h"
 
-void	ft_spec_s(t_toolbox *toolbox, va_list *arg_ptr)
+void	ft_conv_e(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	t_effector	eff;
-	size_t		typing_width;
+	double		n;
 	char		*s;
+	size_t		typing_width;
+	uint32_t	precision;
 
-	s = va_arg(*arg_ptr, char *);
-	if (s == NULL)
-	{
-		s = NULL_STRING;
-		eff = E_STRING_NULL;
-	}
+	n = va_arg(*arg_ptr, double);
+	s = (char *)malloc(2000);
+	if (toolbox->spec.precision == UNSPECIFIED)
+		precision = 6;
 	else
-		eff = E_STRING_NON_NULL;
-	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
+		precision = toolbox->spec.precision;
+	typing_width = ft_dtoa_e(n, precision, s);
+	s[typing_width] = '\0';
 	ft_print_field(s, typing_width, toolbox);
+	free(s);
+}
+
+void	ft_conv_upper_e(t_toolbox *toolbox, va_list *arg_ptr)
+{
+	ft_conv_e(toolbox, arg_ptr);
 }
