@@ -12,9 +12,7 @@
 
 #include <stdint.h>
 
-#include "utils.h"
-#include "ryu.h"
-#include "ryu_cache.h"
+#include "libftprintf.h"
 
 /*
 ** Convert `digits` to a sequence of decimal digits. Append the digits to the

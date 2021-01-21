@@ -89,7 +89,7 @@ all: $(NAME)
 bonus: $(NAME)
 
 clean:
-	$(RM) -R $(OBJDIR) $(DEPDIR) $(INCDIR)/*.gch
+	$(RM) -R $(OBJDIR)/ $(DEPDIR)/ $(INCDIR)/*.gch
 
 fclean: clean
 	$(RM) -R *.dSYM core core.*

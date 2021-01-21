@@ -13,9 +13,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "utils.h"
-#include "ryu.h"
-#include "ryu_cache.h"
+#include "libftprintf.h"
 
 int		ft_dtoa_f(double d, uint32_t precision, char *result)
 {

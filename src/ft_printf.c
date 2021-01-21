@@ -53,16 +53,16 @@ static void	ft_print_before_spec(t_toolbox *toolbox)
 
 static void	ft_parse_spec(t_toolbox *toolbox)
 {
-	static t_stair_step	parsing_stairs[STAIR_STEPS] = STAIRS;
-	int					step;
-
-	step = 0;
-	while (step < STAIR_STEPS)
+	while (*toolbox->cursor && ft_strchr(INTRASPEC_CHARS, *toolbox->cursor))
 	{
-		parsing_stairs[step++](toolbox);
-		if (toolbox->error)
-			return ;
+		ft_parse_flags(toolbox);
+		ft_parse_width(toolbox);
+		ft_parse_precision(toolbox);
+		ft_parse_size(toolbox);
 	}
+	ft_parse_conversion(toolbox);
+	if (toolbox->error)
+		return ;
 	if (*toolbox->cursor)
 		++toolbox->cursor;
 }

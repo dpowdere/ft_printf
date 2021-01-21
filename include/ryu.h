@@ -35,8 +35,6 @@
 
 # include <stdint.h>
 
-# include "utils.h"
-
 int		ft_dtoa_f(double d, uint32_t precision, char *result);
 int		ft_dtoa_e(double d, uint32_t precision, char *result);
 

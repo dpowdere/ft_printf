@@ -12,8 +12,7 @@
 
 #include <stdint.h>
 
-#include "utils.h"
-#include "ryu.h"
+#include "libftprintf.h"
 
 /*
 ** Returns the number of decimal digits in v, which must not

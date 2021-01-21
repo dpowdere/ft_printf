@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../include/utils.h"
+#include "libftprintf.h"
 
 #define LOWER_DIGITS "0123456789abcdefghijklmnopqrstuvwxyz"
 #define UPPER_DIGITS "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
