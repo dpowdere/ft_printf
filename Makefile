@@ -34,7 +34,7 @@ CONTENTS := \
     parsing/ft_normalize_spec.c \
     parsing/ft_get_typing_width.c \
 \
-    ryu/d2fixed.c \
+    ryu/ft_dtoa.c \
     ryu/ryu_digits.c \
     ryu/ryu_mul_shift_mod1e9.c \
     ryu/ryu_utils.c \

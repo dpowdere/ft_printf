@@ -23,18 +23,18 @@ void	ft_spec_g(t_toolbox *toolbox, va_list *arg_ptr)
 	char		*s2;
 	size_t		typing_width;
 	size_t		typing_width2;
-	uint32_t	preci;
+	uint32_t	precision;
 
 	n = va_arg(*arg_ptr, double);
 	s = (char *)malloc(2000);
 	s2 = (char *)malloc(2000);
 	if (toolbox->spec.precision == UNSPECIFIED)
-		preci = 6;
+		precision = 6;
 	else
-		preci = toolbox->spec.precision;
-	typing_width = d2fixed_buffered_n(n, preci, s);
+		precision = toolbox->spec.precision;
+	typing_width = ft_dtoa_f(n, precision, s);
 	s[typing_width] = '\0';
-	typing_width2 = d2exp_buffered_n(n, preci, s2);
+	typing_width2 = ft_dtoa_e(n, precision, s2);
 	s2[typing_width2] = '\0';
 	if (typing_width > typing_width2)
 	{

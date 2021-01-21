@@ -21,15 +21,15 @@ void	ft_spec_f(t_toolbox *toolbox, va_list *arg_ptr)
 	double		n;
 	char		*s;
 	size_t		typing_width;
-	uint32_t	preci;
+	uint32_t	precision;
 
 	n = va_arg(*arg_ptr, double);
 	s = (char *)malloc(2000);
 	if (toolbox->spec.precision == UNSPECIFIED)
-		preci = 6;
+		precision = 6;
 	else
-		preci = toolbox->spec.precision;
-	typing_width = d2fixed_buffered_n(n, preci, s);
+		precision = toolbox->spec.precision;
+	typing_width = ft_dtoa_f(n, precision, s);
 	s[typing_width] = '\0';
 	ft_print_field(s, typing_width, toolbox);
 	free(s);

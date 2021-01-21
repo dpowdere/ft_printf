@@ -17,10 +17,9 @@
 #include "ryu.h"
 #include "ryu_cache.h"
 
-int		d2fixed_buffered_n(double d, uint32_t precision, char* result)
+int		ft_dtoa_f(double d, uint32_t precision, char* result)
 {
 	const uint64_t bits = ft_double_to_bits(d);
-	// Decode bits into sign, mantissa, and exponent.
 	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
 	const uint64_t ieeeMantissa = bits & ((1ull << DOUBLE_MANTISSA_BITS) - 1);
 	const uint32_t ieeeExponent = (uint32_t)((bits >> DOUBLE_MANTISSA_BITS) & ((1u << DOUBLE_EXPONENT_BITS) - 1));
@@ -205,19 +204,9 @@ int		d2fixed_buffered_n(double d, uint32_t precision, char* result)
 	return (index);
 }
 
-char	*d2fixed(double d, uint32_t precision)
-{
-	char* const buffer = (char*)malloc(2000);
-	const int index = d2fixed_buffered_n(d, precision, buffer);
-	buffer[index] = '\0';
-	return (buffer);
-}
-
-int		d2exp_buffered_n(double d, uint32_t precision, char* result)
+int		ft_dtoa_e(double d, uint32_t precision, char* result)
 {
 	const uint64_t bits = ft_double_to_bits(d);
-
-	// Decode bits into sign, mantissa, and exponent.
 	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
 	const uint64_t ieeeMantissa = bits & ((1ull << DOUBLE_MANTISSA_BITS) - 1);
 	const uint32_t ieeeExponent = (uint32_t)((bits >> DOUBLE_MANTISSA_BITS) & ((1u << DOUBLE_EXPONENT_BITS) - 1));
@@ -447,12 +436,4 @@ int		d2exp_buffered_n(double d, uint32_t precision, char* result)
 	}
 
 	return (index);
-}
-
-char	*d2exp(double d, uint32_t precision)
-{
-	char *const buffer = (char *)malloc(2000);
-	const int index = d2exp_buffered_n(d, precision, buffer);
-	buffer[index] = '\0';
-	return (buffer);
 }

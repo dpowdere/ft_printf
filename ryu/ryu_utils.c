@@ -19,8 +19,7 @@
 ** contain more than 9 digits.
 **
 ** Function precondition: v is not a 10-digit number.
-** (f2s: 9 digits are sufficient for round-tripping.)
-** (d2fixed: We print 9-digit blocks.)
+** (ft_dtoa_f: We print 9-digit blocks.)
 ** (v < 1000000000)
 */
 

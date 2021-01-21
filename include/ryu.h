@@ -37,13 +37,8 @@
 
 # include "utils.h"
 
-int		d2fixed_buffered_n(double d, uint32_t precision, char* result);
-void	d2fixed_buffered(double d, uint32_t precision, char* result);
-char*	d2fixed(double d, uint32_t precision);
-
-int		d2exp_buffered_n(double d, uint32_t precision, char* result);
-void	d2exp_buffered(double d, uint32_t precision, char* result);
-char*	d2exp(double d, uint32_t precision);
+int		ft_dtoa_f(double d, uint32_t precision, char* result);
+int		ft_dtoa_e(double d, uint32_t precision, char* result);
 
 # define DOUBLE_MANTISSA_BITS 52
 # define DOUBLE_EXPONENT_BITS 11
