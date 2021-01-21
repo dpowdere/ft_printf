@@ -36,7 +36,6 @@ CONTENTS := \
 \
     ryu/ft_dtoa.c \
     ryu/ryu_digits.c \
-    ryu/ryu_mul_shift_mod1e9.c \
     ryu/ryu_utils.c \
 \
     utils/ft_ll_base.c \
