@@ -10,12 +10,12 @@
 ** Convert `digits` to a sequence of decimal digits. Append the digits to the
 ** result. The caller has to guarantee that:
 **
-**   10^(olength-1) <= digits < 10^olength
+**   10^(olen-1) <= digits < 10^olen
 **
-** e.g., by passing `olength` as `ft_decimal_len9(digits)`.
+** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
 */
 
-static inline void		append_n_digits(const uint32_t olength,
+static inline void		append_n_digits(const uint32_t olen,
 									uint32_t digits, char* const result)
 {
 	uint32_t i;
@@ -26,19 +26,19 @@ static inline void		append_n_digits(const uint32_t olength,
 	{
 		c = MOD(digits, 10000);
 		digits /= 10000;
-		ft_memcpy(result + olength - i - 2, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + olength - i - 4, g_digit_tab + ((c / 100) << 1), 2);
+		ft_memcpy(result + olen - i - 2, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(result + olen - i - 4, g_digit_tab + ((c / 100) << 1), 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
 		c = (digits % 100) << 1;
 		digits /= 100;
-		ft_memcpy(result + olength - i - 2, g_digit_tab + c, 2);
+		ft_memcpy(result + olen - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
 	if (digits >= 10)
-		ft_memcpy(result + olength - i - 2, g_digit_tab + (digits << 1), 2);
+		ft_memcpy(result + olen - i - 2, g_digit_tab + (digits << 1), 2);
 	else
 		result[0] = (char)('0' + digits);
 }
@@ -48,35 +48,36 @@ static inline void		append_n_digits(const uint32_t olength,
 ** followed by a decimal dot '.' followed by the remaining digits. The caller
 ** has to guarantee that:
 **
-**   10^(olength-1) <= digits < 10^olength
+**   10^(olen-1) <= digits < 10^olen
 **
-** e.g., by passing `olength` as `ft_decimal_len9(digits)`.
+** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
 */
 
-static inline void		append_d_digits(const uint32_t olength, uint32_t digits,
+static inline void		append_d_digits(const uint32_t olen, uint32_t digits,
 									char* const result)
 {
-	uint32_t i = 0;
+	uint32_t i;
+	uint32_t c;
+
+	i = 0;
 	while (digits >= 10000)
 	{
-		const uint32_t c = MOD(digits, 10000);
+		c = MOD(digits, 10000);
 		digits /= 10000;
-		const uint32_t c0 = (c % 100) << 1;
-		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + olength + 1 - i - 2, g_digit_tab + c0, 2);
-		ft_memcpy(result + olength + 1 - i - 4, g_digit_tab + c1, 2);
+		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(result + olen + 1 - i - 4, g_digit_tab + ((c / 100) << 1), 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
-		const uint32_t c = (digits % 100) << 1;
+		c = ((digits % 100) << 1);
 		digits /= 100;
-		ft_memcpy(result + olength + 1 - i - 2, g_digit_tab + c, 2);
+		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
 	if (digits >= 10)
 	{
-		const uint32_t c = digits << 1;
+		c = digits << 1;
 		result[2] = g_digit_tab[c + 1];
 		result[1] = '.';
 		result[0] = g_digit_tab[c];
@@ -214,9 +215,9 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			}
 			else if (digits != 0)
 			{
-				const uint32_t olength = ft_decimal_len9(digits);
-				append_n_digits(olength, digits, result + index);
-				index += olength;
+				const uint32_t olen = ft_decimal_len9(digits);
+				append_n_digits(olen, digits, result + index);
+				index += olen;
 				nonzero = true;
 			}
 		}
