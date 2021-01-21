@@ -1,169 +1,33 @@
-#include <stdbool.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   d2fixed.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/21 19:45:30 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 19:45:33 by dpowdere         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdint.h>
 #include <stdlib.h>
-#include <string.h>
 
+#include "utils.h"
 #include "ryu.h"
 #include "ryu_cache.h"
 
-/*
-** Convert `digits` to a sequence of decimal digits. Append the digits to the
-** result. The caller has to guarantee that:
-**
-**   10^(olen-1) <= digits < 10^olen
-**
-** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
-*/
-
-static inline void		append_n_digits(const uint32_t olen,
-									uint32_t digits, char* const result)
-{
-	uint32_t i;
-	uint32_t c;
-
-	i = 0;
-	while (digits >= 10000)
-	{
-		c = MOD(digits, 10000);
-		digits /= 10000;
-		ft_memcpy(result + olen - i - 2, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + olen - i - 4, g_digit_tab + ((c / 100) << 1), 2);
-		i += 4;
-	}
-	if (digits >= 100)
-	{
-		c = (digits % 100) << 1;
-		digits /= 100;
-		ft_memcpy(result + olen - i - 2, g_digit_tab + c, 2);
-		i += 2;
-	}
-	if (digits >= 10)
-		ft_memcpy(result + olen - i - 2, g_digit_tab + (digits << 1), 2);
-	else
-		result[0] = (char)('0' + digits);
-}
-
-/*
-** Convert `digits` to a sequence of decimal digits. Print the first digit,
-** followed by a decimal dot '.' followed by the remaining digits. The caller
-** has to guarantee that:
-**
-**   10^(olen-1) <= digits < 10^olen
-**
-** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
-*/
-
-static inline void		append_d_digits(const uint32_t olen, uint32_t digits,
-									char* const result)
-{
-	uint32_t i;
-	uint32_t c;
-
-	i = 0;
-	while (digits >= 10000)
-	{
-		c = MOD(digits, 10000);
-		digits /= 10000;
-		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + olen + 1 - i - 4, g_digit_tab + ((c / 100) << 1), 2);
-		i += 4;
-	}
-	if (digits >= 100)
-	{
-		c = ((digits % 100) << 1);
-		digits /= 100;
-		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + c, 2);
-		i += 2;
-	}
-	if (digits >= 10)
-	{
-		c = digits << 1;
-		result[2] = g_digit_tab[c + 1];
-		result[1] = '.';
-		result[0] = g_digit_tab[c];
-	}
-	else
-	{
-		result[1] = '.';
-		result[0] = (char)('0' + digits);
-	}
-}
-
-/*
-** Convert `digits` to decimal and write the last `count` decimal digits to
-** result. If `digits` contains additional digits, then those are silently
-** ignored.
-*/
-
-static inline void		append_c_digits(const uint32_t count, uint32_t digits,
-									char* const result)
-{
-	// Copy pairs of digits from g_digit_tab.
-	uint32_t i = 0;
-	for (; i < count - 1; i += 2)
-	{
-		const uint32_t c = (digits % 100) << 1;
-		digits /= 100;
-		ft_memcpy(result + count - i - 2, g_digit_tab + c, 2);
-	}
-	// Generate the last digit if count is odd.
-	if (i < count)
-	{
-		const char c = (char)('0' + (digits % 10));
-		result[count - i - 1] = c;
-	}
-}
-
-/*
-** Convert `digits` to decimal and write the last 9 decimal digits to result.
-** If `digits` contains additional digits, then those are silently ignored.
-*/
-
-static inline void		append_nine_digits(uint32_t digits, char* const result)
-{
-	if (digits == 0)
-	{
-		memset(result, '0', 9);
-		return ;
-	}
-	for (uint32_t i = 0; i < 5; i += 4)
-	{
-		const uint32_t c = MOD(digits, 10000);
-		digits /= 10000;
-		const uint32_t c0 = (c % 100) << 1;
-		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + 7 - i, g_digit_tab + c0, 2);
-		ft_memcpy(result + 5 - i, g_digit_tab + c1, 2);
-	}
-	result[0] = (char)('0' + digits);
-}
-
-static inline int		copy_special_str_printf(char* const result,
-									const bool sign, const uint64_t mantissa)
-{
-	if (mantissa)
-	{
-		ft_memcpy(result, "nan", 3);
-		return (3);
-	}
-	if (sign)
-		result[0] = '-';
-	ft_memcpy(result + sign, "Infinity", 8);
-	return (sign + 8);
-}
-
-int						d2fixed_buffered_n(double d, uint32_t precision,
-											char* result)
+int		d2fixed_buffered_n(double d, uint32_t precision, char* result)
 {
 	const uint64_t bits = ft_double_to_bits(d);
 	// Decode bits into sign, mantissa, and exponent.
-	const bool ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
+	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
 	const uint64_t ieeeMantissa = bits & ((1ull << DOUBLE_MANTISSA_BITS) - 1);
 	const uint32_t ieeeExponent = (uint32_t)((bits >> DOUBLE_MANTISSA_BITS) & ((1u << DOUBLE_EXPONENT_BITS) - 1));
 
 	// Case distinction; exit early for the easy cases.
 	if (ieeeExponent == ((1u << DOUBLE_EXPONENT_BITS) - 1u))
-		return (copy_special_str_printf(result, ieeeSign, ieeeMantissa));
+		return (ft_copy_special_str_printf(result, ieeeSign, ieeeMantissa));
 	if (ieeeExponent == 0 && ieeeMantissa == 0)
 	{
 		int index = 0;
@@ -173,7 +37,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 		if (precision > 0)
 		{
 			result[index++] = '.';
-			memset(result + index, '0', precision);
+			ft_memset(result + index, '0', precision);
 			index += precision;
 		}
 		return (index);
@@ -193,7 +57,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 	}
 
 	int index = 0;
-	bool nonzero = false;
+	int nonzero = 0;
 	if (ieeeSign)
 		result[index++] = '-';
 	if (e2 >= -52)
@@ -210,15 +74,15 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			const uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, g_pow10_split[g_pow10_offset[idx] + i], (int32_t)(j + 8));
 			if (nonzero)
 			{
-				append_nine_digits(digits, result + index);
+				ft_append_nine_digits(digits, result + index);
 				index += 9;
 			}
 			else if (digits != 0)
 			{
 				const uint32_t olen = ft_decimal_len9(digits);
-				append_n_digits(olen, digits, result + index);
+				ft_append_n_digits(olen, digits, result + index);
 				index += olen;
-				nonzero = true;
+				nonzero = 1;
 			}
 		}
 	}
@@ -236,13 +100,13 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 		if (blocks <= g_min_block_2[idx])
 		{
 			i = blocks;
-			memset(result + index, '0', precision);
+			ft_memset(result + index, '0', precision);
 			index += precision;
 		}
 		else if (i < g_min_block_2[idx])
 		{
 			i = g_min_block_2[idx];
-			memset(result + index, '0', 9 * i);
+			ft_memset(result + index, '0', 9 * i);
 			index += 9 * i;
 		}
 		for (; i < blocks; ++i)
@@ -251,10 +115,10 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			const uint32_t p = g_pow10_offset_2[idx] + i - g_min_block_2[idx];
 			if (p >= g_pow10_offset_2[idx + 1])
 			{
-				// If the remaining digits are all 0, then we might as well use memset.
+				// If the remaining digits are all 0, then we might as well use ft_memset.
 				// No rounding required in this case.
 				const uint32_t fill = precision - 9 * i;
-				memset(result + index, '0', fill);
+				ft_memset(result + index, '0', fill);
 				index += fill;
 				break ;
 			}
@@ -263,7 +127,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 			uint32_t digits = ft_mul_shift_mod1e9(m2 << 8, g_pow10_split_2[p], j + 8);
 			if (i < blocks - 1)
 			{
-				append_nine_digits(digits, result + index);
+				ft_append_nine_digits(digits, result + index);
 				index += 9;
 			}
 			else
@@ -281,13 +145,13 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 				{
 					// Is m * 10^(additionalDigits + 1) / 2^(-e2) integer?
 					const int32_t requiredTwos = -e2 - (int32_t)precision - 1;
-					const bool trailingZeros = requiredTwos <= 0
+					const int trailingZeros = requiredTwos <= 0
 						|| (requiredTwos < 60 && IS_DIV_POW2(m2, (uint32_t)requiredTwos));
 					roundUp = trailingZeros ? 2 : 1;
 				}
 				if (maximum > 0)
 				{
-					append_c_digits(maximum, digits, result + index);
+					ft_append_c_digits(maximum, digits, result + index);
 					index += maximum;
 				}
 				break ;
@@ -297,7 +161,7 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 		{
 			int roundIndex = index;
 			int dotIndex = 0; // '.' can't be located at index 0
-			while (true)
+			while (1)
 			{
 				--roundIndex;
 				char c;
@@ -335,19 +199,13 @@ int						d2fixed_buffered_n(double d, uint32_t precision,
 	}
 	else
 	{
-		memset(result + index, '0', precision);
+		ft_memset(result + index, '0', precision);
 		index += precision;
 	}
 	return (index);
 }
 
-void				d2fixed_buffered(double d, uint32_t precision, char* result)
-{
-	const int len = d2fixed_buffered_n(d, precision, result);
-	result[len] = '\0';
-}
-
-char				*d2fixed(double d, uint32_t precision)
+char	*d2fixed(double d, uint32_t precision)
 {
 	char* const buffer = (char*)malloc(2000);
 	const int index = d2fixed_buffered_n(d, precision, buffer);
@@ -355,18 +213,18 @@ char				*d2fixed(double d, uint32_t precision)
 	return (buffer);
 }
 
-int d2exp_buffered_n(double d, uint32_t precision, char* result)
+int		d2exp_buffered_n(double d, uint32_t precision, char* result)
 {
 	const uint64_t bits = ft_double_to_bits(d);
 
 	// Decode bits into sign, mantissa, and exponent.
-	const bool ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
+	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
 	const uint64_t ieeeMantissa = bits & ((1ull << DOUBLE_MANTISSA_BITS) - 1);
 	const uint32_t ieeeExponent = (uint32_t)((bits >> DOUBLE_MANTISSA_BITS) & ((1u << DOUBLE_EXPONENT_BITS) - 1));
 
 	// Case distinction; exit early for the easy cases.
 	if (ieeeExponent == ((1u << DOUBLE_EXPONENT_BITS) - 1u))
-		return (copy_special_str_printf(result, ieeeSign, ieeeMantissa));
+		return (ft_copy_special_str_printf(result, ieeeSign, ieeeMantissa));
 	if (ieeeExponent == 0 && ieeeMantissa == 0)
 	{
 		int index = 0;
@@ -376,7 +234,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 		if (precision > 0)
 		{
 			result[index++] = '.';
-			memset(result + index, '0', precision);
+			ft_memset(result + index, '0', precision);
 			index += precision;
 		}
 		ft_memcpy(result + index, "e+00", 4);
@@ -397,7 +255,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 		m2 = (1ull << DOUBLE_MANTISSA_BITS) | ieeeMantissa;
 	}
 
-	const bool printDecimalPoint = precision > 0;
+	const int printDecimalPoint = precision > 0;
 	++precision;
 	int index = 0;
 	if (ieeeSign)
@@ -424,7 +282,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 					availableDigits = 9;
 					break ;
 				}
-				append_nine_digits(digits, result + index);
+				ft_append_nine_digits(digits, result + index);
 				index += 9;
 				printedDigits += 9;
 			}
@@ -436,7 +294,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 					break ;
 				if (printDecimalPoint)
 				{
-					append_d_digits(availableDigits, digits, result + index);
+					ft_append_d_digits(availableDigits, digits, result + index);
 					index += availableDigits + 1; // +1 for decimal point
 				}
 				else
@@ -464,7 +322,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 					availableDigits = 9;
 					break ;
 				}
-				append_nine_digits(digits, result + index);
+				ft_append_nine_digits(digits, result + index);
 				index += 9;
 				printedDigits += 9;
 			}
@@ -476,7 +334,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 					break ;
 				if (printDecimalPoint)
 				{
-					append_d_digits(availableDigits, digits, result + index);
+					ft_append_d_digits(availableDigits, digits, result + index);
 					index += availableDigits + 1; // +1 for decimal point
 				}
 				else
@@ -509,7 +367,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 		// precision was already increased by 1, so we don't need to write + 1 here.
 		const int32_t rexp = (int32_t)precision - exp;
 		const int32_t requiredTwos = -e2 - rexp;
-		bool trailingZeros = requiredTwos <= 0
+		int trailingZeros = requiredTwos <= 0
 			|| (requiredTwos < 60 && IS_DIV_POW2(m2, (uint32_t)requiredTwos));
 		if (rexp < 0)
 		{
@@ -521,16 +379,16 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 	if (printedDigits != 0)
 	{
 		if (digits == 0)
-			memset(result + index, '0', maximum);
+			ft_memset(result + index, '0', maximum);
 		else
-			append_c_digits(maximum, digits, result + index);
+			ft_append_c_digits(maximum, digits, result + index);
 		index += maximum;
 	}
 	else
 	{
 		if (printDecimalPoint)
 		{
-			append_d_digits(maximum, digits, result + index);
+			ft_append_d_digits(maximum, digits, result + index);
 			index += maximum + 1; // +1 for decimal point
 		}
 		else
@@ -539,7 +397,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 	if (roundUp != 0)
 	{
 		int roundIndex = index;
-		while (true)
+		while (1)
 		{
 			--roundIndex;
 			char c;
@@ -591,14 +449,7 @@ int d2exp_buffered_n(double d, uint32_t precision, char* result)
 	return (index);
 }
 
-void					d2exp_buffered(double d, uint32_t precision,
-										char* result)
-{
-	const int len = d2exp_buffered_n(d, precision, result);
-	result[len] = '\0';
-}
-
-char					*d2exp(double d, uint32_t precision)
+char	*d2exp(double d, uint32_t precision)
 {
 	char *const buffer = (char *)malloc(2000);
 	const int index = d2exp_buffered_n(d, precision, buffer);

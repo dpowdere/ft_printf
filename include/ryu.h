@@ -99,5 +99,18 @@ uint32_t	ft_mul_shift_mod1e9(const uint64_t m,
 								const uint64_t *const mul,
 								const int32_t j);
 int			ft_is_div_pow5(uint64_t value, uint32_t p);
+void		ft_append_n_digits(const uint32_t olen,
+								uint32_t digits,
+								char *const result);
+void		ft_append_d_digits(const uint32_t olen,
+								uint32_t digits,
+								char *const result);
+void		ft_append_c_digits(const uint32_t count,
+								uint32_t digits,
+								char *const result);
+void		ft_append_nine_digits(uint32_t digits, char* const result);
+int			ft_copy_special_str_printf(char* const result,
+										const int sign,
+										const uint64_t mantissa);
 
 #endif
