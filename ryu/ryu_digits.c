@@ -132,7 +132,7 @@ void	ft_append_c_digits(const uint32_t count,
 ** If `digits` contains additional digits, then those are silently ignored.
 */
 
-void	ft_append_nine_digits(uint32_t digits, char* const result)
+void	ft_append_nine_digits(uint32_t digits, char *const result)
 {
 	if (digits == 0)
 	{
@@ -151,7 +151,7 @@ void	ft_append_nine_digits(uint32_t digits, char* const result)
 	result[0] = (char)('0' + digits);
 }
 
-int		ft_copy_special_str_printf(char* const result,
+int		ft_copy_special_str_printf(char *const result,
 									const int sign,
 									const uint64_t mantissa)
 {

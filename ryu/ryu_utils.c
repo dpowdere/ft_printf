@@ -44,15 +44,6 @@ uint32_t	ft_decimal_len9(const uint32_t v)
 	return (1);
 }
 
-uint64_t	ft_double_to_bits(const double d)
-{
-	uint64_t bits;
-
-	bits = 0;
-	ft_memcpy(&bits, &d, sizeof(double));
-	return (bits);
-}
-
 uint64_t	ft_umul128(const uint64_t a, const uint64_t b,
 						uint64_t *const product_hi)
 {
