@@ -10,6 +10,5 @@
 *.swp
 
 obj/
-test*
 core
 core.*
