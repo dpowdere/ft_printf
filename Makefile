@@ -79,7 +79,7 @@ ifneq ($(SYSTEM), Darwin)
   endif
 endif
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus clean fclean re test
 
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
@@ -104,5 +104,15 @@ $(SRCDIR)/%.c: $(DEPDIR)
 
 $(DEPDIR) $(OBJDIR):
 	mkdir -p $@
+
+test:
+	@if [ -f test.c ] ; \
+	then \
+		test -f $(NAME) || $(MAKE) $(NAME) ; \
+		$(CC) $(CFLAGS) -Wformat=0 $(INCLUDE) test.c $(NAME) -o test.out ; \
+		./test.out ; \
+	else \
+		echo "No test found" ; \
+	fi
 
 -include $(DEPS)
