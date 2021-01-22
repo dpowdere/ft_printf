@@ -16,7 +16,11 @@
 
 #include "libftprintf.h"
 
-void	ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
+#define DO_USE_UPPERCASE	1
+#define DONT_USE_UPPERCASE	0
+
+static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
+										int use_uppercase)
 {
 	double		n;
 	char		*s;
@@ -32,9 +36,9 @@ void	ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
 		precision = 6;
 	else
 		precision = toolbox->spec.precision;
-	typing_width = ft_dtoa_f(n, precision, s);
+	typing_width = ft_dtoa_f(n, s, precision, use_uppercase);
 	s[typing_width] = '\0';
-	typing_width2 = ft_dtoa_e(n, precision, s2);
+	typing_width2 = ft_dtoa_e(n, s2, precision, use_uppercase);
 	s2[typing_width2] = '\0';
 	if (typing_width > typing_width2)
 	{
@@ -48,7 +52,12 @@ void	ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
 	free(s);
 }
 
-void	ft_conv_upper_g(t_toolbox *toolbox, va_list *arg_ptr)
+void				ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	ft_conv_g(toolbox, arg_ptr);
+	ft_implementation(toolbox, arg_ptr, DONT_USE_UPPERCASE);
+}
+
+void				ft_conv_upper_g(t_toolbox *toolbox, va_list *arg_ptr)
+{
+	ft_implementation(toolbox, arg_ptr, DO_USE_UPPERCASE);
 }

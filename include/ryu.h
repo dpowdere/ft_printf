@@ -35,8 +35,8 @@
 
 # include <stdint.h>
 
-int			ft_dtoa_f(double d, uint32_t precision, char *result);
-int			ft_dtoa_e(double d, uint32_t precision, char *result);
+int			ft_dtoa_f(double d, char *s, uint32_t precision, int use_uppercase);
+int			ft_dtoa_e(double d, char *s, uint32_t precision, int use_uppercase);
 
 # define DOUBLE_MANTISSA_BITS 52
 # define DOUBLE_EXPONENT_BITS 11
@@ -97,7 +97,7 @@ void		ft_append_d_digits(const uint32_t olen,
 void		ft_append_c_digits(const uint32_t count,
 					uint32_t digits, char *const result);
 void		ft_append_nine_digits(uint32_t digits, char *const result);
-int			ft_copy_special_str_printf(char *const result,
-					const int sign, const uint64_t mantissa);
+int			ft_copy_special_str_printf(char *const result, const int sign,
+					const uint64_t mantissa, const int use_uppercase);
 
 #endif

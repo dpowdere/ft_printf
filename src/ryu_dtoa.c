@@ -15,7 +15,7 @@
 
 #include "libftprintf.h"
 
-int		ft_dtoa_f(double d, uint32_t precision, char *result)
+int		ft_dtoa_f(double d, char *result, uint32_t precision, int use_uppercase)
 {
 	const uint64_t bits = *(uint64_t *)&d;
 	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
@@ -24,7 +24,8 @@ int		ft_dtoa_f(double d, uint32_t precision, char *result)
 
 	// Case distinction; exit early for the easy cases.
 	if (ieeeExponent == ((1u << DOUBLE_EXPONENT_BITS) - 1u))
-		return (ft_copy_special_str_printf(result, ieeeSign, ieeeMantissa));
+		return (ft_copy_special_str_printf(result,
+					ieeeSign, ieeeMantissa, use_uppercase));
 	if (ieeeExponent == 0 && ieeeMantissa == 0)
 	{
 		int index = 0;
@@ -202,7 +203,7 @@ int		ft_dtoa_f(double d, uint32_t precision, char *result)
 	return (index);
 }
 
-int		ft_dtoa_e(double d, uint32_t precision, char *result)
+int		ft_dtoa_e(double d, char *result, uint32_t precision, int use_uppercase)
 {
 	const uint64_t bits = *(uint64_t *)&d;
 	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
@@ -211,7 +212,8 @@ int		ft_dtoa_e(double d, uint32_t precision, char *result)
 
 	// Case distinction; exit early for the easy cases.
 	if (ieeeExponent == ((1u << DOUBLE_EXPONENT_BITS) - 1u))
-		return (ft_copy_special_str_printf(result, ieeeSign, ieeeMantissa));
+		return (ft_copy_special_str_printf(result,
+					ieeeSign, ieeeMantissa, use_uppercase));
 	if (ieeeExponent == 0 && ieeeMantissa == 0)
 	{
 		int index = 0;

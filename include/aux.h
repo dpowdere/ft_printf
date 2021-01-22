@@ -44,8 +44,14 @@
 # define OTHER_CONVS	C(p), C(n), C(percent)
 # define CONVERTERS		{ STR_CONVS, INT_CONVS, FLOAT_CONVS, OTHER_CONVS }
 
-# define NULL_POINTER	"(nil)"
-# define NULL_STRING	"(null)"
+# define FLT_INF_LOWER	"inf"
+# define FLT_INF_UPPER	"INF"
+# define FLT_EXP_LOWER	"e"
+# define FLT_EXP_UPPER	"E"
+# define FLT_NAN_LOWER	"nan"
+# define FLT_NAN_UPPER	"NAN"
+# define PTR_NULL		"(nil)"
+# define STR_NULL		"(null)"
 
 typedef intmax_t			t_max;
 typedef uintmax_t			t_umax;

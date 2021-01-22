@@ -50,7 +50,7 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 	p = va_arg(*arg_ptr, void *);
 	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
 	if (p == NULL)
-		s = ft_strdup(NULL_POINTER);
+		s = ft_strdup(PTR_NULL);
 	else
 	{
 		ft_set_opts(&opts, &toolbox->spec, eff);

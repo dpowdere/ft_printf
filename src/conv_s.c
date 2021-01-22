@@ -25,7 +25,7 @@ void	ft_conv_s(t_toolbox *toolbox, va_list *arg_ptr)
 	s = va_arg(*arg_ptr, char *);
 	if (s == NULL)
 	{
-		s = NULL_STRING;
+		s = STR_NULL;
 		eff = EFF_STRING_NULL;
 	}
 	else

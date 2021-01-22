@@ -102,27 +102,27 @@ void	ft_append_d_digits(const uint32_t olen,
 /*
 ** Convert `digits` to decimal and write the last `count` decimal digits to
 ** result. If `digits` contains additional digits, then those are silently
-** ignored.
+** ignored. (Copy pairs of digits from g_digit_tab. Generate the last digit
+** if count is odd.)
 */
 
 void	ft_append_c_digits(const uint32_t count,
 							uint32_t digits,
 							char *const result)
 {
-	// Copy pairs of digits from g_digit_tab.
-	uint32_t i = 0;
-	for (; i < count - 1; i += 2)
+	uint32_t i;
+	uint32_t c;
+
+	i = 0;
+	while (i < count - 1)
 	{
-		const uint32_t c = (digits % 100) << 1;
+		c = ((digits % 100) << 1);
 		digits /= 100;
 		ft_memcpy(result + count - i - 2, g_digit_tab + c, 2);
+		i += 2;
 	}
-	// Generate the last digit if count is odd.
 	if (i < count)
-	{
-		const char c = (char)('0' + (digits % 10));
-		result[count - i - 1] = c;
-	}
+		result[count - i - 1] = (char)('0' + (digits % 10));
 }
 
 /*
@@ -132,34 +132,45 @@ void	ft_append_c_digits(const uint32_t count,
 
 void	ft_append_nine_digits(uint32_t digits, char *const result)
 {
+	uint32_t i;
+	uint32_t c;
+
 	if (digits == 0)
 	{
 		ft_memset(result, '0', 9);
 		return ;
 	}
-	for (uint32_t i = 0; i < 5; i += 4)
+	i = 0;
+	while (i < 5)
 	{
-		const uint32_t c = MOD(digits, 10000);
+		c = MOD(digits, 10000);
 		digits /= 10000;
-		const uint32_t c0 = (c % 100) << 1;
-		const uint32_t c1 = (c / 100) << 1;
-		ft_memcpy(result + 7 - i, g_digit_tab + c0, 2);
-		ft_memcpy(result + 5 - i, g_digit_tab + c1, 2);
+		ft_memcpy(result + 7 - i, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(result + 5 - i, g_digit_tab + ((c / 100) << 1), 2);
+		i += 4;
 	}
 	result[0] = (char)('0' + digits);
 }
 
 int		ft_copy_special_str_printf(char *const result,
 									const int sign,
-									const uint64_t mantissa)
+									const uint64_t mantissa,
+									const int use_uppercase)
 {
+	size_t	len;
+	char	*s;
+
 	if (mantissa)
 	{
-		ft_memcpy(result, "nan", 3);
-		return (3);
+		s = use_uppercase ? FLT_NAN_UPPER : FLT_NAN_LOWER;
+		len = ft_strlen(s);
+		ft_memcpy(result, s, len);
+		return (len);
 	}
 	if (sign)
 		result[0] = '-';
-	ft_memcpy(result + sign, "Infinity", 8);
-	return (sign + 8);
+	s = use_uppercase ? FLT_INF_UPPER : FLT_INF_LOWER;
+	len = ft_strlen(s);
+	ft_memcpy(result + sign, s, len);
+	return (sign + len);
 }
