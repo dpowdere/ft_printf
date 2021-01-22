@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_field.c                                   :+:      :+:    :+:   */
+/*   print_field.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 17:25:58 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/03 18:01:10 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:46:13 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:46:22 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 void	ft_print_field(char *str, size_t str_size, t_toolbox *toolbox)
 {

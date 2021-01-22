@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_n.c                                        :+:      :+:    :+:   */
+/*   conv_n.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 17:32:54 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/09 17:33:59 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:49:16 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:49:17 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
-void	ft_spec_n(t_toolbox *toolbox, va_list *ap)
+void	ft_conv_n(t_toolbox *toolbox, va_list *ap)
 {
 	int		x;
 	t_size	size;

@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_g.c                                        :+:      :+:    :+:   */
+/*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/09 17:36:26 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/09 17:36:49 by dpowdere         ###   ########.fr       */
+/*   Created: 2020/12/25 10:35:15 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/22 01:41:41 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#ifndef LIBFTPRINTF_H
+# define LIBFTPRINTF_H
 
-#include "../libftprintf.h"
+# include "aux.h"
+# include "ryu.h"
+# include "ryu_cache.h"
 
-void	ft_spec_g(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	(void)toolbox;
-	(void)arg_ptr;
-}
+# define PRINTF_NO_ERROR		0
+# define PRINTF_WRITE_ERROR		-1
+# define PRINTF_PARSE_ERROR		-2
+# define PRINTF_MALLOC_ERROR	-4
 
-void	ft_spec_upper_g(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	(void)toolbox;
-	(void)arg_ptr;
-}
+int	ft_printf(const char *format, ...);
+
+#endif

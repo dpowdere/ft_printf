@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_format_ll.c                                     :+:      :+:    :+:   */
+/*   jtoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/04 16:54:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 16:55:00 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:32:07 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:34:31 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../include/utils.h"
+#include "libftprintf.h"
 
 #define ALWAYS_NON_NEGATIVE 0
 
@@ -75,7 +75,7 @@ static size_t	ft_augmented_size(size_t basic_size, int min_digits,
 	return (augmented_size);
 }
 
-char			*ft_format_lli(t_max n, t_int_format_options o)
+char			*ft_format_ji(t_max n, t_int_format_options o)
 {
 	int		is_negative;
 	char	*str;
@@ -83,7 +83,7 @@ char			*ft_format_lli(t_max n, t_int_format_options o)
 	size_t	basic_size;
 	size_t	augmented_size;
 
-	if ((str = ft_lli_base(n, o.base, o.use_uppercase)) == NULL)
+	if ((str = ft_ji_base(n, o.base, o.use_uppercase)) == NULL)
 		return (NULL);
 	is_negative = (n < 0);
 	basic_size = ft_strlen(str);
@@ -103,14 +103,14 @@ char			*ft_format_lli(t_max n, t_int_format_options o)
 	return (augmented_str);
 }
 
-char			*ft_format_llu(t_umax n, t_int_format_options o)
+char			*ft_format_ju(t_umax n, t_int_format_options o)
 {
 	char	*str;
 	char	*augmented_str;
 	size_t	basic_size;
 	size_t	augmented_size;
 
-	if ((str = ft_llu_base(n, o.base, o.use_uppercase)) == NULL)
+	if ((str = ft_ju_base(n, o.base, o.use_uppercase)) == NULL)
 		return (NULL);
 	basic_size = ft_strlen(str);
 	if ((size_t)o.min_digits <= basic_size

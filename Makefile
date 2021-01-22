@@ -11,48 +11,60 @@
 # **************************************************************************** #
 
 LIBNAME := libftprintf
-CONTENTS := \
+CONTENTS = \
     ft_printf.c \
 \
-    specs/ft_spec_c.c \
-    specs/ft_spec_e.c \
-    specs/ft_spec_f.c \
-    specs/ft_spec_g.c \
-    specs/ft_spec_hex.c \
-    specs/ft_spec_int.c \
-    specs/ft_spec_n.c \
-    specs/ft_spec_o.c \
-    specs/ft_spec_p.c \
-    specs/ft_spec_percent.c \
-    specs/ft_spec_s.c \
+    conv_c.c \
+    conv_e.c \
+    conv_f.c \
+    conv_g.c \
+    conv_hex.c \
+    conv_int.c \
+    conv_n.c \
+    conv_o.c \
+    conv_p.c \
+    conv_percent.c \
+    conv_s.c \
 \
-    parsing/ft_parse_flags.c \
-    parsing/ft_parse_width.c \
-    parsing/ft_parse_precision.c \
-    parsing/ft_parse_size.c \
-    parsing/ft_parse_specifier.c \
-    parsing/ft_normalize_spec.c \
-    parsing/ft_get_typing_width.c \
+    get_va_arg.c \
+    get_typing_width.c \
+    normalize_spec.c \
+    print_field.c \
 \
-    utils/ft_ll_base.c \
-    utils/ft_format_ll.c \
-    utils/ft_print_field.c \
-    utils/ft_get_va_arg.c \
+    parse_conversion.c \
+    parse_flags.c \
+    parse_precision.c \
+    parse_size.c \
+    parse_width.c \
 \
-    utils/ft_memset.c \
-    utils/ft_strchr.c \
-    utils/ft_strdup.c \
-    utils/ft_strlen.c \
-    utils/ft_strpfx.c \
-    utils/ft_write.c
+    jtoa.c \
+    j_base.c \
+    ryu_dtoa.c \
+    ryu_digits.c \
+    ryu_utils.c \
+\
+    ft_memcpy.c \
+    ft_memset.c \
+    ft_strchr.c \
+    ft_strdup.c \
+    ft_strlen.c \
+    ft_strpfx.c \
+    ft_write.c
 
 NAME := $(LIBNAME).a
-OBJS := $(CONTENTS:.c=.o)
-DEPS := $(CONTENTS:.c=.d)
+SRCDIR := src
+INCDIR := include
+OBJDIR := obj
+DEPDIR := .dep
+
+SRCS := $(addprefix $(SRCDIR)/, $(CONTENTS))
+OBJS := $(addprefix $(OBJDIR)/, $(CONTENTS:.c=.o))
+DEPS := $(addprefix $(DEPDIR)/, $(CONTENTS:.c=.d))
+INCLUDE := -I$(INCDIR)
 SYSTEM := $(shell uname)
 
 CC := clang
-CFLAGS = -fPIC -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
+CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN) -fPIC
 DEPFLAGS = -MMD -MP
 
 AR := ar
@@ -77,7 +89,7 @@ all: $(NAME)
 bonus: $(NAME)
 
 clean:
-	$(RM) *.o */*.o *.d */*.d *.gch */*.gch
+	$(RM) -R $(OBJDIR)/ $(DEPDIR)/ $(INCDIR)/*.gch
 
 fclean: clean
 	$(RM) -R *.dSYM core core.*
@@ -85,7 +97,12 @@ fclean: clean
 
 re: fclean all
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $(DEPFLAGS) -o $@ $<
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(OBJDIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $(DEPFLAGS) -o $@ $<
+
+$(SRCDIR)/%.c: $(DEPDIR)
+
+$(DEPDIR) $(OBJDIR):
+	mkdir -p $@
 
 -include $(DEPS)

@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_percent.c                                  :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:35:09 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/03 18:35:11 by dpowdere         ###   ########.fr       */
+/*   Created: 2020/11/04 21:48:12 by dpowdere          #+#    #+#             */
+/*   Updated: 2020/11/04 21:54:33 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
+#include <stddef.h>
 
-#include "../libftprintf.h"
-
-void	ft_spec_percent(t_toolbox *toolbox, va_list *arg_ptr)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	(void)arg_ptr;
-	if (DARWIN == 1)
-		ft_print_field("%", 1, toolbox);
-	else
+	size_t	i;
+
+	i = 0;
+	if (!dst && !src)
+		return (dst);
+	while (i < n)
 	{
-		ft_write(STDOUT, "%", 1);
-		toolbox->cumulative_size += 1;
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		++i;
 	}
+	return (dst);
 }

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_specifier.c                               :+:      :+:    :+:   */
+/*   conv_percent.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 17:57:49 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/06 18:09:16 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:49:37 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:49:38 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libftprintf.h"
+#include <stdarg.h>
 
-void	ft_parse_specifier(t_toolbox *toolbox)
+#include "libftprintf.h"
+
+void	ft_conv_percent(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	char *specifier;
-
-	specifier = NULL;
-	while (*toolbox->cursor &&
-			(specifier = ft_strchr(SPECIFIERS, *toolbox->cursor)) == NULL)
-		++toolbox->cursor;
-	if (specifier == NULL)
+	(void)arg_ptr;
+	if (DARWIN == 1)
+		ft_print_field("%", 1, toolbox);
+	else
 	{
-		toolbox->error = PRINTF_PARSE_ERROR;
-		return ;
+		ft_write(STDOUT, "%", 1);
+		toolbox->cumulative_size += 1;
 	}
-	toolbox->spec.specifier = *specifier;
 }

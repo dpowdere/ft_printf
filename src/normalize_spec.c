@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_normalize_spec.c                                :+:      :+:    :+:   */
+/*   normalize_spec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include <stdarg.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 static inline void	ft_resolve_asterisks(t_spec *spec, va_list *arg_ptr)
 {
@@ -23,6 +23,11 @@ static inline void	ft_resolve_asterisks(t_spec *spec, va_list *arg_ptr)
 		{
 			spec->width = -spec->width;
 			spec->left_justify = YES;
+		}
+		else if (spec->width == 0)
+		{
+			spec->width = UNSPECIFIED;
+			spec->zero_pad = YES;
 		}
 	}
 	if (spec->precision == TAKE_FROM_ARG)
@@ -40,17 +45,17 @@ void				ft_normalize_spec(t_spec *spec, va_list *arg_ptr)
 	ft_resolve_asterisks(spec, arg_ptr);
 	if (spec->show_space_plus && spec->show_plus)
 		spec->show_space_plus = NO;
-	match = ft_strchr(UNSIGNED_SPECIFIERS, spec->specifier);
+	match = ft_strchr(UNSIGNED_CONV_SPECIFIERS, spec->conversion);
 	if (match && spec->show_space_plus)
 		spec->show_space_plus = NO;
 	if (match && spec->show_plus)
 		spec->show_plus = NO;
 	if (spec->left_justify)
 		spec->zero_pad = NO;
-	match = ft_strchr(INT_SPECIFIERS, spec->specifier);
+	match = ft_strchr(INT_CONV_SPECIFIERS, spec->conversion);
 	if (match && spec->precision != UNSPECIFIED)
 		spec->zero_pad = NO;
-	match = ft_strchr(NUM_SPECIFIERS, spec->specifier);
+	match = ft_strchr(NUM_CONV_SPECIFIERS, spec->conversion);
 	if (match && spec->zero_pad)
 		spec->field_width_zero_pad = YES;
 }

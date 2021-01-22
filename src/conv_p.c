@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_spec_p.c                                        :+:      :+:    :+:   */
+/*   conv_p.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/03 18:34:55 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/04 23:16:36 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:49:30 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:49:30 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../libftprintf.h"
+#include "libftprintf.h"
 
 #define DONT_USE_UPPERCASE	0
 #define DONT_FREE_PREFIX	0
@@ -28,7 +28,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->field_width_zero_pad && spec->width > 1)
 	{
 		opts->min_digits = spec->width - 2;
-		if (opts->min_digits > 0 && eff == E_POINTER_NON_NULL
+		if (opts->min_digits > 0 && eff == EFF_POINTER_NON_NULL
 				&& (spec->show_plus || spec->show_space_plus))
 			opts->min_digits -= 1;
 	}
@@ -39,7 +39,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 }
 
-void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
+void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	void					*p;
 	char					*s;
@@ -48,13 +48,13 @@ void				ft_spec_p(t_toolbox *toolbox, va_list *arg_ptr)
 	t_int_format_options	opts;
 
 	p = va_arg(*arg_ptr, void *);
-	eff = (p == NULL ? E_POINTER_NULL : E_POINTER_NON_NULL);
+	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
 	if (p == NULL)
 		s = ft_strdup(NULL_POINTER);
 	else
 	{
 		ft_set_opts(&opts, &toolbox->spec, eff);
-		s = ft_format_llu((t_umax)p, opts);
+		s = ft_format_ju((t_umax)p, opts);
 		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 		if (toolbox->spec.show_plus)
 			s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);

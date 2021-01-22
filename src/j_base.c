@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ll_base.c                                       :+:      :+:    :+:   */
+/*   j_base.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,18 +13,18 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../include/utils.h"
+#include "libftprintf.h"
 
 #define LOWER_DIGITS "0123456789abcdefghijklmnopqrstuvwxyz"
 #define UPPER_DIGITS "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define DIGITS	(use_upper_case ? UPPER_DIGITS : LOWER_DIGITS)
 
-char	*ft_lli_base(t_max n, int base, int use_upper_case)
+char	*ft_ji_base(t_max n, int base, int use_upper_case)
 {
-	long long	power;
-	long long	i;
-	int			digits;
-	char		*s;
+	t_max	power;
+	t_max	i;
+	int		digits;
+	char	*s;
 
 	digits = 1;
 	power = 1;
@@ -48,12 +48,12 @@ char	*ft_lli_base(t_max n, int base, int use_upper_case)
 	return (s);
 }
 
-char	*ft_llu_base(t_umax n, int base, int use_upper_case)
+char	*ft_ju_base(t_umax n, int base, int use_upper_case)
 {
-	unsigned long long	power;
-	unsigned long long	i;
-	int					digits;
-	char				*s;
+	t_umax	power;
+	t_umax	i;
+	int		digits;
+	char	*s;
 
 	digits = 1;
 	power = 1;

@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_width.c                                   :+:      :+:    :+:   */
+/*   parse_conversion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/06 18:51:19 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/06 18:52:23 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/21 22:42:46 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/21 22:43:04 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "libftprintf.h"
 
-#include "../libftprintf.h"
-
-void	ft_parse_width(t_toolbox *toolbox)
+void	ft_parse_conversion(t_toolbox *toolbox)
 {
-	int			n;
-	const char	*position;
+	char *specifier;
 
-	if (*toolbox->cursor && *toolbox->cursor == '*')
-	{
-		toolbox->spec.width = TAKE_FROM_ARG;
+	specifier = NULL;
+	while (*toolbox->cursor &&
+			(specifier = ft_strchr(CONV_SPECIFIERS, *toolbox->cursor)) == NULL)
 		++toolbox->cursor;
+	if (specifier == NULL)
+	{
+		toolbox->error = PRINTF_PARSE_ERROR;
 		return ;
 	}
-	n = 0;
-	position = toolbox->cursor;
-	while (*toolbox->cursor &&
-			*toolbox->cursor >= '0' && *toolbox->cursor <= '9')
-	{
-		n = n * 10 + (*toolbox->cursor - '0');
-		++toolbox->cursor;
-	}
-	if (position != toolbox->cursor)
-		toolbox->spec.width = n;
-	if (*toolbox->cursor == '\0')
-		toolbox->error = PRINTF_PARSE_ERROR;
+	toolbox->spec.conversion = *specifier;
 }
