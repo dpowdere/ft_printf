@@ -17,22 +17,23 @@
 
 static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 {
-	static t_spec_ft handlers[SPEC_COUNT] = SPEC_HANDLERS;
+	static t_converter converters[CONV_SPEC_COUNT] = CONVERTERS;
 
 	if (type == INIT_TOOLBOX)
 	{
 		toolbox->cumulative_size = 0;
 		toolbox->error = PRINTF_NO_ERROR;
-		toolbox->handlers = &handlers;
+		toolbox->converters = &converters;
 		toolbox->cursor = NULL;
 	}
-	toolbox->spec.specifier = UNSPECIFIED;
+	toolbox->spec.conversion = UNSPECIFIED;
 	toolbox->spec.size = SIZE_DEFAULT;
 	toolbox->spec.width = UNSPECIFIED;
 	toolbox->spec.precision = UNSPECIFIED;
 	toolbox->spec.left_justify = NO;
 	toolbox->spec.zero_pad = NO;
 	toolbox->spec.field_width_zero_pad = NO;
+	toolbox->spec.alternative_form = NO;
 	toolbox->spec.show_plus = NO;
 	toolbox->spec.show_space_plus = NO;
 }
@@ -73,9 +74,9 @@ static void	ft_print_arg_by_spec(t_toolbox *toolbox, va_list *arg_ptr)
 
 	ft_normalize_spec(&toolbox->spec, arg_ptr);
 	i = 0;
-	while (toolbox->spec.specifier != SPECIFIERS[i])
+	while (toolbox->spec.conversion != CONV_SPECIFIERS[i])
 		++i;
-	(*toolbox->handlers)[i](toolbox, arg_ptr);
+	(*toolbox->converters)[i](toolbox, arg_ptr);
 }
 
 int			ft_printf(const char *format, ...)

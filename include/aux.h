@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _aux.h                                             :+:      :+:    :+:   */
+/*   aux.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _AUX_H
-# define _AUX_H
+#ifndef AUX_H
+# define AUX_H
 
 # include <stdarg.h>
 # include <stddef.h>
@@ -24,16 +24,25 @@
 
 # define STDOUT 1
 
-# define SPEC_START_MARKER		'%'
-# define NUM_SPECIFIERS			"iduoXxEeFfGg" "p"
-# define INT_SPECIFIERS			"iduoXx" "p"
-# define UNSIGNED_SPECIFIERS	"uoXx"
-# define SPECIFIERS				"sciduoXxEeFfGgpn%"
-# define SPEC_COUNT				17
-
 # define FLAG_SPECIFIERS	"-+ 0#"
 # define SIZE_SPEC_CHARS	"hljzt"
-# define INTRASPEC_CHARS	FLAG_SPECIFIERS ".123456789" SIZE_SPEC_CHARS
+# define INTRASPEC_CHARS	FLAG_SPECIFIERS "*.123456789" SIZE_SPEC_CHARS
+
+# define SPEC_START_MARKER			'%'
+# define NUM_CONV_SPECIFIERS		"iduoXxEeFfGg" "p"
+# define INT_CONV_SPECIFIERS		"iduoXx" "p"
+# define UNSIGNED_CONV_SPECIFIERS	"uoXx"
+# define CONV_SPECIFIERS			"sciduoXxEeFfGgpn%"
+# define CONV_SPEC_COUNT			17
+
+# define C(x)			ft_conv_ ## x
+# define STR_CONVS		C(s), C(c)
+# define SIGNED_CONVS	C(i), C(d)
+# define UNSIGN_CONVS	C(u), C(o), C(upper_x), C(x)
+# define INT_CONVS		SIGNED_CONVS, UNSIGN_CONVS
+# define FLOAT_CONVS	C(upper_e), C(e), C(upper_f), C(f), C(upper_g), C(g)
+# define OTHER_CONVS	C(p), C(n), C(percent)
+# define CONVERTERS		{ STR_CONVS, INT_CONVS, FLOAT_CONVS, OTHER_CONVS }
 
 # define NULL_POINTER	"(nil)"
 # define NULL_STRING	"(null)"
@@ -53,34 +62,30 @@ typedef enum				e_size
 	SIZE_J
 }							t_size;
 
-struct s_toolbox;
-typedef struct s_toolbox	t_toolbox;
-typedef void				(*t_spec_ft)(t_toolbox *, va_list *);
-
 typedef enum				e_effector
 {
-	E_STRING_NULL,
-	E_STRING_NON_NULL,
-	E_POINTER_NULL,
-	E_POINTER_NON_NULL,
-	E_NUMBER_ZERO,
-	E_NUMBER_POSITIVE,
-	E_NUMBER_NEGATIVE
+	EFF_STRING_NULL,
+	EFF_STRING_NON_NULL,
+	EFF_POINTER_NULL,
+	EFF_POINTER_NON_NULL,
+	EFF_NUMBER_ZERO,
+	EFF_NUMBER_POSITIVE,
+	EFF_NUMBER_NEGATIVE
 }							t_effector;
 /*
-** E_STRING_NULL		NULL pointer passed in as `char *` argument;
-** E_STRING_NON_NULL	`char *` argument, being a valid (null-terminated)
+** EFF_STRING_NULL		NULL pointer passed in as `char *` argument;
+** EFF_STRING_NON_NULL	`char *` argument, being a valid (null-terminated)
 **						or invalid (non null-terminated) C-string;
-** E_POINTER_NULL		NULL pointer passed in as `void *` argument;
-** E_POINTER_NOT_NULL	non NULL pointer passed in as `void *` argument;
-** E_NUMBER_ZERO		0 passed in as %iduoXxEeFfGg parameter;
-** E_NUMBER_POSITIVE	positive number passed in as any number type;
-** E_NUMBER_NEGATIVE	negative number passed in as any signed number type
+** EFF_POINTER_NULL		NULL pointer passed in as `void *` argument;
+** EFF_POINTER_NOT_NULL	non NULL pointer passed in as `void *` argument;
+** EFF_NUMBER_ZERO		0 passed in as %iduoXxEeFfGg parameter;
+** EFF_NUMBER_POSITIVE	positive number passed in as any number type;
+** EFF_NUMBER_NEGATIVE	negative number passed in as any signed number type
 */
 
 typedef struct				s_spec
 {
-	char			specifier;
+	char			conversion;
 	t_size			size;
 	int				width;
 	int				precision;
@@ -98,13 +103,15 @@ typedef struct				s_spec
 # define YES	1u
 # define NO		0u
 
+struct s_toolbox;
+typedef void				(*t_converter)(struct s_toolbox *, va_list *);
 typedef struct				s_toolbox
 {
-	const char	*cursor;
-	int			cumulative_size;
-	int			error;
-	t_spec		spec;
-	t_spec_ft	(*handlers)[SPEC_COUNT];
+	const char		*cursor;
+	int				error;
+	int				cumulative_size;
+	t_converter		(*converters)[CONV_SPEC_COUNT];
+	t_spec			spec;
 }							t_toolbox;
 
 typedef enum				e_sign_presentation
@@ -141,8 +148,6 @@ void						ft_parse_conversion(t_toolbox *toolbox);
 void						ft_print_field(char *str, size_t strsize,
 											t_toolbox *toolbox);
 
-# define S(x)	ft_conv_ ## x
-
 void						ft_conv_c(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_d(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_e(t_toolbox *t, va_list *arg_ptr);
@@ -160,14 +165,6 @@ void						ft_conv_upper_f(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_upper_g(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_upper_x(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_x(t_toolbox *t, va_list *arg_ptr);
-
-# define STR_HNDLRS		S(s), S(c)
-# define SIGNED_HNDLRS	S(i), S(d)
-# define UNSIGN_HNDLRS	S(u), S(o), S(upper_x), S(x)
-# define FLOAT_HNDLRS	S(upper_e), S(e), S(upper_f), S(f), S(upper_g), S(g)
-# define OTHER_HNDLRS	S(p), S(n), S(percent)
-# define INT_HNDLRS		SIGNED_HNDLRS, UNSIGN_HNDLRS
-# define SPEC_HANDLERS	{ STR_HNDLRS, INT_HNDLRS, FLOAT_HNDLRS, OTHER_HNDLRS }
 
 void						*ft_memcpy(void *dst, const void *src, size_t n);
 void						*ft_memset(void *b, int c, size_t len);

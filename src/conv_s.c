@@ -26,10 +26,10 @@ void	ft_conv_s(t_toolbox *toolbox, va_list *arg_ptr)
 	if (s == NULL)
 	{
 		s = NULL_STRING;
-		eff = E_STRING_NULL;
+		eff = EFF_STRING_NULL;
 	}
 	else
-		eff = E_STRING_NON_NULL;
+		eff = EFF_STRING_NON_NULL;
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 }

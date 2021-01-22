@@ -28,7 +28,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
-		if (opts->min_digits > 0 && eff == E_NUMBER_POSITIVE
+		if (opts->min_digits > 0 && eff == EFF_NUMBER_POSITIVE
 				&& (spec->show_plus || spec->show_space_plus))
 			opts->min_digits -= 1;
 	}
@@ -53,7 +53,7 @@ void				ft_conv_o(t_toolbox *toolbox, va_list *arg_ptr)
 	t_int_format_options	opts;
 
 	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
-	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_POSITIVE);
+	eff = (n == 0 ? EFF_NUMBER_ZERO : EFF_NUMBER_POSITIVE);
 	ft_set_opts(&opts, &toolbox->spec, eff);
 	s = ft_format_ju((t_umax)n, opts);
 	if (toolbox->spec.alternative_form && s[0] != '0'

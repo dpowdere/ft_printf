@@ -18,12 +18,12 @@ void	ft_parse_conversion(t_toolbox *toolbox)
 
 	specifier = NULL;
 	while (*toolbox->cursor &&
-			(specifier = ft_strchr(SPECIFIERS, *toolbox->cursor)) == NULL)
+			(specifier = ft_strchr(CONV_SPECIFIERS, *toolbox->cursor)) == NULL)
 		++toolbox->cursor;
 	if (specifier == NULL)
 	{
 		toolbox->error = PRINTF_PARSE_ERROR;
 		return ;
 	}
-	toolbox->spec.specifier = *specifier;
+	toolbox->spec.conversion = *specifier;
 }

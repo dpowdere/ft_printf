@@ -31,7 +31,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
-		if (opts->min_digits > 0 && eff == E_NUMBER_POSITIVE
+		if (opts->min_digits > 0 && eff == EFF_NUMBER_POSITIVE
 				&& (spec->show_plus || spec->show_space_plus))
 			opts->min_digits -= 1;
 		if (opts->min_digits > 1 && spec->alternative_form)
@@ -55,8 +55,8 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 	size_t					typing_width;
 
 	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
-	eff = (n == 0 ? E_NUMBER_ZERO : E_NUMBER_POSITIVE);
-	if (eff == E_NUMBER_ZERO)
+	eff = (n == 0 ? EFF_NUMBER_ZERO : EFF_NUMBER_POSITIVE);
+	if (eff == EFF_NUMBER_ZERO)
 		toolbox->spec.alternative_form = NO;
 	ft_set_opts(&opts, &toolbox->spec, eff, use_uppercase);
 	s = ft_format_ju((t_umax)n, opts);

@@ -28,7 +28,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->field_width_zero_pad && spec->width > 1)
 	{
 		opts->min_digits = spec->width - 2;
-		if (opts->min_digits > 0 && eff == E_POINTER_NON_NULL
+		if (opts->min_digits > 0 && eff == EFF_POINTER_NON_NULL
 				&& (spec->show_plus || spec->show_space_plus))
 			opts->min_digits -= 1;
 	}
@@ -48,7 +48,7 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 	t_int_format_options	opts;
 
 	p = va_arg(*arg_ptr, void *);
-	eff = (p == NULL ? E_POINTER_NULL : E_POINTER_NON_NULL);
+	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
 	if (p == NULL)
 		s = ft_strdup(NULL_POINTER);
 	else

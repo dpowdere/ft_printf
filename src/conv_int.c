@@ -28,7 +28,7 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
-		if (eff == E_NUMBER_NEGATIVE || (eff == E_NUMBER_POSITIVE &&
+		if (eff == EFF_NUMBER_NEGATIVE || (eff == EFF_NUMBER_POSITIVE &&
 				(spec->show_plus || spec->show_space_plus)))
 			if (opts->min_digits > 0)
 				opts->min_digits -= 1;
@@ -50,13 +50,13 @@ void				ft_conv_i(t_toolbox *toolbox, va_list *arg_ptr)
 	t_int_format_options	opts;
 
 	n = ft_get_signed_va_arg(arg_ptr, toolbox->spec.size);
-	eff = E_NUMBER_ZERO;
+	eff = EFF_NUMBER_ZERO;
 	if (n > 0)
-		eff = E_NUMBER_POSITIVE;
+		eff = EFF_NUMBER_POSITIVE;
 	if (n < 0)
-		eff = E_NUMBER_NEGATIVE;
+		eff = EFF_NUMBER_NEGATIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
-	s = ft_format_ji((t_max)n, opts);
+	s = ft_format_ji(n, opts);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
@@ -77,11 +77,11 @@ void				ft_conv_u(t_toolbox *toolbox, va_list *arg_ptr)
 
 	n = ft_get_unsigned_va_arg(arg_ptr, toolbox->spec.size);
 	if (n == 0)
-		eff = E_NUMBER_ZERO;
+		eff = EFF_NUMBER_ZERO;
 	else
-		eff = E_NUMBER_POSITIVE;
+		eff = EFF_NUMBER_POSITIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
-	s = ft_format_ju((t_umax)n, opts);
+	s = ft_format_ju(n, opts);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
