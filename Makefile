@@ -39,8 +39,10 @@ CONTENTS = \
 \
     jtoa.c \
     j_base.c \
-    ryu_dtoa.c \
+    ryu_dtoa_e.c \
+    ryu_dtoa_f.c \
     ryu_digits.c \
+    ryu_math.c \
     ryu_utils.c \
 \
     ft_memcpy.c \
