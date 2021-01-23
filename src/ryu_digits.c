@@ -52,6 +52,24 @@ void	ft_append_n_digits(const uint32_t olen,
 		result[0] = (char)('0' + digits);
 }
 
+void	ft_append_dot(uint32_t digits, char *const result)
+{
+	uint32_t c;
+
+	if (digits >= 10)
+	{
+		c = digits << 1;
+		result[2] = g_digit_tab[c + 1];
+		result[1] = '.';
+		result[0] = g_digit_tab[c];
+	}
+	else
+	{
+		result[1] = '.';
+		result[0] = (char)('0' + digits);
+	}
+}
+
 /*
 ** Convert `digits` to a sequence of decimal digits. Print the first digit,
 ** followed by a decimal dot '.' followed by the remaining digits. The caller
@@ -85,18 +103,7 @@ void	ft_append_d_digits(const uint32_t olen,
 		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
-	if (digits >= 10)
-	{
-		c = digits << 1;
-		result[2] = g_digit_tab[c + 1];
-		result[1] = '.';
-		result[0] = g_digit_tab[c];
-	}
-	else
-	{
-		result[1] = '.';
-		result[0] = (char)('0' + digits);
-	}
+	ft_append_dot(digits, result);
 }
 
 /*
@@ -150,27 +157,4 @@ void	ft_append_nine_digits(uint32_t digits, char *const result)
 		i += 4;
 	}
 	result[0] = (char)('0' + digits);
-}
-
-int		ft_copy_special_str_printf(char *const result,
-									const int sign,
-									const uint64_t mantissa,
-									const int use_uppercase)
-{
-	size_t	len;
-	char	*s;
-
-	if (mantissa)
-	{
-		s = use_uppercase ? FLT_NAN_UPPER : FLT_NAN_LOWER;
-		len = ft_strlen(s);
-		ft_memcpy(result, s, len);
-		return (len);
-	}
-	if (sign)
-		result[0] = '-';
-	s = use_uppercase ? FLT_INF_UPPER : FLT_INF_LOWER;
-	len = ft_strlen(s);
-	ft_memcpy(result + sign, s, len);
-	return (sign + len);
 }
