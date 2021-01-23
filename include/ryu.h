@@ -38,9 +38,9 @@
 int			ft_dtoa_f(double d, char *s, uint32_t precision, int use_uppercase);
 int			ft_dtoa_e(double d, char *s, uint32_t precision, int use_uppercase);
 
-# define DOUBLE_MANTISSA_BITS 52
-# define DOUBLE_EXPONENT_BITS 11
-# define DOUBLE_BIAS 1023
+# define DBL_MANTISSA_BITS 52
+# define DBL_EXPONENT_BITS 11
+# define DBL_BIAS 1023
 
 # define POW10_ADDITIONAL_BITS 120
 # define POW10_BITS4IX(ix)	((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))

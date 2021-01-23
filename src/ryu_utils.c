@@ -36,3 +36,9 @@ int		ft_copy_special_str_printf(char *const result,
 	ft_memcpy(result + sign, s, len);
 	return (sign + len);
 }
+
+void	ft_em(int32_t exponent, uint64_t mantissa)
+{
+	(void)exponent;
+	(void)mantissa;
+}

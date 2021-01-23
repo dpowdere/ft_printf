@@ -18,17 +18,16 @@
 int		ft_dtoa_e(double d, char *result, uint32_t precision, int use_uppercase)
 {
 	const uint64_t bits = *(uint64_t *)&d;
-	const int ieeeSign = ((bits >> (DOUBLE_MANTISSA_BITS + DOUBLE_EXPONENT_BITS)) & 1) != 0;
-	const uint64_t ieeeMantissa = bits & ((1ull << DOUBLE_MANTISSA_BITS) - 1);
-	const uint32_t ieeeExponent = (uint32_t)((bits >> DOUBLE_MANTISSA_BITS) & ((1u << DOUBLE_EXPONENT_BITS) - 1));
+	const int ieeeSign = ((bits >> (DBL_MANTISSA_BITS + DBL_EXPONENT_BITS)) & 1) != 0;
+	const uint64_t ieeeMantissa = bits & ((1ull << DBL_MANTISSA_BITS) - 1);
+	const uint32_t ieeeExponent = (uint32_t)((bits >> DBL_MANTISSA_BITS) & ((1u << DBL_EXPONENT_BITS) - 1));
+	int index = 0;
 
-	// Case distinction; exit early for the easy cases.
-	if (ieeeExponent == ((1u << DOUBLE_EXPONENT_BITS) - 1u))
+	if (ieeeExponent == ((1u << DBL_EXPONENT_BITS) - 1u))
 		return (ft_copy_special_str_printf(result,
 					ieeeSign, ieeeMantissa, use_uppercase));
 	if (ieeeExponent == 0 && ieeeMantissa == 0)
 	{
-		int index = 0;
 		if (ieeeSign)
 			result[index++] = '-';
 		result[index++] = '0';
@@ -42,25 +41,24 @@ int		ft_dtoa_e(double d, char *result, uint32_t precision, int use_uppercase)
 		index += 4;
 		return (index);
 	}
+	if (ieeeSign)
+		result[index++] = '-';
 
 	int32_t e2;
 	uint64_t m2;
 	if (ieeeExponent == 0)
 	{
-		e2 = 1 - DOUBLE_BIAS - DOUBLE_MANTISSA_BITS;
+		e2 = 1 - DBL_BIAS - DBL_MANTISSA_BITS;
 		m2 = ieeeMantissa;
 	}
 	else
 	{
-		e2 = (int32_t)ieeeExponent - DOUBLE_BIAS - DOUBLE_MANTISSA_BITS;
-		m2 = (1ull << DOUBLE_MANTISSA_BITS) | ieeeMantissa;
+		e2 = (int32_t)ieeeExponent - DBL_BIAS - DBL_MANTISSA_BITS;
+		m2 = (1ull << DBL_MANTISSA_BITS) | ieeeMantissa;
 	}
 
 	const int printDecimalPoint = precision > 0;
 	++precision;
-	int index = 0;
-	if (ieeeSign)
-		result[index++] = '-';
 	uint32_t digits = 0;
 	uint32_t printedDigits = 0;
 	uint32_t availableDigits = 0;
