@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <locale.h>
 #include <math.h>
+#include <float.h>
 
 #include "libftprintf.h"
 
@@ -13,6 +14,7 @@
 #define YELLOW	"\033[33m"
 
 #define MAXBUF	1024
+
 
 #define pr(fmt, ...) \
 	{ \
@@ -149,5 +151,8 @@ int main(void)
 	pr("%lc", L'й');
 	pr("%012s", L"щука");
 	pr("%012ls", L"йогурт");
+
+	pr("%.100f", 0.1);
+	pr("%.f", DBL_MAX);
 	return 0;
 }
