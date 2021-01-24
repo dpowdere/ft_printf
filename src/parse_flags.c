@@ -20,15 +20,15 @@ void	ft_parse_flags(t_toolbox *toolbox)
 			(c = ft_strchr(FLAG_SPECIFIERS, *toolbox->cursor)) != NULL)
 	{
 		if (*c == '0')
-			toolbox->spec.zero_pad = YES;
+			toolbox->spec.flags |= FLAG_ZERO_PAD;
 		else if (*c == '-')
-			toolbox->spec.left_justify = YES;
+			toolbox->spec.flags |= FLAG_LEFT_JUSTIFY;
 		else if (*c == '+')
-			toolbox->spec.show_plus = YES;
+			toolbox->spec.flags |= FLAG_SHOW_PLUS;
 		else if (*c == ' ')
-			toolbox->spec.show_space_plus = YES;
+			toolbox->spec.flags |= FLAG_SHOW_SPACE_PLUS;
 		else if (*c == '#')
-			toolbox->spec.alternative_form = YES;
+			toolbox->spec.flags |= FLAG_ALTERNATIVE_FORM;
 		++toolbox->cursor;
 	}
 	if (*toolbox->cursor == '\0')

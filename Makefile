@@ -65,8 +65,8 @@ DEPS := $(addprefix $(DEPDIR)/, $(CONTENTS:.c=.d))
 INCLUDE := -I$(INCDIR)
 SYSTEM := $(shell uname)
 
-CC := clang
-CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN) -fPIC
+CC := gcc
+CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
 DEPFLAGS = -MMD -MP
 
 AR := ar

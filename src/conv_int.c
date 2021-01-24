@@ -25,19 +25,19 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	opts->use_uppercase = DOES_NOT_MATTER;
 	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 	opts->min_digits = 1;
-	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
+	if (spec->flags & FLAG_FIELD_WIDTH_ZERO_PAD && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
 		if (eff == EFF_NUMBER_NEGATIVE || (eff == EFF_NUMBER_POSITIVE &&
-				(spec->show_plus || spec->show_space_plus)))
+				spec->flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS)))
 			if (opts->min_digits > 0)
 				opts->min_digits -= 1;
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
-	if (spec->show_plus)
+	if (spec->flags & FLAG_SHOW_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_PLUS;
-	else if (spec->show_space_plus)
+	else if (spec->flags & FLAG_SHOW_SPACE_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_SPACE;
 }
 

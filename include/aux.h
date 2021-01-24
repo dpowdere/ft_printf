@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 01:22:28 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/22 01:41:50 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/24 16:21:43 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,16 @@ typedef struct				s_spec
 	t_size			size;
 	int				width;
 	int				precision;
-	unsigned int	left_justify: 1;
-	unsigned int	zero_pad: 1;
-	unsigned int	field_width_zero_pad: 1;
-	unsigned int	alternative_form: 1;
-	unsigned int	show_plus: 1;
-	unsigned int	show_space_plus: 1;
+	unsigned int	flags;
 }							t_spec;
+
+# define NO_FLAGS					000u
+# define FLAG_LEFT_JUSTIFY			001u
+# define FLAG_ZERO_PAD				002u
+# define FLAG_FIELD_WIDTH_ZERO_PAD	004u
+# define FLAG_ALTERNATIVE_FORM		010u
+# define FLAG_SHOW_PLUS				020u
+# define FLAG_SHOW_SPACE_PLUS		040u
 
 # define UNSPECIFIED	-1
 # define TAKE_FROM_ARG	-2

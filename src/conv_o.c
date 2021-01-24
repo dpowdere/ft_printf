@@ -25,20 +25,20 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 {
 	opts->base = 8;
 	opts->use_uppercase = CASE_DOES_NOT_MATTER;
-	if (spec->field_width_zero_pad && spec->width != UNSPECIFIED)
+	if (spec->flags & FLAG_FIELD_WIDTH_ZERO_PAD && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
 		if (opts->min_digits > 0 && eff == EFF_NUMBER_POSITIVE
-				&& (spec->show_plus || spec->show_space_plus))
+				&& spec->flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS))
 			opts->min_digits -= 1;
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
 	else
 		opts->min_digits = 1;
-	if (spec->show_plus)
+	if (spec->flags & FLAG_SHOW_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_PLUS;
-	else if (spec->show_space_plus)
+	else if (spec->flags & FLAG_SHOW_SPACE_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_SPACE;
 	else
 		opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
@@ -56,12 +56,12 @@ void				ft_conv_o(t_toolbox *toolbox, va_list *arg_ptr)
 	eff = (n == 0 ? EFF_NUMBER_ZERO : EFF_NUMBER_POSITIVE);
 	ft_set_opts(&opts, &toolbox->spec, eff);
 	s = ft_format_ju((t_umax)n, opts);
-	if (toolbox->spec.alternative_form && s[0] != '0'
+	if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM && s[0] != '0'
 			&& !(toolbox->spec.precision == 0 && n == 0))
 		s = ft_strpfx("0", s, DONT_FREE_PREFIX, DO_FREE_STRING);
-	if (toolbox->spec.show_plus)
+	if (toolbox->spec.flags & FLAG_SHOW_PLUS)
 		s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
-	else if (toolbox->spec.show_space_plus)
+	else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
 		s = ft_strpfx(" ", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);

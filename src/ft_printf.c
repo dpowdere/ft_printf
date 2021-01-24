@@ -30,12 +30,7 @@ static void	ft_reset(t_reset_type type, t_toolbox *toolbox)
 	toolbox->spec.size = SIZE_DEFAULT;
 	toolbox->spec.width = UNSPECIFIED;
 	toolbox->spec.precision = UNSPECIFIED;
-	toolbox->spec.left_justify = NO;
-	toolbox->spec.zero_pad = NO;
-	toolbox->spec.field_width_zero_pad = NO;
-	toolbox->spec.alternative_form = NO;
-	toolbox->spec.show_plus = NO;
-	toolbox->spec.show_space_plus = NO;
+	toolbox->spec.flags = NO_FLAGS;
 }
 
 static void	ft_print_before_spec(t_toolbox *toolbox)

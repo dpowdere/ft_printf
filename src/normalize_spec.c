@@ -22,12 +22,12 @@ static inline void	ft_resolve_asterisks(t_spec *spec, va_list *arg_ptr)
 		if (spec->width < 0)
 		{
 			spec->width = -spec->width;
-			spec->left_justify = YES;
+			spec->flags |= FLAG_LEFT_JUSTIFY;
 		}
 		else if (spec->width == 0)
 		{
 			spec->width = UNSPECIFIED;
-			spec->zero_pad = YES;
+			spec->flags |= FLAG_ZERO_PAD;
 		}
 	}
 	if (spec->precision == TAKE_FROM_ARG)
@@ -43,19 +43,19 @@ void				ft_normalize_spec(t_spec *spec, va_list *arg_ptr)
 	char *match;
 
 	ft_resolve_asterisks(spec, arg_ptr);
-	if (spec->show_space_plus && spec->show_plus)
-		spec->show_space_plus = NO;
+	if (spec->flags & FLAG_SHOW_SPACE_PLUS && spec->flags & FLAG_SHOW_PLUS)
+		spec->flags &= ~FLAG_SHOW_SPACE_PLUS;
 	match = ft_strchr(UNSIGNED_CONV_SPECIFIERS, spec->conversion);
-	if (match && spec->show_space_plus)
-		spec->show_space_plus = NO;
-	if (match && spec->show_plus)
-		spec->show_plus = NO;
-	if (spec->left_justify)
-		spec->zero_pad = NO;
+	if (match && spec->flags & FLAG_SHOW_SPACE_PLUS)
+		spec->flags &= ~FLAG_SHOW_SPACE_PLUS;
+	if (match && spec->flags & FLAG_SHOW_PLUS)
+		spec->flags &= ~FLAG_SHOW_PLUS;
+	if (spec->flags & FLAG_LEFT_JUSTIFY)
+		spec->flags &= ~FLAG_ZERO_PAD;
 	match = ft_strchr(INT_CONV_SPECIFIERS, spec->conversion);
 	if (match && spec->precision != UNSPECIFIED)
-		spec->zero_pad = NO;
+		spec->flags &= ~FLAG_ZERO_PAD;
 	match = ft_strchr(NUM_CONV_SPECIFIERS, spec->conversion);
-	if (match && spec->zero_pad)
-		spec->field_width_zero_pad = YES;
+	if (match && spec->flags & FLAG_ZERO_PAD)
+		spec->flags |= FLAG_FIELD_WIDTH_ZERO_PAD;
 }
