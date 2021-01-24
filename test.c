@@ -115,6 +115,18 @@ int main(void)
 	pr("percent \%123", NULL);
 	pr("percent %123", NULL);
 
+	setlocale(LC_ALL, "");
+	pr("%c", L'щ');
+	pr("%lc", L'й');
+	pr("%hc", L'й');
+	pr("%hhc", L'й');
+	pr("%llc", L'й');
+	pr("%jc", L'й');
+	pr("%tc", L'й');
+	pr("%zc", L'й');
+	pr("%012s", L"щука");
+	pr("%012ls", L"йогурт — Who would win? 100 🐜 or 1 🕷 ?");
+
 	pr("===============", NULL);
 
 	pr("%.0e", 2.71);
@@ -145,12 +157,6 @@ int main(void)
 	pr("%e", 123.45);
 	pr("%.55g", 0.11234785909057654);
 	pr("%.55g", -123.45e-32);
-
-	setlocale(LC_ALL, "");
-	pr("%c", L'щ');
-	pr("%lc", L'й');
-	pr("%012s", L"щука");
-	pr("%012ls", L"йогурт");
 
 	pr("%.100f", 0.1);
 	pr("%.f", DBL_MAX);
