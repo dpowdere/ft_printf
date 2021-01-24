@@ -29,7 +29,8 @@ void	ft_conv_c(t_toolbox *toolbox, va_list *arg_ptr)
 	int		len;
 	char	s[SINGLE_UTF8_CHAR_STRING];
 
-	if (toolbox->spec.size >= SIZE_L)
+	if ((toolbox->spec.size == SIZE_L && DARWIN)
+			|| (toolbox->spec.size >= SIZE_L && !DARWIN))
 	{
 		ft_memset(s, 0, SINGLE_UTF8_CHAR_STRING);
 		if ((len = wctomb(s, va_arg(*arg_ptr, wchar_t))) == -1)
