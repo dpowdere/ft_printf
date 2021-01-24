@@ -17,10 +17,11 @@
 # include "ryu.h"
 # include "ryu_cache.h"
 
-# define PRINTF_NO_ERROR		0
-# define PRINTF_WRITE_ERROR		-1
-# define PRINTF_PARSE_ERROR		-2
-# define PRINTF_MALLOC_ERROR	-4
+# define PRINTF_NO_ERROR			0
+# define PRINTF_WRITE_ERROR			-1
+# define PRINTF_PARSE_ERROR			-2
+# define PRINTF_MALLOC_ERROR		-4
+# define PRINTF_WCHAR_CONVERT_ERROR	-8
 
 int	ft_printf(const char *format, ...);
 
