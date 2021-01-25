@@ -58,11 +58,11 @@ NAME := $(LIBNAME).a
 SRCDIR := src
 INCDIR := include
 OBJDIR := obj
-DEPDIR := .dep
+$(shell mkdir -p $(OBJDIR))
 
 SRCS := $(addprefix $(SRCDIR)/, $(CONTENTS))
 OBJS := $(addprefix $(OBJDIR)/, $(CONTENTS:.c=.o))
-DEPS := $(addprefix $(DEPDIR)/, $(CONTENTS:.c=.d))
+DEPS := $(addprefix $(OBJDIR)/, $(CONTENTS:.c=.d))
 INCLUDE := -I$(INCDIR)
 SYSTEM := $(shell uname)
 
@@ -91,8 +91,11 @@ all: $(NAME)
 
 bonus: $(NAME)
 
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(DEPFLAGS) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+
 clean:
-	$(RM) -R $(OBJDIR)/ $(DEPDIR)/ $(INCDIR)/*.gch
+	$(RM) $(OBJS) $(DEPS) $(INCDIR)/*.gch
 
 fclean: clean
 	$(RM) -R *.dSYM core core.*
@@ -100,19 +103,11 @@ fclean: clean
 
 re: fclean all
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(OBJDIR)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $(DEPFLAGS) -o $@ $<
-
-$(SRCDIR)/%.c: $(DEPDIR)
-
-$(DEPDIR) $(OBJDIR):
-	mkdir -p $@
-
 test:
 	@if [ -f test.c ] ; \
 	then \
 		test -f $(NAME) || $(MAKE) $(NAME) ; \
-		$(CC) $(CFLAGS) -Wformat=0 $(INCLUDE) test.c $(NAME) -o test.out ; \
+		$(CC) -Wformat=0 $(CFLAGS) -o test.out test.c $(NAME) $(INCLUDE) ; \
 		./test.out ; \
 	else \
 		echo "No test found" ; \
