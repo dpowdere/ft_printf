@@ -9,6 +9,7 @@
 #include "libftprintf.h"
 
 #define BLUE	"\033[34m"
+#define BOLD	"\033[1m"
 #define RED		"\033[31m"
 #define RESET	"\033[0m"
 #define YELLOW	"\033[33m"
@@ -20,9 +21,9 @@
 	{ \
 		int n1, n2; \
 		setvbuf(stdout, NULL, _IONBF, 0); \
-		printf("=== \"" BLUE); \
+		printf("=== \"" BLUE BOLD); \
 		write(1, fmt, strlen(fmt)); \
-		printf(RESET "\" ======= " BLUE); \
+		printf(RESET "\" ======= " BLUE BOLD); \
 		printf(#__VA_ARGS__); \
 		printf(RESET "\n|" YELLOW); \
 		n1 = printf(fmt, __VA_ARGS__); \
