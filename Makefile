@@ -51,6 +51,7 @@ CONTENTS = \
     ft_strdup.c \
     ft_strlen.c \
     ft_strpfx.c \
+    ft_wcstombs_len.c \
     ft_write.c
 
 NAME := $(LIBNAME).a

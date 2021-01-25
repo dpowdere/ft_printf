@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 01:22:28 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/24 16:21:43 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/25 10:39:32 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stddef.h>
 # include <stdint.h>
 # include <sys/types.h>
+# include <wchar.h>
 
 # ifndef DARWIN
 #  define DARWIN 1
@@ -180,6 +181,7 @@ void						*ft_memset(void *b, int c, size_t len);
 char						*ft_strchr(const char *s, int c);
 char						*ft_strdup(const char *s);
 size_t						ft_strlen(const char *s);
+size_t						ft_wcstombs_len(const wchar_t *s);
 char						*ft_strpfx(const char *prefix, const char *str,
 										int free_prefix, int free_str);
 ssize_t						ft_write(int fd, const void *buf, size_t count);

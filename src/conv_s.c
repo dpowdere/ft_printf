@@ -50,7 +50,7 @@ static inline void	ft_conv_s_wchar(t_toolbox *toolbox, va_list *arg_ptr)
 	}
 	else
 	{
-		if (wcstombs(s, ws, 1024) == (size_t)-1)
+		if (wcstombs(s, ws, ft_wcstombs_len(ws) + 1) == (size_t)-1)
 			toolbox->error = PRINTF_WCHAR_CONVERT_ERROR;
 		eff = EFF_STRING_NON_NULL;
 	}
