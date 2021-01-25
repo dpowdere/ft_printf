@@ -12,7 +12,6 @@
 
 #include <stdarg.h>
 #include <wchar.h>
-#include <stdlib.h>
 
 #include "libftprintf.h"
 
@@ -33,8 +32,11 @@ void	ft_conv_c(t_toolbox *toolbox, va_list *arg_ptr)
 			|| (toolbox->spec.size >= SIZE_L && !DARWIN))
 	{
 		ft_memset(s, 0, SINGLE_UTF8_CHAR_STRING);
-		if ((len = wctomb(s, va_arg(*arg_ptr, wchar_t))) == -1)
+		if ((len = ft_wctomb(s, va_arg(*arg_ptr, wchar_t))) == -1)
+		{
 			toolbox->error = PRINTF_WCHAR_CONVERT_ERROR;
+			return ;
+		}
 		ft_print_field((char *)s, len, toolbox);
 	}
 	else

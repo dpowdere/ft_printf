@@ -6,7 +6,7 @@
 #    By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/25 10:25:41 by dpowdere          #+#    #+#              #
-#    Updated: 2020/12/25 10:33:05 by dpowdere         ###   ########.fr        #
+#    Updated: 2021/01/25 18:53:20 by dpowdere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,10 @@ CONTENTS = \
     ft_strdup.c \
     ft_strlen.c \
     ft_strpfx.c \
+    ft_wcstombs.c \
     ft_wcstombs_len.c \
+    ft_wctomb.c \
+    ft_wctomb_len.c \
     ft_write.c
 
 NAME := $(LIBNAME).a

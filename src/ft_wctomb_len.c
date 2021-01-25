@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wcstombs_len.c                                  :+:      :+:    :+:   */
+/*   ft_wctomb_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/25 10:26:24 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/25 17:56:25 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/01/25 17:41:27 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/01/25 17:55:42 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdint.h>
 #include <wchar.h>
 
-#include "libftprintf.h"
-
 /*
-** Calculate the length of the UTF-32 encoded wide char
-** string, when converted to UTF-8.
+** Calculate the length of the UTF-32 encoded wide char,
+** when converted to UTF-8.
 **
-**  - The encoding of the `s` wide char string is always
+**  - The encoding of the `wc` wide char is always
 **    considered to be UTF-32, thus a wrong result will
 **    be produced on Windows with its UTF-16, as well
 **    as on other non UTF-32 wide char platforms;
@@ -32,17 +30,26 @@
 **    (sic!), not [RFC 3629](https://tools.ietf.org/html/rfc3629#page-4)
 **    that requires no more than 4 bytes per unicode point.
 **
-**  Cf. stdlib's `wcstombs` function.
+**  Cf. stdlib's `wctomb` function.
 */
 
-size_t	ft_wcstombs_len(const wchar_t *s)
+int	ft_wctomb_len(wchar_t wc)
 {
-	size_t		len;
-	size_t		i;
+	uint32_t	n;
+	int			len;
 
-	i = 0;
-	len = 0;
-	while (s[i] != L'\0')
-		len += ft_wctomb_len(s[i++]);
+	n = *(uint32_t *)&wc;
+	if (n <= 0x007f)
+		len = 1;
+	else if (n <= 0x07ff)
+		len = 2;
+	else if (n <= 0xffff)
+		len = 3;
+	else if (n <= 0x1fffff)
+		len = 4;
+	else if (n <= 0x3ffffff)
+		len = 5;
+	else
+		len = 6;
 	return (len);
 }

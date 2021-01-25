@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 01:22:28 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/25 10:39:32 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/25 18:53:08 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,13 @@ void						*ft_memset(void *b, int c, size_t len);
 char						*ft_strchr(const char *s, int c);
 char						*ft_strdup(const char *s);
 size_t						ft_strlen(const char *s);
-size_t						ft_wcstombs_len(const wchar_t *s);
 char						*ft_strpfx(const char *prefix, const char *str,
 										int free_prefix, int free_str);
+size_t						ft_wcstombs(char *dst, const wchar_t *src,
+										size_t n);
+size_t						ft_wcstombs_len(const wchar_t *s);
+int							ft_wctomb(char *s, wchar_t wc);
+int							ft_wctomb_len(wchar_t wc);
 ssize_t						ft_write(int fd, const void *buf, size_t count);
 
 char						*ft_ji_base(t_max n, int base, int use_uppercase);

@@ -12,8 +12,8 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#include <wchar.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 #include "libftprintf.h"
 
@@ -35,30 +35,54 @@ static inline void	ft_conv_s_char(t_toolbox *toolbox, va_list *arg_ptr)
 	ft_print_field(s, typing_width, toolbox);
 }
 
+static inline char	*ft___wcstombs_malloc(t_toolbox *toolbox, wchar_t *ws)
+{
+	size_t	len;
+	char	*s;
+
+	len = ft_wcstombs_len(ws);
+	s = (char *)malloc(len + 1);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return (NULL);
+	}
+	ft_memset(s, 0, len + 1);
+	if (ft_wcstombs(s, ws, len + 1) == (size_t)-1)
+	{
+		toolbox->error = PRINTF_WCHAR_CONVERT_ERROR;
+		return (NULL);
+	}
+	return (s);
+}
+
 static inline void	ft_conv_s_wchar(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	t_effector	eff;
 	size_t		typing_width;
 	wchar_t		*ws;
-	static char	s[1024] = { 0 };
+	char		*s;
 
 	ws = va_arg(*arg_ptr, wchar_t *);
 	if (ws == NULL)
 	{
-		ft_memcpy(s, STR_NULL, ft_strlen(STR_NULL));
+		s = STR_NULL;
 		eff = EFF_STRING_NULL;
 	}
 	else
 	{
-		if (wcstombs(s, ws, ft_wcstombs_len(ws) + 1) == (size_t)-1)
-			toolbox->error = PRINTF_WCHAR_CONVERT_ERROR;
+		s = ft___wcstombs_malloc(toolbox, ws);
+		if (s == NULL)
+			return ;
 		eff = EFF_STRING_NON_NULL;
 	}
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
+	if (ws == NULL)
+		free(s);
 }
 
-void	ft_conv_s(t_toolbox *toolbox, va_list *arg_ptr)
+void				ft_conv_s(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	if ((toolbox->spec.size == SIZE_L && DARWIN) ||
 			(toolbox->spec.size >= SIZE_L && !DARWIN))
