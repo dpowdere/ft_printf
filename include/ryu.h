@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/18 15:53:27 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/26 14:06:08 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,23 @@
 
 # include <stdint.h>
 
-int			ft_dtoa_f(double d, char *s, uint32_t precision, int use_uppercase);
-int			ft_dtoa_e(double d, char *s, uint32_t precision, int use_uppercase);
+# include "aux.h"
 
-# define DBL_MANTISSA_BITS 52
-# define DBL_EXPONENT_BITS 11
-# define DBL_BIAS 1023
+char				*ft_dtoa(double d, t_float_format_options *opts);
+
+# define DBL_MANTISSA_BITS	52
+# define DBL_EXPONENT_BITS	11
+# define DBL_SIGN_BIT_SHIFT	(DBL_MANTISSA_BITS + DBL_EXPONENT_BITS)
+# define DBL_BIAS			1023
 
 # define POW10_ADDITIONAL_BITS 120
 # define POW10_BITS4IX(ix)	((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))
+
+typedef struct		s_decomposed_dbl
+{
+	int32_t		e;
+	uint64_t	m;
+}					t_decomposed_dbl;
 
 /*
 ** Returns uint32_t floor(log_10(2^e)); requires 0 <= e <= 1650.
@@ -83,21 +91,36 @@ int			ft_dtoa_e(double d, char *s, uint32_t precision, int use_uppercase);
 */
 # define LEN4IX(ix) ((LOG10_POW2(16 * (int32_t)ix) + 1 + 16 + 8) / 9)
 
-int			ft_is_div_pow5(uint64_t value, uint32_t p);
-uint32_t	ft_decimal_len9(const uint32_t v);
-uint64_t	ft_double_to_bits(const double d);
-uint64_t	ft_umul128(const uint64_t a, const uint64_t b,
-					uint64_t *const product_hi);
-uint32_t	ft_mul_shift_mod1e9(const uint64_t m,
-					const uint64_t *const mul, const int32_t j);
-void		ft_append_n_digits(const uint32_t olen,
-					uint32_t digits, char *const result);
-void		ft_append_d_digits(const uint32_t olen,
-					uint32_t digits, char *const result);
-void		ft_append_c_digits(const uint32_t count,
-					uint32_t digits, char *const result);
-void		ft_append_nine_digits(uint32_t digits, char *const result);
-int			ft_copy_special_str_printf(char *const result, const int sign,
-					const uint64_t mantissa, const int use_uppercase);
+void				ft_append_n_digits(const uint32_t olength,
+							uint32_t digits, char *const s);
+void				ft_append_d_digits(const uint32_t olength,
+							uint32_t digits, char *const s);
+void				ft_append_c_digits(const uint32_t count,
+							uint32_t digits, char *const s);
+void				ft_append_nine_digits(uint32_t digits, char *const s);
+
+int					ft_is_div_pow5(uint64_t value, uint32_t p);
+int					ft_is_nan_or_infinity(double n);
+int					ft_is_zero(double n);
+int					ft_format_sign(double n,
+							t_float_format_options *opts, char *s);
+
+uint32_t			ft_decimal_len9(const uint32_t v);
+uint32_t			ft_mul_shift_mod1e9(const uint64_t m,
+							const uint64_t *const mul, const int32_t j);
+uint64_t			ft_umul128(const uint64_t a, const uint64_t b,
+							uint64_t *const product_hi);
+
+char				*ft_dtoa_malloc(t_float_format_options *opts);
+char				*ft_format_e(t_decomposed_dbl d,
+							t_float_format_options *opts, char *s, int ix);
+char				*ft_format_f(t_decomposed_dbl d,
+							t_float_format_options *opts, char *s, int ix);
+char				*ft_format_nan_or_infinity(double n,
+							t_float_format_options *opts, char *s, int ix);
+char				*ft_format_zero(t_float_format_options *opts,
+							char *s, int ix);
+
+t_decomposed_dbl	ft_decompose_dbl(double n);
 
 #endif

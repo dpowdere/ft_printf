@@ -6,7 +6,7 @@
 #    By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/25 10:25:41 by dpowdere          #+#    #+#              #
-#    Updated: 2021/01/25 18:53:20 by dpowdere         ###   ########.fr        #
+#    Updated: 2021/01/26 10:27:00 by dpowdere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,16 @@ CONTENTS = \
 \
     jtoa.c \
     j_base.c \
-    ryu_dtoa_e.c \
-    ryu_dtoa_f.c \
+    ryu_decompose_dbl.c \
+    ryu_dtoa.c \
+    ryu_dtoa_malloc.c \
     ryu_digits.c \
+    ryu_format_f.c \
+    ryu_format_e.c \
+    ryu_format_nan_or_infinity.c \
+    ryu_format_sign.c \
+    ryu_format_zero.c \
     ryu_math.c \
-    ryu_utils.c \
 \
     ft_memcpy.c \
     ft_memset.c \
@@ -98,7 +103,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(DEPFLAGS) $(CFLAGS) -o $@ -c $< $(INCLUDE)
 
 clean:
-	$(RM) $(OBJS) $(DEPS) $(INCDIR)/*.gch
+	$(RM) $(OBJDIR)/*.o $(OBJDIR)/*.d $(INCDIR)/*.gch
 
 fclean: clean
 	$(RM) -R *.dSYM core core.*

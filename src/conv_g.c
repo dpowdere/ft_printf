@@ -22,24 +22,39 @@
 static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 										int use_uppercase)
 {
-	double		n;
-	char		*s;
-	char		*s2;
-	size_t		typing_width;
-	size_t		typing_width2;
-	uint32_t	precision;
+	double					n;
+	char					*s;
+	char					*s2;
+	size_t					typing_width;
+	size_t					typing_width2;
+	t_float_format_options	opts;
 
 	n = va_arg(*arg_ptr, double);
-	s = (char *)malloc(2000);
-	s2 = (char *)malloc(2000);
+	opts.output_type = FLOAT_FIXED;
+	opts.precision = toolbox->spec.precision;
+	opts.use_uppercase = use_uppercase;
+	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
 	if (toolbox->spec.precision == UNSPECIFIED)
-		precision = 6;
-	else
-		precision = toolbox->spec.precision;
-	typing_width = ft_dtoa_f(n, s, precision, use_uppercase);
-	s[typing_width] = '\0';
-	typing_width2 = ft_dtoa_e(n, s2, precision, use_uppercase);
-	s2[typing_width2] = '\0';
+		opts.precision = 6;
+	if (toolbox->spec.flags & FLAG_SHOW_PLUS)
+		opts.sp = SIGN_PRESENTATION_MINUS_PLUS;
+	else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
+		opts.sp = SIGN_PRESENTATION_MINUS_SPACE;
+	s = ft_dtoa(n, &opts);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return ;
+	}
+	opts.output_type = FLOAT_EXPONENTIAL;
+	s2 = ft_dtoa(n, &opts);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return ;
+	}
+	typing_width = ft_strlen(s);
+	typing_width2 = ft_strlen(s2);
 	if (typing_width > typing_width2)
 	{
 		free(s);

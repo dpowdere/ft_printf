@@ -45,14 +45,17 @@
 # define OTHER_CONVS	C(p), C(n), C(percent)
 # define CONVERTERS		{ STR_CONVS, INT_CONVS, FLOAT_CONVS, OTHER_CONVS }
 
-# define FLT_INF_LOWER	"inf"
-# define FLT_INF_UPPER	"INF"
-# define FLT_EXP_LOWER	"e"
-# define FLT_EXP_UPPER	"E"
-# define FLT_NAN_LOWER	"nan"
-# define FLT_NAN_UPPER	"NAN"
-# define PTR_NULL		"(nil)"
-# define STR_NULL		"(null)"
+# define FLT_INF_LOWER		"inf"
+# define FLT_INF_UPPER		"INF"
+# define FLT_EXP_LOWER		"e"
+# define FLT_EXP_UPPER		"E"
+# define FLT_EXP_ZERO		"+00"
+# define FLT_EXP_ZERO_LOWER	(FLT_EXP_LOWER FLT_EXP_ZERO)
+# define FLT_EXP_ZERO_UPPER	(FLT_EXP_UPPER FLT_EXP_ZERO)
+# define FLT_NAN_LOWER		"nan"
+# define FLT_NAN_UPPER		"NAN"
+# define PTR_NULL			"(nil)"
+# define STR_NULL			"(null)"
 
 typedef intmax_t			t_max;
 typedef uintmax_t			t_umax;
@@ -128,8 +131,14 @@ typedef enum				e_sign_presentation
 {
 	SIGN_PRESENTATION_MINUS_ONLY,
 	SIGN_PRESENTATION_MINUS_PLUS,
-	SIGN_PRESENTATION_MINUS_SPACE,
+	SIGN_PRESENTATION_MINUS_SPACE
 }							t_sign_presentation;
+
+typedef enum				e_float_output
+{
+	FLOAT_FIXED,
+	FLOAT_EXPONENTIAL
+}							t_float_output;
 
 typedef struct				s_int_format_options
 {
@@ -138,6 +147,14 @@ typedef struct				s_int_format_options
 	int						use_uppercase;
 	t_sign_presentation		sp;
 }							t_int_format_options;
+
+typedef struct				s_float_format_options
+{
+	t_float_output			output_type;
+	int						precision;
+	int						use_uppercase;
+	t_sign_presentation		sp;
+}							t_float_format_options;
 
 typedef enum				e_reset_type
 {
