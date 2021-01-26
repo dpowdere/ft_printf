@@ -30,7 +30,7 @@ char	*ft_format_zero(t_float_format_options *opts, char *s, int ix)
 	char *tmp;
 
 	s[ix++] = '0';
-	if (opts->precision > 0)
+	if (opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM)
 	{
 		s[ix++] = '.';
 		ft_memset(s + ix, '0', opts->precision);
