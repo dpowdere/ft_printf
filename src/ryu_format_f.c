@@ -21,14 +21,15 @@ char					*ft_format_f(t_decomposed_dbl d,
 	index = ft_format_int_without_exp(d, result, index);
 	if (opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM)
 		result[index++] = '.';
-
-	int32_t		tab_index;
-	uint32_t	blocks;
-	uint32_t	i;
-	t_roundup	roundup;
-
 	if (d.e < 0)
 	{
+
+
+		int32_t		tab_index;
+		uint32_t	blocks;
+		uint32_t	i;
+		t_roundup	roundup;
+
 		tab_index = -d.e / 16;
 		blocks = opts->precision / 9 + 1;
 		roundup = ROUNDUP_NONE;
@@ -66,22 +67,22 @@ char					*ft_format_f(t_decomposed_dbl d,
 			else
 			{
 				const uint32_t maximum = opts->precision - 9 * i;
-				uint32_t lastDigit = 0;
+				uint32_t last_digit = 0;
 				uint32_t k = 0;
 				while (k++ < 9 - maximum)
 				{
-					lastDigit = digits % 10;
+					last_digit = digits % 10;
 					digits /= 10;
 				}
-				if (lastDigit != 5)
-					roundup = lastDigit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
+				if (last_digit != 5)
+					roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
 				else
 				{
-					// Is mmmm * 10^(additionalDigits + 1) / 2^(-d.e) integer?
-					const int32_t requiredTwos = -d.e - (int32_t)opts->precision - 1;
-					const int trailingZeros = requiredTwos <= 0
-						|| (requiredTwos < 60 && IS_DIV_POW2(d.m, (uint32_t)requiredTwos));
-					roundup = trailingZeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
+					// Is m * 10^(additionalDigits + 1) / 2^(-d.e) integer?
+					const int32_t required_twos = -d.e - (int32_t)opts->precision - 1;
+					const int trailing_zeros = required_twos <= 0
+						|| (required_twos < 60 && IS_DIV_POW2(d.m, (uint32_t)required_twos));
+					roundup = trailing_zeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
 				}
 				if (maximum > 0)
 					index = ft_append_c_digits(maximum, digits, result, index);
@@ -92,31 +93,31 @@ char					*ft_format_f(t_decomposed_dbl d,
 		}
 		if (roundup != ROUNDUP_NONE)
 		{
-			int roundIndex = index;
-			int dotIndex = 0;
+			int round_index = index;
+			int dot_index = 0;
 			while (1)
 			{
-				--roundIndex;
+				--round_index;
 				char c;
-				if (roundIndex == -1 || (c = result[roundIndex], c == '-'))
+				if (round_index == -1 || (c = result[round_index], c == '-'))
 				{
-					result[roundIndex + 1] = '1';
-					if (dotIndex > 0)
+					result[round_index + 1] = '1';
+					if (dot_index > 0)
 					{
-						result[dotIndex] = '0';
-						result[dotIndex + 1] = '.';
+						result[dot_index] = '0';
+						result[dot_index + 1] = '.';
 					}
 					result[index++] = '0';
 					break ;
 				}
 				if (c == '.')
 				{
-					dotIndex = roundIndex;
+					dot_index = round_index;
 					continue ;
 				}
 				else if (c == '9')
 				{
-					result[roundIndex] = '0';
+					result[round_index] = '0';
 					roundup = ROUNDUP_UNCONDITIONALLY;
 					continue ;
 				}
@@ -124,7 +125,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 				{
 					if (roundup == ROUNDUP_IF_ODD && c % 2 == 0)
 						break ;
-					result[roundIndex] = c + 1;
+					result[round_index] = c + 1;
 					break ;
 				}
 			}
