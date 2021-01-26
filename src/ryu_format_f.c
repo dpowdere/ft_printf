@@ -15,36 +15,35 @@
 #include "libftprintf.h"
 
 int		ft_format_int_without_exp(t_decomposed_dbl d,
-									char *const result, int index)
+									char *const s, int ix)
 {
 	int			non_zero;
 	int32_t		i;
-	uint32_t	ix;
+	uint32_t	x;
 	uint32_t	digits;
 
 	non_zero = 0;
 	if (d.e >= -52)
 	{
-		ix = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
-		i = (int32_t)LEN4IX(ix);
+		x = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
+		i = (int32_t)LEN4IX(x);
 		while (--i >= 0)
 		{
 			digits = ft_mul_shift_mod1e9(d.m << 8,
-				g_pow10_split[g_pow10_offset[ix] + i],
-				(int32_t)((POW10_BITS4IX(ix) - d.e) + 8));
+				g_pow10_split[g_pow10_offset[x] + i],
+				(int32_t)((POW10_BITS4IX(x) - d.e) + 8));
 			if (non_zero)
-				index = ft_append_nine_digits(digits, result, index);
+				ix = ft_append_nine_digits(digits, s, ix);
 			else if (digits != 0)
 			{
-				index = ft_append_n_digits(ft_decimal_len9(digits),
-										digits, result, index);
+				ix = ft_append_n_digits(ft_decimal_len9(digits), digits, s, ix);
 				non_zero = 1;
 			}
 		}
 	}
 	if (!non_zero)
-		result[index++] = '0';
-	return (index);
+		s[ix++] = '0';
+	return (ix);
 }
 
 char	*ft_format_f(t_decomposed_dbl d, t_float_format_options *opts,

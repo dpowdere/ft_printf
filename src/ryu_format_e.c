@@ -30,10 +30,11 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		const int32_t len = (int32_t)LEN4IX(idx);
 		for (int32_t i = len - 1; i >= 0; --i)
 		{
-			const uint32_t j = p10bits - d.e;
-			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			digits = ft_mul_shift_mod1e9(d.m << 8, g_pow10_split[g_pow10_offset[idx] + i], (int32_t)(j + 8));
+			digits = ft_mul_shift_mod1e9(
+				d.m << 8,
+				g_pow10_split[g_pow10_offset[idx] + i],
+				(int32_t)((p10bits - d.e) + 8)
+			);
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > (uint32_t)opts->precision)
@@ -65,11 +66,14 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		const int32_t idx = -d.e / 16;
 		for (int32_t i = g_min_block_2[idx]; i < 200; ++i)
 		{
-			const int32_t j = ADDITIONAL_BITS_2 + (-d.e - 16 * idx);
 			const uint32_t p = g_pow10_offset_2[idx] + (uint32_t)i - g_min_block_2[idx];
-			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			digits = (p >= g_pow10_offset_2[idx + 1]) ? 0 : ft_mul_shift_mod1e9(d.m << 8, g_pow10_split_2[p], j + 8);
+			digits = (p >= g_pow10_offset_2[idx + 1])
+				? 0
+				: ft_mul_shift_mod1e9(
+					d.m << 8,
+					g_pow10_split_2[p],
+					ADDITIONAL_BITS_2 + (-d.e - 16 * idx) + 8
+				);
 			if (printedDigits != 0)
 			{
 				if (printedDigits + 9 > (uint32_t)opts->precision)
