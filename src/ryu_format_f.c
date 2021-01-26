@@ -14,24 +14,35 @@
 
 #include "libftprintf.h"
 
-int		ft_format_int_without_exp(t_decomposed_dbl d,
-									char *const s, int ix)
+static inline uint32_t	ft_mshm(t_decomposed_dbl d,
+								uint32_t tab_index, int32_t i)
+{
+	uint32_t	digits;
+
+	digits = ft_mul_shift_mod1e9(
+		d.m << 8,
+		g_pow10_split[g_pow10_offset[tab_index] + i],
+		(int32_t)((POW10_BITS4IX(tab_index) - d.e) + 8)
+	);
+	return (digits);
+}
+
+int						ft_format_int_without_exp(t_decomposed_dbl d,
+													char *const s, int ix)
 {
 	int			non_zero;
 	int32_t		i;
-	uint32_t	x;
+	uint32_t	tab_index;
 	uint32_t	digits;
 
 	non_zero = 0;
 	if (d.e >= -52)
 	{
-		x = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
-		i = (int32_t)LEN4IX(x);
+		tab_index = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
+		i = (int32_t)LEN4IX(tab_index);
 		while (--i >= 0)
 		{
-			digits = ft_mul_shift_mod1e9(d.m << 8,
-				g_pow10_split[g_pow10_offset[x] + i],
-				(int32_t)((POW10_BITS4IX(x) - d.e) + 8));
+			digits = ft_mshm(d, tab_index, i);
 			if (non_zero)
 				ix = ft_append_nine_digits(digits, s, ix);
 			else if (digits != 0)
@@ -46,8 +57,9 @@ int		ft_format_int_without_exp(t_decomposed_dbl d,
 	return (ix);
 }
 
-char	*ft_format_f(t_decomposed_dbl d, t_float_format_options *opts,
-					char *const result, int index)
+char					*ft_format_f(t_decomposed_dbl d,
+										t_float_format_options *opts,
+										char *const result, int index)
 {
 	index = ft_format_int_without_exp(d, result, index);
 	if (opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM)
