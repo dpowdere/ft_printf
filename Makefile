@@ -48,7 +48,7 @@ CONTENTS = \
     ryu_format_nan_or_infinity.c \
     ryu_format_sign.c \
     ryu_format_zero.c \
-    ryu_math.c \
+    ryu_utils.c \
 \
     ft_memcpy.c \
     ft_memset.c \
