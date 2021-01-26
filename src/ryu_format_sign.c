@@ -23,7 +23,7 @@ int	ft_format_sign(double n, t_float_format_options *opts, char *s)
 	int				cursor_shift;
 
 	cursor_shift = 1;
-	if (sign && opts->sp == SIGN_PRESENTATION_MINUS_ONLY)
+	if (sign)
 		*s = '-';
 	else if (!sign && opts->sp == SIGN_PRESENTATION_MINUS_PLUS)
 		*s = '+';
