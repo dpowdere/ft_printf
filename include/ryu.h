@@ -54,6 +54,13 @@ typedef struct		s_decomposed_dbl
 	uint64_t	m;
 }					t_decomposed_dbl;
 
+typedef enum		e_roundup
+{
+	ROUNDUP_NONE,
+	ROUNDUP_UNCONDITIONALLY,
+	ROUNDUP_IF_ODD
+}					t_roundup;
+
 /*
 ** Returns uint32_t floor(log_10(2^e)); requires 0 <= e <= 1650.
 **

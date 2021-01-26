@@ -68,8 +68,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 	{
 		const int32_t idx = -d.e / 16;
 		const uint32_t blocks = opts->precision / 9 + 1;
-		// 0 = don't round up; 1 = round up unconditionally; 2 = round up if odd.
-		int roundUp = 0;
+		t_roundup roundUp = ROUNDUP_NONE;
 		uint32_t i = 0;
 		if (blocks <= g_min_block_2[idx])
 		{
@@ -112,21 +111,21 @@ char					*ft_format_f(t_decomposed_dbl d,
 					digits /= 10;
 				}
 				if (lastDigit != 5)
-					roundUp = lastDigit > 5;
+					roundUp = lastDigit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
 				else
 				{
 					// Is mmmm * 10^(additionalDigits + 1) / 2^(-d.e) integer?
 					const int32_t requiredTwos = -d.e - (int32_t)opts->precision - 1;
 					const int trailingZeros = requiredTwos <= 0
 						|| (requiredTwos < 60 && IS_DIV_POW2(d.m, (uint32_t)requiredTwos));
-					roundUp = trailingZeros ? 2 : 1;
+					roundUp = trailingZeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
 				}
 				if (maximum > 0)
 					index = ft_append_c_digits(maximum, digits, result, index);
 				break ;
 			}
 		}
-		if (roundUp != 0)
+		if (roundUp != ROUNDUP_NONE)
 		{
 			int roundIndex = index;
 			int dotIndex = 0; // '.' can't be located at index 0
@@ -145,6 +144,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 					result[index++] = '0';
 					break ;
 				}
+				//?//if (c == '.' && (opts->flags & FLAG_ALTERNATIVE_FORM) == 0u)
 				if (c == '.')
 				{
 					dotIndex = roundIndex;
@@ -153,12 +153,12 @@ char					*ft_format_f(t_decomposed_dbl d,
 				else if (c == '9')
 				{
 					result[roundIndex] = '0';
-					roundUp = 1;
+					roundUp = ROUNDUP_UNCONDITIONALLY;
 					continue ;
 				}
 				else
 				{
-					if (roundUp == 2 && c % 2 == 0)
+					if (roundUp == ROUNDUP_IF_ODD && c % 2 == 0)
 						break ;
 					result[roundIndex] = c + 1;
 					break ;
