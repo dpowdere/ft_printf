@@ -14,8 +14,8 @@
 
 #include "libftprintf.h"
 
-char	*ft_format_e(t_decomposed_dbl d,
-					t_float_format_options *opts, char *result, int index)
+char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
+					char *const result, int index)
 {
 	const int printDecimalPoint = opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM;
 	++opts->precision;
@@ -41,8 +41,7 @@ char	*ft_format_e(t_decomposed_dbl d,
 					availableDigits = 9;
 					break ;
 				}
-				ft_append_nine_digits(digits, result + index);
-				index += 9;
+				index = ft_append_nine_digits(digits, result, index);
 				printedDigits += 9;
 			}
 			else if (digits != 0)
@@ -52,10 +51,7 @@ char	*ft_format_e(t_decomposed_dbl d,
 				if (availableDigits > (uint32_t)opts->precision)
 					break ;
 				if (printDecimalPoint)
-				{
-					ft_append_d_digits(availableDigits, digits, result + index);
-					index += availableDigits + 1; // +1 for decimal point
-				}
+					index = ft_append_d_digits(availableDigits, digits, result, index);
 				else
 					result[index++] = (char)('0' + digits);
 				printedDigits = availableDigits;
@@ -81,8 +77,7 @@ char	*ft_format_e(t_decomposed_dbl d,
 					availableDigits = 9;
 					break ;
 				}
-				ft_append_nine_digits(digits, result + index);
-				index += 9;
+				index = ft_append_nine_digits(digits, result, index);
 				printedDigits += 9;
 			}
 			else if (digits != 0)
@@ -92,10 +87,7 @@ char	*ft_format_e(t_decomposed_dbl d,
 				if (availableDigits > (uint32_t)opts->precision)
 					break ;
 				if (printDecimalPoint)
-				{
-					ft_append_d_digits(availableDigits, digits, result + index);
-					index += availableDigits + 1; // +1 for decimal point
-				}
+					index = ft_append_d_digits(availableDigits, digits, result, index);
 				else
 					result[index++] = (char)('0' + digits);
 				printedDigits = availableDigits;
@@ -136,20 +128,11 @@ char	*ft_format_e(t_decomposed_dbl d,
 		roundUp = trailingZeros ? 2 : 1;
 	}
 	if (printedDigits != 0)
-	{
-		if (digits == 0)
-			ft_memset(result + index, '0', maximum);
-		else
-			ft_append_c_digits(maximum, digits, result + index);
-		index += maximum;
-	}
+		index = ft_append_c_digits(maximum, digits, result, index);
 	else
 	{
 		if (printDecimalPoint)
-		{
-			ft_append_d_digits(maximum, digits, result + index);
-			index += maximum + 1; // +1 for decimal point
-		}
+			index = ft_append_d_digits(maximum, digits, result, index);
 		else
 			result[index++] = (char)('0' + digits);
 	}

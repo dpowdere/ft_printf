@@ -14,38 +14,43 @@
 
 #include "libftprintf.h"
 
-char	*ft_format_f(t_decomposed_dbl d,
-					t_float_format_options *opts, char *result, int index)
+int		ft_format_int_without_exp(t_decomposed_dbl d,
+									char *const result, int index)
 {
-	int nonzero = 0;
+	int			non_zero;
+	int32_t		i;
+	uint32_t	ix;
+	uint32_t	digits;
+
+	non_zero = 0;
 	if (d.e >= -52)
 	{
-		const uint32_t idx = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
-		const uint32_t p10bits = POW10_BITS4IX(idx);
-		const int32_t len = (int32_t)LEN4IX(idx);
-		for (int32_t i = len - 1; i >= 0; --i)
+		ix = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
+		i = (int32_t)LEN4IX(ix);
+		while (--i >= 0)
 		{
-			const uint32_t j = p10bits - d.e;
-			// Temporary: j is usually around 128, and by shifting a bit, we push
-			// it to 128 or above, which is a slightly faster code path
-			// in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			const uint32_t digits = ft_mul_shift_mod1e9(d.m << 8, g_pow10_split[g_pow10_offset[idx] + i], (int32_t)(j + 8));
-			if (nonzero)
-			{
-				ft_append_nine_digits(digits, result + index);
-				index += 9;
-			}
+			digits = ft_mul_shift_mod1e9(d.m << 8,
+				g_pow10_split[g_pow10_offset[ix] + i],
+				(int32_t)((POW10_BITS4IX(ix) - d.e) + 8));
+			if (non_zero)
+				index = ft_append_nine_digits(digits, result, index);
 			else if (digits != 0)
 			{
-				const uint32_t olen = ft_decimal_len9(digits);
-				ft_append_n_digits(olen, digits, result + index);
-				index += olen;
-				nonzero = 1;
+				index = ft_append_n_digits(ft_decimal_len9(digits),
+										digits, result, index);
+				non_zero = 1;
 			}
 		}
 	}
-	if (!nonzero)
+	if (!non_zero)
 		result[index++] = '0';
+	return (index);
+}
+
+char	*ft_format_f(t_decomposed_dbl d, t_float_format_options *opts,
+					char *const result, int index)
+{
+	index = ft_format_int_without_exp(d, result, index);
 	if (opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM)
 		result[index++] = '.';
 	if (d.e < 0)
@@ -69,7 +74,6 @@ char	*ft_format_f(t_decomposed_dbl d,
 		}
 		for (; i < blocks; ++i)
 		{
-			const int32_t j = ADDITIONAL_BITS_2 + (-d.e - 16 * idx);
 			const uint32_t p = g_pow10_offset_2[idx] + i - g_min_block_2[idx];
 			if (p >= g_pow10_offset_2[idx + 1])
 			{
@@ -80,14 +84,13 @@ char	*ft_format_f(t_decomposed_dbl d,
 				index += fill;
 				break ;
 			}
-			// Temporary: j is usually around 128, and by shifting a bit, we push it to 128 or above, which is
-			// a slightly faster code path in ft_mul_shift_mod1e9. Instead, we can just increase the multipliers.
-			uint32_t digits = ft_mul_shift_mod1e9(d.m << 8, g_pow10_split_2[p], j + 8);
+			uint32_t digits = ft_mul_shift_mod1e9(
+					d.m << 8,
+					g_pow10_split_2[p],
+					ADDITIONAL_BITS_2 + (-d.e - 16 * idx) + 8
+			);
 			if (i < blocks - 1)
-			{
-				ft_append_nine_digits(digits, result + index);
-				index += 9;
-			}
+				index = ft_append_nine_digits(digits, result, index);
 			else
 			{
 				const uint32_t maximum = opts->precision - 9 * i;
@@ -108,10 +111,7 @@ char	*ft_format_f(t_decomposed_dbl d,
 					roundUp = trailingZeros ? 2 : 1;
 				}
 				if (maximum > 0)
-				{
-					ft_append_c_digits(maximum, digits, result + index);
-					index += maximum;
-				}
+					index = ft_append_c_digits(maximum, digits, result, index);
 				break ;
 			}
 		}

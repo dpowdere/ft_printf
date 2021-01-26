@@ -16,16 +16,15 @@
 
 /*
 ** Convert `digits` to a sequence of decimal digits. Append the digits to the
-** result. The caller has to guarantee that:
+** `s` result. The caller has to guarantee that:
 **
-**   10^(olen-1) <= digits < 10^olen
+**   10^(x-1) <= digits < 10^x
 **
-** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
+** e.g., by passing `x` as `ft_decimal_len9(digits)`.
 */
 
-void	ft_append_n_digits(const uint32_t olen,
-							uint32_t digits,
-							char *const result)
+int					ft_append_n_digits(const uint32_t x, uint32_t digits,
+										char *const s, int ix)
 {
 	uint32_t i;
 	uint32_t c;
@@ -35,38 +34,39 @@ void	ft_append_n_digits(const uint32_t olen,
 	{
 		c = MOD(digits, 10000);
 		digits /= 10000;
-		ft_memcpy(result + olen - i - 2, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + olen - i - 4, g_digit_tab + ((c / 100) << 1), 2);
+		ft_memcpy(s + ix + x - i - 2, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(s + ix + x - i - 4, g_digit_tab + ((c / 100) << 1), 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
 		c = (digits % 100) << 1;
 		digits /= 100;
-		ft_memcpy(result + olen - i - 2, g_digit_tab + c, 2);
+		ft_memcpy(s + ix + x - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
 	if (digits >= 10)
-		ft_memcpy(result + olen - i - 2, g_digit_tab + (digits << 1), 2);
+		ft_memcpy(s + ix + x - i - 2, g_digit_tab + (digits << 1), 2);
 	else
-		result[0] = (char)('0' + digits);
+		s[ix] = (char)('0' + digits);
+	return (ix + x);
 }
 
-void	ft_append_dot(uint32_t digits, char *const result)
+static inline void	ft_append_dot(uint32_t digits, char *const s, int ix)
 {
 	uint32_t c;
 
 	if (digits >= 10)
 	{
 		c = digits << 1;
-		result[2] = g_digit_tab[c + 1];
-		result[1] = '.';
-		result[0] = g_digit_tab[c];
+		s[ix + 2] = g_digit_tab[c + 1];
+		s[ix + 1] = '.';
+		s[ix] = g_digit_tab[c];
 	}
 	else
 	{
-		result[1] = '.';
-		result[0] = (char)('0' + digits);
+		s[ix + 1] = '.';
+		s[ix] = (char)('0' + digits);
 	}
 }
 
@@ -75,14 +75,13 @@ void	ft_append_dot(uint32_t digits, char *const result)
 ** followed by a decimal dot '.' followed by the remaining digits. The caller
 ** has to guarantee that:
 **
-**   10^(olen-1) <= digits < 10^olen
+**   10^(x-1) <= digits < 10^x
 **
-** e.g., by passing `olen` as `ft_decimal_len9(digits)`.
+** e.g., by passing `x` as `ft_decimal_len9(digits)`.
 */
 
-void	ft_append_d_digits(const uint32_t olen,
-							uint32_t digits,
-							char *const result)
+int					ft_append_d_digits(const uint32_t x, uint32_t digits,
+										char *const s, int ix)
 {
 	uint32_t i;
 	uint32_t c;
@@ -92,69 +91,78 @@ void	ft_append_d_digits(const uint32_t olen,
 	{
 		c = MOD(digits, 10000);
 		digits /= 10000;
-		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + olen + 1 - i - 4, g_digit_tab + ((c / 100) << 1), 2);
+		ft_memcpy(s + ix + x + 1 - i - 2, g_digit_tab + ((c % 100) << 1), 2);
+		ft_memcpy(s + ix + x + 1 - i - 4, g_digit_tab + ((c / 100) << 1), 2);
 		i += 4;
 	}
 	if (digits >= 100)
 	{
 		c = ((digits % 100) << 1);
 		digits /= 100;
-		ft_memcpy(result + olen + 1 - i - 2, g_digit_tab + c, 2);
+		ft_memcpy(s + ix + x + 1 - i - 2, g_digit_tab + c, 2);
 		i += 2;
 	}
-	ft_append_dot(digits, result);
+	ft_append_dot(digits, s, ix);
+	return (ix + x + 1);
 }
 
 /*
-** Convert `digits` to decimal and write the last `count` decimal digits to
+** Convert `digits` to decimal and write the last `x` decimal digits to `s`
 ** result. If `digits` contains additional digits, then those are silently
 ** ignored. (Copy pairs of digits from g_digit_tab. Generate the last digit
-** if count is odd.)
+** if x is odd.)
 */
 
-void	ft_append_c_digits(const uint32_t count,
-							uint32_t digits,
-							char *const result)
-{
-	uint32_t i;
-	uint32_t c;
-
-	i = 0;
-	while (i < count - 1)
-	{
-		c = ((digits % 100) << 1);
-		digits /= 100;
-		ft_memcpy(result + count - i - 2, g_digit_tab + c, 2);
-		i += 2;
-	}
-	if (i < count)
-		result[count - i - 1] = (char)('0' + (digits % 10));
-}
-
-/*
-** Convert `digits` to decimal and write the last 9 decimal digits to result.
-** If `digits` contains additional digits, then those are silently ignored.
-*/
-
-void	ft_append_nine_digits(uint32_t digits, char *const result)
+int					ft_append_c_digits(const uint32_t x, uint32_t digits,
+										char *const s, int ix)
 {
 	uint32_t i;
 	uint32_t c;
 
 	if (digits == 0)
+		ft_memset(s + ix, '0', x);
+	else
 	{
-		ft_memset(result, '0', 9);
-		return ;
+		i = 0;
+		while (i < x - 1)
+		{
+			c = ((digits % 100) << 1);
+			digits /= 100;
+			ft_memcpy(s + ix + x - i - 2, g_digit_tab + c, 2);
+			i += 2;
+		}
+		if (i < x)
+			s[ix + x - i - 1] = (char)('0' + (digits % 10));
 	}
-	i = 0;
-	while (i < 5)
+	return (ix + x);
+}
+
+/*
+** Convert `digits` to decimal and write the last 9 decimal digits to
+** `s` result. If `digits` contains additional digits, then those are
+** silently ignored.
+*/
+
+int					ft_append_nine_digits(uint32_t digits,
+											char *const s, int ix)
+{
+	uint32_t i;
+	uint32_t c;
+
+	if (digits == 0)
+		ft_memset(s + ix, '0', 9);
+	else
 	{
-		c = MOD(digits, 10000);
-		digits /= 10000;
-		ft_memcpy(result + 7 - i, g_digit_tab + ((c % 100) << 1), 2);
-		ft_memcpy(result + 5 - i, g_digit_tab + ((c / 100) << 1), 2);
-		i += 4;
+		i = 0;
+		while (i < 5)
+		{
+			c = MOD(digits, 10000);
+			digits /= 10000;
+			ft_memcpy(s + ix + 7 - i, g_digit_tab + ((c % 100) << 1), 2);
+			ft_memcpy(s + ix + 5 - i, g_digit_tab + ((c / 100) << 1), 2);
+			i += 4;
+		}
+		s[ix] = (char)('0' + digits);
 	}
-	result[0] = (char)('0' + digits);
+	return (ix + 9);
 }

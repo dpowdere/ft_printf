@@ -14,10 +14,10 @@
 ** A reproduction of Ulf Adams' Ryu algorithm for fast and accurate
 ** float-to-string conversion. See:
 **
-**   - Ulf Adams. 2018. Ryū: fast float-to-string conversion // SIGPLAN Not.
+**   - Ulf Adams. 2018. Ryu: fast float-to-string conversion // SIGPLAN Not.
 **     53, 4 (April 2018), 270–282. DOI:https://doi.org/10.1145/3296979.3192369
 **
-**   - Ulf Adams. 2019. Ryū revisited: printf floating point conversion //
+**   - Ulf Adams. 2019. Ryu revisited: printf floating point conversion //
 **     Proc. ACM Program. Lang. 3, OOPSLA, Article 169 (October 2019), 23
 **     pages. DOI:https://doi.org/10.1145/3360595
 **
@@ -27,7 +27,8 @@
 **
 ** The implementation is a stripped-down version of the original
 ** C-implementation from https://github.com/ulfjack/ryu, slightly tweaked
-** to count for `#`, `+` and ` ` printf flags.
+** and reworked to count for `#`, `+` and ` ` printf flags and to comply with
+** norminette's v2.0.2 requirements.
 */
 
 #ifndef RYU_H
@@ -91,19 +92,19 @@ typedef struct		s_decomposed_dbl
 */
 # define LEN4IX(ix) ((LOG10_POW2(16 * (int32_t)ix) + 1 + 16 + 8) / 9)
 
-void				ft_append_n_digits(const uint32_t olength,
-							uint32_t digits, char *const s);
-void				ft_append_d_digits(const uint32_t olength,
-							uint32_t digits, char *const s);
-void				ft_append_c_digits(const uint32_t count,
-							uint32_t digits, char *const s);
-void				ft_append_nine_digits(uint32_t digits, char *const s);
-
+int					ft_append_n_digits(const uint32_t count,
+							uint32_t digits, char *const s, int ix);
+int					ft_append_d_digits(const uint32_t count,
+							uint32_t digits, char *const s, int ix);
+int					ft_append_c_digits(const uint32_t count,
+							uint32_t digits, char *const s, int ix);
+int					ft_append_nine_digits(uint32_t digits,
+							char *const s, int ix);
 int					ft_is_div_pow5(uint64_t value, uint32_t p);
 int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
 int					ft_format_sign(double n,
-							t_float_format_options *opts, char *s);
+							t_float_format_options *opts, char *const s);
 
 uint32_t			ft_decimal_len9(const uint32_t v);
 uint32_t			ft_mul_shift_mod1e9(const uint64_t m,
@@ -113,13 +114,16 @@ uint64_t			ft_umul128(const uint64_t a, const uint64_t b,
 
 char				*ft_dtoa_malloc(t_float_format_options *opts);
 char				*ft_format_e(t_decomposed_dbl d,
-							t_float_format_options *opts, char *s, int ix);
+							t_float_format_options *opts,
+							char *const s, int ix);
 char				*ft_format_f(t_decomposed_dbl d,
-							t_float_format_options *opts, char *s, int ix);
+							t_float_format_options *opts,
+							char *const s, int ix);
 char				*ft_format_nan_or_infinity(double n,
-							t_float_format_options *opts, char *s, int ix);
+							t_float_format_options *opts,
+							char *const s, int ix);
 char				*ft_format_zero(t_float_format_options *opts,
-							char *s, int ix);
+							char *const s, int ix);
 
 t_decomposed_dbl	ft_decompose_dbl(double n);
 
