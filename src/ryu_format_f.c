@@ -32,7 +32,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 
 		tab_index = -d.e / 16;
 		blocks = opts->precision / 9 + 1;
-		roundup = ROUNDUP_NONE;
+		roundup = ROUNDUP_NEVER;
 		i = 0;
 		if (blocks <= g_min_block_2[tab_index])
 		{
@@ -75,7 +75,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 					digits /= 10;
 				}
 				if (last_digit != 5)
-					roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
+					roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
 				else
 				{
 					// Is m * 10^(additionalDigits + 1) / 2^(-d.e) integer?
@@ -91,7 +91,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 
 			++i;
 		}
-		if (roundup != ROUNDUP_NONE)
+		if (roundup != ROUNDUP_NEVER)
 		{
 			int round_index = index;
 			int dot_index = 0;
@@ -99,7 +99,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 			{
 				--round_index;
 				char c;
-				if (round_index == -1 || (c = result[round_index], c == '-'))
+				if (round_index == -1 || ((c = result[round_index]) == '-'))
 				{
 					result[round_index + 1] = '1';
 					if (dot_index > 0)

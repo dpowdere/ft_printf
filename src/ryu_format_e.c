@@ -141,9 +141,9 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			digits /= 10;
 		}
 	}
-	t_roundup roundup = ROUNDUP_NONE;
+	t_roundup roundup = ROUNDUP_NEVER;
 	if (last_digit != 5)
-		roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
+		roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
 	else
 	{
 		// Is m * 2^d.e * 10^(precision + 1 - exp) integer?
@@ -168,20 +168,19 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		else
 			result[index++] = (char)('0' + digits);
 	}
-	if (roundup != ROUNDUP_NONE)
+	if (roundup != ROUNDUP_NEVER)
 	{
 		int round_index = index;
 		while (1)
 		{
 			--round_index;
 			char c;
-			if (round_index == -1 || (c = result[round_index], c == '-'))
+			if (round_index == -1 || ((c = result[round_index]) == '-'))
 			{
 				result[round_index + 1] = '1';
 				++exp;
 				break ;
 			}
-			//?//if (c == '.' && (opts->flags & FLAG_ALTERNATIVE_FORM) == 0u)
 			if (c == '.')
 				continue ;
 			else if (c == '9')

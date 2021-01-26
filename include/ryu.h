@@ -56,7 +56,7 @@ typedef struct		s_decomposed_dbl
 
 typedef enum		e_roundup
 {
-	ROUNDUP_NONE,
+	ROUNDUP_NEVER,
 	ROUNDUP_UNCONDITIONALLY,
 	ROUNDUP_IF_ODD
 }					t_roundup;
