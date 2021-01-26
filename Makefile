@@ -6,7 +6,7 @@
 #    By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/25 10:25:41 by dpowdere          #+#    #+#              #
-#    Updated: 2021/01/26 10:27:00 by dpowdere         ###   ########.fr        #
+#    Updated: 2021/01/27 00:19:40 by dpowdere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,9 @@ CONTENTS = \
     ryu_dtoa.c \
     ryu_dtoa_malloc.c \
     ryu_digits.c \
-    ryu_format_f.c \
     ryu_format_e.c \
+    ryu_format_f.c \
+    ryu_format_int_without_exp.c \
     ryu_format_nan_or_infinity.c \
     ryu_format_sign.c \
     ryu_format_zero.c \

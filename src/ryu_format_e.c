@@ -112,10 +112,9 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			digits /= 10;
 		}
 	}
-	// 0 = don't round up; 1 = round up unconditionally; 2 = round up if odd.
-	t_roundup roundUp = ROUNDUP_NONE;
+	t_roundup roundup = ROUNDUP_NONE;
 	if (lastDigit != 5)
-		roundUp = lastDigit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
+		roundup = lastDigit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NONE;
 	else
 	{
 		// Is mmmm * 2^d.e * 10^(precision + 1 - exp) integer?
@@ -129,7 +128,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			const int32_t requiredFives = -rexp;
 			trailingZeros = trailingZeros && ft_is_div_pow5(d.m, requiredFives);
 		}
-		roundUp = trailingZeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
+		roundup = trailingZeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
 	}
 	if (printedDigits != 0)
 		index = ft_append_c_digits(maximum, digits, result, index);
@@ -140,7 +139,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		else
 			result[index++] = (char)('0' + digits);
 	}
-	if (roundUp != ROUNDUP_NONE)
+	if (roundup != ROUNDUP_NONE)
 	{
 		int roundIndex = index;
 		while (1)
@@ -159,12 +158,12 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			else if (c == '9')
 			{
 				result[roundIndex] = '0';
-				roundUp = ROUNDUP_UNCONDITIONALLY;
+				roundup = ROUNDUP_UNCONDITIONALLY;
 				continue ;
 			}
 			else
 			{
-				if (roundUp == ROUNDUP_IF_ODD && c % 2 == 0)
+				if (roundup == ROUNDUP_IF_ODD && c % 2 == 0)
 					break ;
 				result[roundIndex] = c + 1;
 				break ;
