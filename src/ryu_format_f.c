@@ -14,6 +14,12 @@
 
 #include "libftprintf.h"
 
+static inline int		ft_fill_zeros(int count, char *const result, int index)
+{
+	ft_memset(result + index, '0', count);
+	return (index + count);
+}
+
 char					*ft_format_f(t_decomposed_dbl d,
 										t_float_format_options *opts,
 										char *const result, int index)
@@ -37,23 +43,19 @@ char					*ft_format_f(t_decomposed_dbl d,
 		if (blocks <= g_min_block_2[tab_index])
 		{
 			i = blocks;
-			ft_memset(result + index, '0', opts->precision);
-			index += opts->precision;
+			index = ft_fill_zeros(opts->precision, result, index);
 		}
 		else if (i < g_min_block_2[tab_index])
 		{
 			i = g_min_block_2[tab_index];
-			ft_memset(result + index, '0', 9 * i);
-			index += 9 * i;
+			index = ft_fill_zeros(9 * i, result, index);
 		}
 		while (i < blocks)
 		{
 			const uint32_t p = g_pow10_offset_2[tab_index] + i - g_min_block_2[tab_index];
 			if (p >= g_pow10_offset_2[tab_index + 1])
 			{
-				const uint32_t fill = opts->precision - 9 * i;
-				ft_memset(result + index, '0', fill);
-				index += fill;
+				index = ft_fill_zeros(opts->precision - 9 * i, result, index);
 				break ;
 			}
 
@@ -132,9 +134,6 @@ char					*ft_format_f(t_decomposed_dbl d,
 		}
 	}
 	else
-	{
-		ft_memset(result + index, '0', opts->precision);
-		index += opts->precision;
-	}
+		index = ft_fill_zeros(opts->precision, result, index);
 	return (result);
 }
