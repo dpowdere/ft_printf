@@ -35,11 +35,11 @@ char	*ft_format_nan_or_infinity(double n,
 
 	if (mantissa)
 	{
-		tmp = opts->use_uppercase ? FLT_NAN_UPPER : FLT_NAN_LOWER;
+		tmp = opts->flags & FLAG_USE_UPPERCASE ? FLT_NAN_UPPER : FLT_NAN_LOWER;
 		ft_memcpy(s + ix, tmp, ft_strlen(tmp));
 		return (s);
 	}
-	tmp = opts->use_uppercase ? FLT_INF_UPPER : FLT_INF_LOWER;
+	tmp = opts->flags & FLAG_USE_UPPERCASE ? FLT_INF_UPPER : FLT_INF_LOWER;
 	ft_memcpy(s + ix, tmp, ft_strlen(tmp));
 	return (s);
 }

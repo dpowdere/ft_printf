@@ -38,7 +38,10 @@ char	*ft_format_zero(t_float_format_options *opts, char *s, int ix)
 	}
 	if (opts->output_type == FLOAT_EXPONENTIAL)
 	{
-		tmp = opts->use_uppercase ? FLT_EXP_ZERO_UPPER : FLT_EXP_ZERO_LOWER;
+		if (opts->flags & FLAG_USE_UPPERCASE)
+			tmp = FLT_EXP_ZERO_UPPER;
+		else
+			tmp = FLT_EXP_ZERO_LOWER;
 		ft_memcpy(s + ix, tmp, ft_strlen(tmp));
 	}
 	return (s);

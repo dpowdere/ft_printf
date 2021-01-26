@@ -33,6 +33,7 @@
 # define NUM_CONV_SPECIFIERS		"iduoXxEeFfGg" "p"
 # define INT_CONV_SPECIFIERS		"iduoXx" "p"
 # define UNSIGNED_CONV_SPECIFIERS	"uoXx"
+# define UPPERCASE_CONV_SPECIFIERS	"XEFG"
 # define CONV_SPECIFIERS			"sciduoXxEeFfGgpn%"
 # define CONV_SPEC_COUNT			17
 
@@ -41,7 +42,7 @@
 # define SIGNED_CONVS	C(i), C(d)
 # define UNSIGN_CONVS	C(u), C(o), C(upper_x), C(x)
 # define INT_CONVS		SIGNED_CONVS, UNSIGN_CONVS
-# define FLOAT_CONVS	C(upper_e), C(e), C(upper_f), C(f), C(upper_g), C(g)
+# define FLOAT_CONVS	C(e), C(e), C(f), C(f), C(g), C(g)
 # define OTHER_CONVS	C(p), C(n), C(percent)
 # define CONVERTERS		{ STR_CONVS, INT_CONVS, FLOAT_CONVS, OTHER_CONVS }
 
@@ -152,8 +153,7 @@ typedef struct				s_float_format_options
 {
 	t_float_output			output_type;
 	int						precision;
-	int						use_uppercase;
-	t_sign_presentation		sp;
+	unsigned int			flags;
 }							t_float_format_options;
 
 typedef enum				e_reset_type

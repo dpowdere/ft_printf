@@ -25,9 +25,9 @@ int	ft_format_sign(double n, t_float_format_options *opts, char *s)
 	cursor_shift = 1;
 	if (sign)
 		*s = '-';
-	else if (!sign && opts->sp == SIGN_PRESENTATION_MINUS_PLUS)
+	else if (!sign && opts->flags & FLAG_SHOW_PLUS)
 		*s = '+';
-	else if (!sign && opts->sp == SIGN_PRESENTATION_MINUS_SPACE)
+	else if (!sign && opts->flags & FLAG_SHOW_SPACE_PLUS)
 		*s = ' ';
 	else
 		cursor_shift = 0;

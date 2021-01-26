@@ -183,7 +183,10 @@ char	*ft_format_e(t_decomposed_dbl d,
 			}
 		}
 	}
-	result[index++] = opts->use_uppercase ? *FLT_EXP_UPPER : *FLT_EXP_LOWER;
+	if (opts->flags & FLAG_USE_UPPERCASE)
+		result[index++] = *FLT_EXP_UPPER;
+	else
+		result[index++] = *FLT_EXP_LOWER;
 	if (exp < 0)
 	{
 		result[index++] = '-';

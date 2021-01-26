@@ -58,4 +58,6 @@ void				ft_normalize_spec(t_spec *spec, va_list *arg_ptr)
 	match = ft_strchr(NUM_CONV_SPECIFIERS, spec->conversion);
 	if (match && spec->flags & FLAG_ZERO_PAD)
 		spec->flags |= FLAG_FIELD_WIDTH_ZERO_PAD;
+	if (ft_strchr(UPPERCASE_CONV_SPECIFIERS, spec->conversion))
+		spec->flags |= FLAG_USE_UPPERCASE;
 }

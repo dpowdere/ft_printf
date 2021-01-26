@@ -16,30 +16,23 @@
 
 #include "libftprintf.h"
 
-#define DO_USE_UPPERCASE	1
-#define DONT_USE_UPPERCASE	0
-
-static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
-										int use_uppercase)
+void				ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	double					n;
-	char					*s;
-	char					*s2;
+	t_float_format_options	opts;
 	size_t					typing_width;
 	size_t					typing_width2;
-	t_float_format_options	opts;
+	char					*s;
+	char					*s2;
+	double					n;
 
 	n = va_arg(*arg_ptr, double);
 	opts.output_type = FLOAT_FIXED;
 	opts.precision = toolbox->spec.precision;
-	opts.use_uppercase = use_uppercase;
-	opts.sp = SIGN_PRESENTATION_MINUS_ONLY;
+	opts.flags = toolbox->spec.flags;
 	if (toolbox->spec.precision == UNSPECIFIED)
 		opts.precision = 6;
-	if (toolbox->spec.flags & FLAG_SHOW_PLUS)
-		opts.sp = SIGN_PRESENTATION_MINUS_PLUS;
-	else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
-		opts.sp = SIGN_PRESENTATION_MINUS_SPACE;
+	else if (toolbox->spec.precision == 0)
+		opts.precision = 1;
 	s = ft_dtoa(n, &opts);
 	if (s == NULL)
 	{
@@ -65,14 +58,4 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 		free(s2);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
-}
-
-void				ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	ft_implementation(toolbox, arg_ptr, DONT_USE_UPPERCASE);
-}
-
-void				ft_conv_upper_g(t_toolbox *toolbox, va_list *arg_ptr)
-{
-	ft_implementation(toolbox, arg_ptr, DO_USE_UPPERCASE);
 }
