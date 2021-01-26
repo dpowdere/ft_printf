@@ -17,7 +17,7 @@
 char	*ft_format_e(t_decomposed_dbl d,
 					t_float_format_options *opts, char *result, int index)
 {
-	const int printDecimalPoint = opts->precision > 0;
+	const int printDecimalPoint = opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM;
 	++opts->precision;
 	uint32_t digits = 0;
 	uint32_t printedDigits = 0;

@@ -46,7 +46,7 @@ char	*ft_format_f(t_decomposed_dbl d,
 	}
 	if (!nonzero)
 		result[index++] = '0';
-	if (opts->precision > 0)
+	if (opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM)
 		result[index++] = '.';
 	if (d.e < 0)
 	{

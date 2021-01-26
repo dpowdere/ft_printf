@@ -103,13 +103,14 @@ typedef struct				s_spec
 	unsigned int	flags;
 }							t_spec;
 
-# define NO_FLAGS					000u
-# define FLAG_LEFT_JUSTIFY			001u
-# define FLAG_ZERO_PAD				002u
-# define FLAG_FIELD_WIDTH_ZERO_PAD	004u
+# define NO_FLAGS					00u
+# define FLAG_LEFT_JUSTIFY			01u
+# define FLAG_ZERO_PAD				02u
+# define FLAG_FIELD_WIDTH_ZERO_PAD	04u
 # define FLAG_ALTERNATIVE_FORM		010u
 # define FLAG_SHOW_PLUS				020u
 # define FLAG_SHOW_SPACE_PLUS		040u
+# define FLAG_USE_UPPERCASE			0100u
 
 # define UNSPECIFIED	-1
 # define TAKE_FROM_ARG	-2
