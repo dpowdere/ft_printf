@@ -57,6 +57,11 @@ void				ft_conv_i(t_toolbox *toolbox, va_list *arg_ptr)
 		eff = EFF_NUMBER_NEGATIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
 	s = ft_format_ji(n, opts);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return ;
+	}
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
@@ -82,6 +87,11 @@ void				ft_conv_u(t_toolbox *toolbox, va_list *arg_ptr)
 		eff = EFF_NUMBER_POSITIVE;
 	ft_set_opts(&opts, &toolbox->spec, eff);
 	s = ft_format_ju(n, opts);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return ;
+	}
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);

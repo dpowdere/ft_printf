@@ -86,7 +86,7 @@ all: $(NAME)
 bonus: $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(DEPFLAGS) $(CFLAGS) -o $@ -c $< $(INCLUDE)
+	$(CC) $(DEPFLAGS) $(CFLAGS) -c -o $@ $(INCLUDE) $<
 
 clean:
 	$(RM) $(OBJDIR)/*.o $(OBJDIR)/*.d $(INCDIR)/*.gch
@@ -101,7 +101,7 @@ test:
 	@if [ -f test.c ] ; \
 	then \
 		test -f $(NAME) || $(MAKE) $(NAME) ; \
-		$(CC) $(CFLAGS) -Wformat=0 -o test.out test.c $(NAME) $(INCLUDE) ; \
+		$(CC) $(CFLAGS) -Wformat=0 -o test.out $(INCLUDE) test.c $(NAME) ; \
 		./test.out ; \
 	else \
 		echo "No test found" ; \

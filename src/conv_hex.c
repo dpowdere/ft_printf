@@ -45,6 +45,11 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 		opts->sp = SIGN_PRESENTATION_MINUS_SPACE;
 }
 
+static inline void	ft_printf_error(t_toolbox *toolbox, int error)
+{
+	toolbox->error = error;
+}
+
 static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 										int use_uppercase)
 {
@@ -60,14 +65,15 @@ static inline void	ft_implementation(t_toolbox *toolbox, va_list *arg_ptr,
 		toolbox->spec.flags &= ~FLAG_ALTERNATIVE_FORM;
 	ft_set_opts(&opts, &toolbox->spec, eff, use_uppercase);
 	s = ft_format_ju((t_umax)n, opts);
-	if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM && !use_uppercase)
-		s = ft_strpfx("0x", s, DONT_FREE_PREFIX, DO_FREE_STRING);
-	else if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM && use_uppercase)
-		s = ft_strpfx("0X", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+	if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM)
+		s = ft_strpfx(use_uppercase ? "0X" : "0x",
+						s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	if (toolbox->spec.flags & FLAG_SHOW_PLUS)
 		s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
 		s = ft_strpfx(" ", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+	if (s == NULL)
+		return (ft_printf_error(toolbox, PRINTF_MALLOC_ERROR));
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);

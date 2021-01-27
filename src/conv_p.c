@@ -38,11 +38,15 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 		opts->min_digits = spec->precision;
 }
 
+static inline void	ft_printf_error(t_toolbox *toolbox, int error)
+{
+	toolbox->error = error;
+}
+
 void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 {
 	void					*p;
 	char					*s;
-	size_t					typing_width;
 	t_effector				eff;
 	t_int_format_options	opts;
 
@@ -61,8 +65,9 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 			s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 		else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
 			s = ft_strpfx(" ", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+		if (s == NULL)
+			return (ft_printf_error(toolbox, PRINTF_MALLOC_ERROR));
 	}
-	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
-	ft_print_field(s, typing_width, toolbox);
+	ft_print_field(s, ft_get_typing_width(&toolbox->spec, s, eff), toolbox);
 	free(s);
 }
