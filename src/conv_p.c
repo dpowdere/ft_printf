@@ -24,7 +24,9 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 								t_effector eff)
 {
 	opts->base = 16;
+	opts->min_digits = 1;
 	opts->use_uppercase = DONT_USE_UPPERCASE;
+	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 	if (spec->flags & FLAG_FIELD_WIDTH_ZERO_PAD && spec->width > 1)
 	{
 		opts->min_digits = spec->width - 2;
@@ -34,9 +36,6 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
-	else
-		opts->min_digits = 1;
-	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 }
 
 void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
@@ -49,7 +48,7 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 
 	p = va_arg(*arg_ptr, void *);
 	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
-	if (p == NULL)
+	if (p == NULL && DARWIN == 0)
 		s = ft_strdup(PTR_NULL);
 	else
 	{
