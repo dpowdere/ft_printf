@@ -170,5 +170,12 @@ int main(void)
 
 	pr("%+02d", 0);
 	pr("%+ 010i", 0);
+	pr("%-010%", NULL);
+   	pr("%010%", NULL);
+	pr("%-010c", '&');
+	pr("%010c", '*');
+	pr("%-010s", "abc");
+	pr("%010s", "abc");
+	pr("%7.p", NULL);
 	return 0;
 }
