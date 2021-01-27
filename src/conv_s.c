@@ -78,7 +78,7 @@ static inline void	ft_conv_s_wchar(t_toolbox *toolbox, va_list *arg_ptr)
 	}
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
-	if (ws == NULL)
+	if (ws != NULL)
 		free(s);
 }
 
