@@ -25,8 +25,10 @@ static inline void	ft_printf_error(t_toolbox *toolbox, int error)
 
 static inline char	ft_get_pad_char(t_toolbox *toolbox)
 {
-	if (DARWIN == 1 && toolbox->spec.conversion == 's'
-			&& toolbox->spec.flags & FLAG_ZERO_PAD)
+	if (DARWIN == 1 && (toolbox->spec.conversion == 's' ||
+				toolbox->spec.conversion == 'c' ||
+				toolbox->spec.conversion == '%') &&
+			toolbox->spec.flags & FLAG_ZERO_PAD)
 		return (ZERO_CHAR);
 	return (SPACE_CHAR);
 }
