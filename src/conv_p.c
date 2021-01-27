@@ -50,7 +50,7 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
 	if (p == NULL && DARWIN == 0)
 		s = ft_strdup(PTR_NULL);
-	if (p == NULL && DARWIN == 1 && toolbox->spec.precision == 0)
+	else if (p == NULL && DARWIN == 1 && toolbox->spec.precision == 0)
 		s = ft_strdup("0x");
 	else
 	{
