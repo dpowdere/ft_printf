@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+
 #include "libftprintf.h"
 
 void	ft_parse_flags(t_toolbox *toolbox)
