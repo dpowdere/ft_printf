@@ -28,8 +28,8 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	if (spec->flags & FLAG_FIELD_WIDTH_ZERO_PAD && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
-		if (eff == EFF_NUMBER_NEGATIVE || (eff == EFF_NUMBER_POSITIVE &&
-				spec->flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS)))
+		if (eff == EFF_NUMBER_NEGATIVE
+				|| spec->flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS))
 			if (opts->min_digits > 0)
 				opts->min_digits -= 1;
 	}
