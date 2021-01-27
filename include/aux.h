@@ -32,7 +32,11 @@
 # define SPEC_START_MARKER			'%'
 # define NUM_CONV_SPECIFIERS		"iduoXxEeFfGg" "p"
 # define INT_CONV_SPECIFIERS		"iduoXx" "p"
-# define UNSIGNED_CONV_SPECIFIERS	"uoXx"
+# if DARWIN
+#  define UNSIGNED_CONV_SPECIFIERS	"uoXx" "p"
+# else
+#  define UNSIGNED_CONV_SPECIFIERS	"uoXx"
+# endif
 # define UPPERCASE_CONV_SPECIFIERS	"XEFG"
 # define CONV_SPECIFIERS			"sciduoXxEeFfGgpn%"
 # define CONV_SPEC_COUNT			17
