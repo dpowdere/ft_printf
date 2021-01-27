@@ -46,7 +46,7 @@ size_t	ft_get_typing_width(t_spec *spec, char *s, t_effector eff)
 		if ((eff == EFF_STRING_NULL && spec->precision >= 0
 						&& (size_t)spec->precision < typing_width)
 				|| (eff == EFF_NUMBER_ZERO && spec->precision == 0))
-			typing_width = 0;
+			typing_width = DARWIN == 1 ? spec->precision : 0;
 	}
 	return (typing_width);
 }
