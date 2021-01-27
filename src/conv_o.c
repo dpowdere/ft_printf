@@ -56,13 +56,18 @@ void				ft_conv_o(t_toolbox *toolbox, va_list *arg_ptr)
 	eff = (n == 0 ? EFF_NUMBER_ZERO : EFF_NUMBER_POSITIVE);
 	ft_set_opts(&opts, &toolbox->spec, eff);
 	s = ft_format_ju((t_umax)n, opts);
-	if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM && s[0] != '0'
+	if (toolbox->spec.flags & FLAG_ALTERNATIVE_FORM && s != NULL && s[0] != '0'
 			&& !(toolbox->spec.precision == 0 && n == 0))
 		s = ft_strpfx("0", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	if (toolbox->spec.flags & FLAG_SHOW_PLUS)
 		s = ft_strpfx("+", s, DONT_FREE_PREFIX, DO_FREE_STRING);
 	else if (toolbox->spec.flags & FLAG_SHOW_SPACE_PLUS)
 		s = ft_strpfx(" ", s, DONT_FREE_PREFIX, DO_FREE_STRING);
+	if (s == NULL)
+	{
+		toolbox->error = PRINTF_MALLOC_ERROR;
+		return ;
+	}
 	typing_width = ft_get_typing_width(&toolbox->spec, s, eff);
 	ft_print_field(s, typing_width, toolbox);
 	free(s);
