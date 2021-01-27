@@ -170,5 +170,7 @@ int main(void)
 
 	pr("%+02d", 0);
 	pr("%+ 010i", 0);
+
+	pr("%%*.c%c%%*.s*%ps%%*.X", '0', NULL);
 	return 0;
 }
