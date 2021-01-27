@@ -116,7 +116,7 @@ test:
 	@if [ -f test.c ] ; \
 	then \
 		test -f $(NAME) || $(MAKE) $(NAME) ; \
-		$(CC) -Wformat=0 $(CFLAGS) -o test.out test.c $(NAME) $(INCLUDE) ; \
+		$(CC) $(CFLAGS) -Wformat=0 -o test.out test.c $(NAME) $(INCLUDE) ; \
 		./test.out ; \
 	else \
 		echo "No test found" ; \
