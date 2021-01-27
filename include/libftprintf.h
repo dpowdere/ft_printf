@@ -14,8 +14,6 @@
 # define LIBFTPRINTF_H
 
 # include "aux.h"
-# include "ryu.h"
-# include "ryu_cache.h"
 
 # define PRINTF_NO_ERROR			0
 # define PRINTF_WRITE_ERROR			-1

@@ -42,7 +42,7 @@
 # define SIGNED_CONVS	C(i), C(d)
 # define UNSIGN_CONVS	C(u), C(o), C(upper_x), C(x)
 # define INT_CONVS		SIGNED_CONVS, UNSIGN_CONVS
-# define FLOAT_CONVS	C(e), C(e), C(f), C(f), C(g), C(g)
+# define FLOAT_CONVS	C(i), C(i), C(i), C(i), C(i), C(i)
 # define OTHER_CONVS	C(p), C(n), C(percent)
 # define CONVERTERS		{ STR_CONVS, INT_CONVS, FLOAT_CONVS, OTHER_CONVS }
 
@@ -136,12 +136,6 @@ typedef enum				e_sign_presentation
 	SIGN_PRESENTATION_MINUS_SPACE
 }							t_sign_presentation;
 
-typedef enum				e_float_output
-{
-	FLOAT_FIXED,
-	FLOAT_EXPONENTIAL
-}							t_float_output;
-
 typedef struct				s_int_format_options
 {
 	int						base;
@@ -149,13 +143,6 @@ typedef struct				s_int_format_options
 	int						use_uppercase;
 	t_sign_presentation		sp;
 }							t_int_format_options;
-
-typedef struct				s_float_format_options
-{
-	t_float_output			output_type;
-	int						precision;
-	unsigned int			flags;
-}							t_float_format_options;
 
 typedef enum				e_reset_type
 {
@@ -178,9 +165,6 @@ void						ft_print_field(char *str, size_t strsize,
 
 void						ft_conv_c(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_d(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_e(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_f(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_g(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_i(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_n(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_o(t_toolbox *t, va_list *arg_ptr);
@@ -188,13 +172,9 @@ void						ft_conv_p(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_percent(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_s(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_u(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_upper_e(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_upper_f(t_toolbox *t, va_list *arg_ptr);
-void						ft_conv_upper_g(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_upper_x(t_toolbox *t, va_list *arg_ptr);
 void						ft_conv_x(t_toolbox *t, va_list *arg_ptr);
 
-void						*ft_memcpy(void *dst, const void *src, size_t n);
 void						*ft_memset(void *b, int c, size_t len);
 char						*ft_strchr(const char *s, int c);
 char						*ft_strdup(const char *s);

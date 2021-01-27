@@ -15,9 +15,6 @@ CONTENTS = \
     ft_printf.c \
 \
     conv_c.c \
-    conv_e.c \
-    conv_f.c \
-    conv_g.c \
     conv_hex.c \
     conv_int.c \
     conv_n.c \
@@ -39,19 +36,7 @@ CONTENTS = \
 \
     jtoa.c \
     j_base.c \
-    ryu_decompose_dbl.c \
-    ryu_dtoa.c \
-    ryu_dtoa_malloc.c \
-    ryu_digits.c \
-    ryu_format_e.c \
-    ryu_format_f.c \
-    ryu_format_int_without_exp.c \
-    ryu_format_nan_or_infinity.c \
-    ryu_format_sign.c \
-    ryu_format_zero.c \
-    ryu_utils.c \
 \
-    ft_memcpy.c \
     ft_memset.c \
     ft_strchr.c \
     ft_strdup.c \
