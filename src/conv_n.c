@@ -24,9 +24,9 @@ void	ft_conv_n(t_toolbox *toolbox, va_list *ap)
 	x = toolbox->cumulative_size;
 	size = toolbox->spec.size;
 	if (size == SIZE_HH)
-		*(va_arg(*ap, signed int *)) = (signed char)x;
+		*(signed char *)(va_arg(*ap, signed int *)) = (signed char)x;
 	else if (size == SIZE_H)
-		*(va_arg(*ap, signed int *)) = (signed short int)x;
+		*(signed short int *)(va_arg(*ap, signed int *)) = (signed short int)x;
 	else if (size == SIZE_DEFAULT)
 		*(va_arg(*ap, signed int *)) = (signed int)x;
 	else if (size == SIZE_L)
