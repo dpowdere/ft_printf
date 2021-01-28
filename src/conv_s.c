@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:49:43 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/21 22:49:44 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 14:52:23 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static inline void	ft_conv_s_wchar(t_toolbox *toolbox, va_list *arg_ptr)
 
 void				ft_conv_s(t_toolbox *toolbox, va_list *arg_ptr)
 {
-	if ((toolbox->spec.size == SIZE_L && DARWIN) ||
-			(toolbox->spec.size >= SIZE_L && !DARWIN))
+	if ((toolbox->spec.size == SIZE_L && ON_MACOS) ||
+			(toolbox->spec.size >= SIZE_L && !ON_MACOS))
 		ft_conv_s_wchar(toolbox, arg_ptr);
 	else
 		ft_conv_s_char(toolbox, arg_ptr);

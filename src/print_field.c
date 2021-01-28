@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:46:13 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/24 16:22:37 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:02:05 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline void	ft_printf_error(t_toolbox *toolbox, int error)
 
 static inline char	ft_get_pad_char(t_toolbox *toolbox)
 {
-	if (DARWIN == 1 && (toolbox->spec.conversion == 's' ||
+	if (ON_MACOS && (toolbox->spec.conversion == 's' ||
 				toolbox->spec.conversion == 'c' ||
 				toolbox->spec.conversion == '%') &&
 			toolbox->spec.flags & FLAG_ZERO_PAD)
