@@ -6,13 +6,13 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:17:14 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/26 13:31:14 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 21:17:02 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ryu.h"
 
-t_decomposed_dbl	ft_decompose_dbl(double n)
+t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 {
 	uint32_t			exponent;
 	uint64_t			mantissa;
@@ -36,5 +36,6 @@ t_decomposed_dbl	ft_decompose_dbl(double n)
 		d.e = (int32_t)(exponent - DBL_BIAS - DBL_MANTISSA_BITS);
 		d.m = ((uint64_t)1u << DBL_MANTISSA_BITS) | mantissa;
 	}
+	d.opts = opts;
 	return (d);
 }

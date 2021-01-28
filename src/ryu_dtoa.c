@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:59:43 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/26 14:09:54 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 21:17:20 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*ft_dtoa(double n, t_float_format_options *opts)
 		return (ft_format_nan_or_infinity(n, opts, s, ix));
 	else if (ft_is_zero(n))
 		return (ft_format_zero(opts, s, ix));
-	d = ft_decompose_dbl(n);
+	d = ft_decompose_dbl(n, opts);
 	if (opts->output_type == FLOAT_EXPONENTIAL)
-		return (ft_format_e(d, opts, s, ix));
-	return (ft_format_f(d, opts, s, ix));
+		return (ft_format_e(d, s, ix));
+	return (ft_format_f(d, s, ix));
 }

@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:18:44 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/26 14:18:45 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 21:21:04 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ int		ft_format_exp(int32_t exp, t_float_format_options *opts,
 	return (index);
 }
 
-char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
-					char *const result, int index)
+char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 {
-	const int print_decimal_point = opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM;
-	++opts->precision;
+	const int print_decimal_point = d.opts->precision > 0 || d.opts->flags & FLAG_ALTERNATIVE_FORM;
+	++d.opts->precision;
 	uint32_t digits = 0;
 	uint32_t printed_digits = 0;
 	uint32_t available_digits = 0;
@@ -66,7 +65,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			);
 			if (printed_digits != 0)
 			{
-				if (printed_digits + 9 > (uint32_t)opts->precision)
+				if (printed_digits + 9 > (uint32_t)d.opts->precision)
 				{
 					available_digits = 9;
 					break ;
@@ -78,7 +77,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			{
 				available_digits = ft_decimal_len9(digits);
 				exp = i * 9 + (int32_t)available_digits - 1;
-				if (available_digits > (uint32_t)opts->precision)
+				if (available_digits > (uint32_t)d.opts->precision)
 					break ;
 				if (print_decimal_point)
 					index = ft_append_d_digits(available_digits, digits, result, index);
@@ -105,7 +104,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 				);
 			if (printed_digits != 0)
 			{
-				if (printed_digits + 9 > (uint32_t)opts->precision)
+				if (printed_digits + 9 > (uint32_t)d.opts->precision)
 				{
 					available_digits = 9;
 					break ;
@@ -117,7 +116,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 			{
 				available_digits = ft_decimal_len9(digits);
 				exp = -(i + 1) * 9 + (int32_t)available_digits - 1;
-				if (available_digits > (uint32_t)opts->precision)
+				if (available_digits > (uint32_t)d.opts->precision)
 					break ;
 				if (print_decimal_point)
 					index = ft_append_d_digits(available_digits, digits, result, index);
@@ -129,7 +128,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		}
 	}
 
-	const uint32_t maximum = opts->precision - printed_digits;
+	const uint32_t maximum = d.opts->precision - printed_digits;
 	if (available_digits == 0)
 		digits = 0;
 	uint32_t last_digit = 0;
@@ -148,7 +147,7 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 	{
 		// Is m * 2^d.e * 10^(precision + 1 - exp) integer?
 		// precision was already increased by 1, so we don't need to write + 1 here.
-		const int32_t rexp = (int32_t)opts->precision - exp;
+		const int32_t rexp = (int32_t)d.opts->precision - exp;
 		const int32_t required_twos = -d.e - rexp;
 		int trailing_zeros = required_twos <= 0
 			|| (required_twos < 60 && IS_DIV_POW2(d.m, (uint32_t)required_twos));
@@ -199,6 +198,6 @@ char	*ft_format_e(t_decomposed_dbl d, t_float_format_options *opts,
 		}
 	}
 
-	index = ft_format_exp(exp, opts, result, index);
+	index = ft_format_exp(exp, d.opts, result, index);
 	return (result);
 }

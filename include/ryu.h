@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 19:29:42 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 21:17:56 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ char				*ft_dtoa(double d, t_float_format_options *opts);
 
 typedef struct		s_decomposed_dbl
 {
-	int32_t		e;
-	uint64_t	m;
+	int32_t					e;
+	uint64_t				m;
+	t_float_format_options	*opts;
 }					t_decomposed_dbl;
 
 typedef enum		e_roundup
@@ -112,7 +113,6 @@ int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
 int					ft_fill_zeros(int count, char *const result, int index);
 int					ft_format_frac_without_exp(t_decomposed_dbl d,
-							t_float_format_options *opts,
 							char *const result, int ix);
 int					ft_format_int_without_exp(t_decomposed_dbl d,
 							char *const s, int ix);
@@ -128,18 +128,14 @@ uint64_t			ft_umul128(const uint64_t a, const uint64_t b,
 							uint64_t *const product_hi);
 
 char				*ft_dtoa_malloc(t_float_format_options *opts);
-char				*ft_format_e(t_decomposed_dbl d,
-							t_float_format_options *opts,
-							char *const s, int ix);
-char				*ft_format_f(t_decomposed_dbl d,
-							t_float_format_options *opts,
-							char *const s, int ix);
+char				*ft_format_e(t_decomposed_dbl d, char *const s, int ix);
+char				*ft_format_f(t_decomposed_dbl d, char *const s, int ix);
 char				*ft_format_nan_or_infinity(double n,
 							t_float_format_options *opts,
 							char *const s, int ix);
 char				*ft_format_zero(t_float_format_options *opts,
 							char *const s, int ix);
 
-t_decomposed_dbl	ft_decompose_dbl(double n);
+t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts);
 
 #endif
