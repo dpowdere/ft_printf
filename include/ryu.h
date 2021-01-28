@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 21:17:56 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 23:13:23 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
 int					ft_fill_zeros(int count, char *const result, int index);
 int					ft_format_frac_without_exp(t_decomposed_dbl d,
-							char *const result, int ix);
+							t_roundup *roundup, char *const result, int ix);
 int					ft_format_int_without_exp(t_decomposed_dbl d,
 							char *const s, int ix);
 int					ft_format_sign(double n,
