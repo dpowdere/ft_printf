@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/27 00:23:20 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 19:29:42 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,16 @@ int					ft_append_nine_digits(uint32_t digits,
 int					ft_is_div_pow5(uint64_t value, uint32_t p);
 int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
+int					ft_fill_zeros(int count, char *const result, int index);
+int					ft_format_frac_without_exp(t_decomposed_dbl d,
+							t_float_format_options *opts,
+							char *const result, int ix);
 int					ft_format_int_without_exp(t_decomposed_dbl d,
 							char *const s, int ix);
 int					ft_format_sign(double n,
 							t_float_format_options *opts, char *const s);
+int					ft_roundup_without_exp(t_roundup roundup,
+							char *const result, int index);
 
 uint32_t			ft_decimal_len9(const uint32_t v);
 uint32_t			ft_mul_shift_mod1e9(const uint64_t m,

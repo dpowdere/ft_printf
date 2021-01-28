@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 00:18:32 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/27 00:18:44 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 18:42:44 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static inline uint32_t	ft_mshm(t_decomposed_dbl d,
 	digits = ft_mul_shift_mod1e9(
 		d.m << 8,
 		g_pow10_split[g_pow10_offset[tab_index] + i],
-		(int32_t)((POW10_BITS4IX(tab_index) - d.e) + 8)
-	);
+		(int32_t)((POW10_BITS4IX(tab_index) - d.e) + 8));
 	return (digits);
 }
 
