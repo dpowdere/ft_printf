@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:49:51 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/21 22:49:52 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 14:52:21 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_conv_c(t_toolbox *toolbox, va_list *arg_ptr)
 	int		len;
 	char	s[SINGLE_UTF8_CHAR_STRING];
 
-	if ((toolbox->spec.size == SIZE_L && DARWIN)
-			|| (toolbox->spec.size >= SIZE_L && !DARWIN))
+	if ((toolbox->spec.size == SIZE_L && ON_MACOS)
+			|| (toolbox->spec.size >= SIZE_L && !ON_MACOS))
 	{
 		ft_memset(s, 0, SINGLE_UTF8_CHAR_STRING);
 		if ((len = ft_wctomb(s, va_arg(*arg_ptr, wchar_t))) == -1)

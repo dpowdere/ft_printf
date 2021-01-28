@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 01:22:28 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/25 18:53:08 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:02:17 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <sys/types.h>
 # include <wchar.h>
 
-# ifndef DARWIN
-#  define DARWIN 1
+# ifndef ON_MACOS
+#  define ON_MACOS 1
 # endif
 
 # define STDOUT 1
@@ -32,7 +32,7 @@
 # define SPEC_START_MARKER			'%'
 # define NUM_CONV_SPECIFIERS		"iduoXxEeFfGg" "p"
 # define INT_CONV_SPECIFIERS		"iduoXx" "p"
-# if DARWIN
+# if ON_MACOS
 #  define UNSIGNED_CONV_SPECIFIERS	"uoXx" "p"
 # else
 #  define UNSIGNED_CONV_SPECIFIERS	"uoXx"

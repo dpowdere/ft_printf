@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:35:02 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/21 22:35:09 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:01:51 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ size_t	ft_get_typing_width(t_spec *spec, char *s, t_effector eff)
 		if ((eff == EFF_STRING_NULL && spec->precision >= 0
 						&& (size_t)spec->precision < typing_width)
 				|| (eff == EFF_NUMBER_ZERO && spec->precision == 0))
-			typing_width = DARWIN == 1 ? spec->precision : 0;
+			typing_width = ON_MACOS ? spec->precision : 0;
 		if (spec->flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS) &&
 				eff == EFF_NUMBER_ZERO && spec->precision == 0)
 			typing_width = 1;

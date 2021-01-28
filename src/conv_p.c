@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:49:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/21 22:49:30 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 14:59:26 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void				ft_conv_p(t_toolbox *toolbox, va_list *arg_ptr)
 
 	p = va_arg(*arg_ptr, void *);
 	eff = (p == NULL ? EFF_POINTER_NULL : EFF_POINTER_NON_NULL);
-	if (p == NULL && DARWIN == 0)
+	if (p == NULL && !ON_MACOS)
 		s = ft_strdup(PTR_NULL);
-	else if (p == NULL && DARWIN == 1 && toolbox->spec.precision == 0)
+	else if (p == NULL && ON_MACOS && toolbox->spec.precision == 0)
 		s = ft_strdup("0x");
 	else
 	{

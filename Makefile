@@ -6,7 +6,7 @@
 #    By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/25 10:25:41 by dpowdere          #+#    #+#              #
-#    Updated: 2021/01/27 00:19:40 by dpowdere         ###   ########.fr        #
+#    Updated: 2021/01/28 14:43:45 by dpowdere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,23 +58,13 @@ SRCS := $(addprefix $(SRCDIR)/, $(CONTENTS))
 OBJS := $(addprefix $(OBJDIR)/, $(CONTENTS:.c=.o))
 DEPS := $(addprefix $(OBJDIR)/, $(CONTENTS:.c=.d))
 INCLUDE := -I$(INCDIR)
-SYSTEM := $(shell uname)
 
 CC := gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -DDARWIN=$(DARWIN)
+CFLAGS = -Wall -Wextra -Werror -g3
 DEPFLAGS = -MMD -MP
 
 AR := ar
 ARFLAGS := rcusv
-DARWIN := 1
-ifneq ($(SYSTEM), Darwin)
-  DARWIN := 0
-  ifeq ($(SYSTEM), Linux)
-    ARFLAGS := rcuUsv
-  else
-    ARFLAGS := rcsv
-  endif
-endif
 
 .PHONY: all bonus clean fclean re test
 
