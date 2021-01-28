@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 22:49:23 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/21 22:49:24 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:50:55 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 								t_effector eff)
 {
 	opts->base = 8;
+	opts->min_digits = 1;
 	opts->use_uppercase = CASE_DOES_NOT_MATTER;
+	opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 	if (spec->flags & FLAG_FIELD_WIDTH_ZERO_PAD && spec->width != UNSPECIFIED)
 	{
 		opts->min_digits = spec->width;
@@ -34,14 +36,10 @@ static inline void	ft_set_opts(t_int_format_options *opts, t_spec *spec,
 	}
 	else if (spec->precision != UNSPECIFIED)
 		opts->min_digits = spec->precision;
-	else
-		opts->min_digits = 1;
 	if (spec->flags & FLAG_SHOW_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_PLUS;
 	else if (spec->flags & FLAG_SHOW_SPACE_PLUS)
 		opts->sp = SIGN_PRESENTATION_MINUS_SPACE;
-	else
-		opts->sp = SIGN_PRESENTATION_MINUS_ONLY;
 }
 
 void				ft_conv_o(t_toolbox *toolbox, va_list *arg_ptr)
