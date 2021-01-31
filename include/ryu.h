@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 19:18:14 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:43:35 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef enum		e_roundup
 	ROUNDUP_UNCONDITIONALLY,
 	ROUNDUP_IF_ODD
 }					t_roundup;
+
+struct				s_result
+{
+	char	*result;
+	int		ix;
+};
 
 typedef struct		s_decomposed_dbl
 {

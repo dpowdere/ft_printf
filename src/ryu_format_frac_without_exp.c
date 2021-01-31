@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 18:46:10 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 19:21:16 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:44:23 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl *d,
 
 int						ft_fill_blocks(t_decomposed_dbl *d,
 										int32_t tab_index, uint32_t i,
-										char *const result, int *index)
+										struct s_result *r)
 {
 	uint32_t p;
 	uint32_t digits;
@@ -75,17 +75,17 @@ int						ft_fill_blocks(t_decomposed_dbl *d,
 	p = g_pow10_offset_2[tab_index] + i - g_min_block_2[tab_index];
 	if (p >= g_pow10_offset_2[tab_index + 1])
 	{
-		*index = ft_fill_zeros(d->opts->precision - 9 * i, result, *index);
+		r->ix = ft_fill_zeros(d->opts->precision - 9 * i, r->result, r->ix);
 		return (BREAK);
 	}
 	digits = ft_mshma(*d, p, tab_index);
 	if (i < d->frac_blocks - 1)
-		*index = ft_append_nine_digits(digits, result, *index);
+		r->ix = ft_append_nine_digits(digits, r->result, r->ix);
 	else
 	{
 		maximum = ft_get_max_and_roundup_type(d, i, &digits);
 		if (maximum > 0)
-			*index = ft_append_c_digits(maximum, digits, result, *index);
+			r->ix = ft_append_c_digits(maximum, digits, r->result, r->ix);
 	}
 	if (i >= d->frac_blocks - 1)
 		return (BREAK);
@@ -95,26 +95,29 @@ int						ft_fill_blocks(t_decomposed_dbl *d,
 int						ft_format_frac_without_exp(t_decomposed_dbl *d,
 												char *const result, int index)
 {
-	int32_t		tab_index;
-	uint32_t	i;
+	int32_t			tab_index;
+	uint32_t		i;
+	struct s_result	r;
 
 	tab_index = -d->e / 16;
+	r.result = result;
+	r.ix = index;
 	i = 0;
 	if (d->frac_blocks <= g_min_block_2[tab_index])
 	{
 		i = d->frac_blocks;
-		index = ft_fill_zeros(d->opts->precision, result, index);
+		r.ix = ft_fill_zeros(d->opts->precision, result, r.ix);
 	}
 	else if (i < g_min_block_2[tab_index])
 	{
 		i = g_min_block_2[tab_index];
-		index = ft_fill_zeros(9 * i, result, index);
+		r.ix = ft_fill_zeros(9 * i, result, r.ix);
 	}
 	while (i < d->frac_blocks)
 	{
-		if (ft_fill_blocks(d, tab_index, i, result, &index) == BREAK)
+		if (ft_fill_blocks(d, tab_index, i, &r) == BREAK)
 			break ;
 		++i;
 	}
-	return (index);
+	return (r.ix);
 }

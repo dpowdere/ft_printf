@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:17:14 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 19:18:51 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:47:39 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 	segm = *(uint64_t *)&n >> DBL_MANTISSA_BITS;
 	mask = ((uint64_t)1u << DBL_EXPONENT_BITS) - 1;
 	exponent = (uint32_t)(segm & mask);
-	segm = *(uint64_t *)&n;
 	mask = ((uint64_t)1u << DBL_MANTISSA_BITS) - 1;
-	mantissa = segm & mask;
+	mantissa = *(uint64_t *)&n & mask;
 	if (exponent == 0)
 	{
 		d.e = (int32_t)(1 - DBL_BIAS - DBL_MANTISSA_BITS);
