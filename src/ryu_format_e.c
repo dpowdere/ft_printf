@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:18:44 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 21:21:04 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:57:55 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 {
 	const int print_decimal_point = d.opts->precision > 0 || d.opts->flags & FLAG_ALTERNATIVE_FORM;
 	++d.opts->precision;
+
 	uint32_t digits = 0;
 	uint32_t printed_digits = 0;
 	uint32_t available_digits = 0;
@@ -140,9 +141,9 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 			digits /= 10;
 		}
 	}
-	t_roundup roundup = ROUNDUP_NEVER;
+
 	if (last_digit != 5)
-		roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
+		d.roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
 	else
 	{
 		// Is m * 2^d.e * 10^(precision + 1 - exp) integer?
@@ -156,7 +157,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 			const int32_t required_fives = -rexp;
 			trailing_zeros = trailing_zeros && ft_is_div_pow5(d.m, required_fives);
 		}
-		roundup = trailing_zeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
+		d.roundup = trailing_zeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
 	}
 	if (printed_digits != 0)
 		index = ft_append_c_digits(maximum, digits, result, index);
@@ -167,7 +168,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 		else
 			result[index++] = (char)('0' + digits);
 	}
-	if (roundup != ROUNDUP_NEVER)
+	if (d.roundup != ROUNDUP_NEVER)
 	{
 		int round_index = index;
 		while (1)
@@ -185,12 +186,12 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 			else if (c == '9')
 			{
 				result[round_index] = '0';
-				roundup = ROUNDUP_UNCONDITIONALLY;
+				d.roundup = ROUNDUP_UNCONDITIONALLY;
 				continue ;
 			}
 			else
 			{
-				if (roundup == ROUNDUP_IF_ODD && c % 2 == 0)
+				if (d.roundup == ROUNDUP_IF_ODD && c % 2 == 0)
 					break ;
 				result[round_index] = c + 1;
 				break ;
