@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:18:21 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 23:12:54 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 18:51:56 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 char					*ft_format_f(t_decomposed_dbl d,
 									char *const result, int index)
 {
-	t_roundup roundup;
-
-	roundup = ROUNDUP_NEVER;
 	index = ft_format_int_without_exp(d, result, index);
 	if (d.opts->precision > 0 || d.opts->flags & FLAG_ALTERNATIVE_FORM)
 		result[index++] = '.';
 	if (d.e < 0)
 	{
-		index = ft_format_frac_without_exp(d, &roundup, result, index);
-		index = ft_roundup_without_exp(roundup, result, index);
+		index = ft_format_frac_without_exp(&d, result, index);
+		index = ft_roundup_without_exp(&d, result, index);
 	}
 	else
 		index = ft_fill_zeros(d.opts->precision, result, index);

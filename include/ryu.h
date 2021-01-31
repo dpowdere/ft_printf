@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 23:13:23 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 18:50:58 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,20 @@ char				*ft_dtoa(double d, t_float_format_options *opts);
 # define POW10_ADDITIONAL_BITS 120
 # define POW10_BITS4IX(ix)	((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))
 
-typedef struct		s_decomposed_dbl
-{
-	int32_t					e;
-	uint64_t				m;
-	t_float_format_options	*opts;
-}					t_decomposed_dbl;
-
 typedef enum		e_roundup
 {
 	ROUNDUP_NEVER,
 	ROUNDUP_UNCONDITIONALLY,
 	ROUNDUP_IF_ODD
 }					t_roundup;
+
+typedef struct		s_decomposed_dbl
+{
+	int32_t					e;
+	uint64_t				m;
+	t_float_format_options	*opts;
+	t_roundup				roundup;
+}					t_decomposed_dbl;
 
 /*
 ** Returns uint32_t floor(log_10(2^e)); requires 0 <= e <= 1650.
@@ -112,13 +113,13 @@ int					ft_is_div_pow5(uint64_t value, uint32_t p);
 int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
 int					ft_fill_zeros(int count, char *const result, int index);
-int					ft_format_frac_without_exp(t_decomposed_dbl d,
-							t_roundup *roundup, char *const result, int ix);
+int					ft_format_frac_without_exp(t_decomposed_dbl *d,
+							char *const result, int ix);
 int					ft_format_int_without_exp(t_decomposed_dbl d,
 							char *const s, int ix);
 int					ft_format_sign(double n,
 							t_float_format_options *opts, char *const s);
-int					ft_roundup_without_exp(t_roundup roundup,
+int					ft_roundup_without_exp(t_decomposed_dbl *d,
 							char *const result, int index);
 
 uint32_t			ft_decimal_len9(const uint32_t v);

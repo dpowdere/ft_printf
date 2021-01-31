@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 19:17:11 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 20:19:40 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 18:52:37 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 #define STOP					1
 #define STOP_AND_INCREMENT_IX	2
 
-static inline int		ft_round(char *const result,
-							int *round_index, int *dot_index,
-							t_roundup *roundup)
+static inline int		ft_round(t_decomposed_dbl *d, char *const result,
+							int *round_index, int *dot_index)
 {
 	if (*round_index == -1 || result[*round_index] == '-')
 	{
@@ -35,11 +34,11 @@ static inline int		ft_round(char *const result,
 	else if (result[*round_index] == '9')
 	{
 		result[*round_index] = '0';
-		*roundup = ROUNDUP_UNCONDITIONALLY;
+		d->roundup = ROUNDUP_UNCONDITIONALLY;
 	}
 	else
 	{
-		if (*roundup == ROUNDUP_IF_ODD && result[*round_index] % 2 == 0)
+		if (d->roundup == ROUNDUP_IF_ODD && result[*round_index] % 2 == 0)
 			return (STOP);
 		result[*round_index] = result[*round_index] + 1;
 		return (STOP);
@@ -47,7 +46,7 @@ static inline int		ft_round(char *const result,
 	return (CONTINUE);
 }
 
-int						ft_roundup_without_exp(t_roundup roundup,
+int						ft_roundup_without_exp(t_decomposed_dbl *d,
 												char *const result,
 												int index)
 {
@@ -55,12 +54,12 @@ int						ft_roundup_without_exp(t_roundup roundup,
 	int	dot_index;
 	int	state;
 
-	if (roundup != ROUNDUP_NEVER)
+	if (d->roundup != ROUNDUP_NEVER)
 	{
 		round_index = index - 1;
 		dot_index = 0;
-		while ((state = ft_round(result,
-						&round_index, &dot_index, &roundup)) == CONTINUE)
+		while ((state = ft_round(d, result,
+						&round_index, &dot_index)) == CONTINUE)
 			--round_index;
 		if (state == STOP_AND_INCREMENT_IX)
 			result[index++] = '0';

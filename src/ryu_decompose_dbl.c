@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:17:14 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 21:17:02 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/29 14:34:57 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 		d.m = ((uint64_t)1u << DBL_MANTISSA_BITS) | mantissa;
 	}
 	d.opts = opts;
+	d.roundup = ROUNDUP_NEVER;
 	return (d);
 }

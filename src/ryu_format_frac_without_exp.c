@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 18:46:10 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 23:13:57 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 18:47:11 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static inline int		ft_trailing_zeros(t_decomposed_dbl d)
 	return (trailing_zeros);
 }
 
-static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl d,
-													t_roundup *roundup,
+static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl *d,
 													uint32_t i,
 													uint32_t *digits)
 {
@@ -46,7 +45,7 @@ static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl d,
 	uint32_t last_digit;
 	uint32_t j;
 
-	maximum = d.opts->precision - 9 * i;
+	maximum = d->opts->precision - 9 * i;
 	last_digit = 0;
 	j = 0;
 	while (j++ < 9 - maximum)
@@ -55,9 +54,9 @@ static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl d,
 		*digits /= 10;
 	}
 	if (last_digit != 5)
-		*roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
+		d->roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
 	else
-		*roundup = ft_trailing_zeros(d) ? ROUNDUP_IF_ODD
+		d->roundup = ft_trailing_zeros(*d) ? ROUNDUP_IF_ODD
 										: ROUNDUP_UNCONDITIONALLY;
 	return (maximum);
 }
@@ -65,8 +64,7 @@ static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl d,
 #define BREAK		0
 #define CONTINUE	1
 
-int						ft_fill_blocks(t_decomposed_dbl d,
-										t_roundup *roundup,
+int						ft_fill_blocks(t_decomposed_dbl *d,
 										int32_t tab_index,
 										uint32_t i, uint32_t blocks,
 										char *const result, int *index)
@@ -78,15 +76,15 @@ int						ft_fill_blocks(t_decomposed_dbl d,
 	p = g_pow10_offset_2[tab_index] + i - g_min_block_2[tab_index];
 	if (p >= g_pow10_offset_2[tab_index + 1])
 	{
-		*index = ft_fill_zeros(d.opts->precision - 9 * i, result, *index);
+		*index = ft_fill_zeros(d->opts->precision - 9 * i, result, *index);
 		return (BREAK);
 	}
-	digits = ft_mshma(d, p, tab_index);
+	digits = ft_mshma(*d, p, tab_index);
 	if (i < blocks - 1)
 		*index = ft_append_nine_digits(digits, result, *index);
 	else
 	{
-		maximum = ft_get_max_and_roundup_type(d, roundup, i, &digits);
+		maximum = ft_get_max_and_roundup_type(d, i, &digits);
 		if (maximum > 0)
 			*index = ft_append_c_digits(maximum, digits, result, *index);
 	}
@@ -95,20 +93,20 @@ int						ft_fill_blocks(t_decomposed_dbl d,
 	return (CONTINUE);
 }
 
-int						ft_format_frac_without_exp(t_decomposed_dbl d,
-							t_roundup *roundup, char *const result, int index)
+int						ft_format_frac_without_exp(t_decomposed_dbl *d,
+												char *const result, int index)
 {
 	int32_t		tab_index;
 	uint32_t	blocks;
 	uint32_t	i;
 
-	tab_index = -d.e / 16;
-	blocks = d.opts->precision / 9 + 1;
+	tab_index = -d->e / 16;
+	blocks = d->opts->precision / 9 + 1;
 	i = 0;
 	if (blocks <= g_min_block_2[tab_index])
 	{
 		i = blocks;
-		index = ft_fill_zeros(d.opts->precision, result, index);
+		index = ft_fill_zeros(d->opts->precision, result, index);
 	}
 	else if (i < g_min_block_2[tab_index])
 	{
@@ -117,8 +115,7 @@ int						ft_format_frac_without_exp(t_decomposed_dbl d,
 	}
 	while (i < blocks)
 	{
-		if (ft_fill_blocks(d, roundup,
-					tab_index, i, blocks, result, &index) == BREAK)
+		if (ft_fill_blocks(d, tab_index, i, blocks, result, &index) == BREAK)
 			break ;
 		++i;
 	}
