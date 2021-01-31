@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 18:50:58 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:18:14 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct		s_decomposed_dbl
 	uint64_t				m;
 	t_float_format_options	*opts;
 	t_roundup				roundup;
+	uint32_t				frac_blocks;
 }					t_decomposed_dbl;
 
 /*

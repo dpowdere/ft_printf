@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 18:46:10 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 18:47:11 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:21:16 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ static inline uint32_t	ft_get_max_and_roundup_type(t_decomposed_dbl *d,
 #define CONTINUE	1
 
 int						ft_fill_blocks(t_decomposed_dbl *d,
-										int32_t tab_index,
-										uint32_t i, uint32_t blocks,
+										int32_t tab_index, uint32_t i,
 										char *const result, int *index)
 {
 	uint32_t p;
@@ -80,7 +79,7 @@ int						ft_fill_blocks(t_decomposed_dbl *d,
 		return (BREAK);
 	}
 	digits = ft_mshma(*d, p, tab_index);
-	if (i < blocks - 1)
+	if (i < d->frac_blocks - 1)
 		*index = ft_append_nine_digits(digits, result, *index);
 	else
 	{
@@ -88,7 +87,7 @@ int						ft_fill_blocks(t_decomposed_dbl *d,
 		if (maximum > 0)
 			*index = ft_append_c_digits(maximum, digits, result, *index);
 	}
-	if (i >= blocks - 1)
+	if (i >= d->frac_blocks - 1)
 		return (BREAK);
 	return (CONTINUE);
 }
@@ -97,15 +96,13 @@ int						ft_format_frac_without_exp(t_decomposed_dbl *d,
 												char *const result, int index)
 {
 	int32_t		tab_index;
-	uint32_t	blocks;
 	uint32_t	i;
 
 	tab_index = -d->e / 16;
-	blocks = d->opts->precision / 9 + 1;
 	i = 0;
-	if (blocks <= g_min_block_2[tab_index])
+	if (d->frac_blocks <= g_min_block_2[tab_index])
 	{
-		i = blocks;
+		i = d->frac_blocks;
 		index = ft_fill_zeros(d->opts->precision, result, index);
 	}
 	else if (i < g_min_block_2[tab_index])
@@ -113,9 +110,9 @@ int						ft_format_frac_without_exp(t_decomposed_dbl *d,
 		i = g_min_block_2[tab_index];
 		index = ft_fill_zeros(9 * i, result, index);
 	}
-	while (i < blocks)
+	while (i < d->frac_blocks)
 	{
-		if (ft_fill_blocks(d, tab_index, i, blocks, result, &index) == BREAK)
+		if (ft_fill_blocks(d, tab_index, i, result, &index) == BREAK)
 			break ;
 		++i;
 	}

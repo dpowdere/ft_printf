@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:17:14 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/29 14:34:57 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/01/31 19:18:51 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 	}
 	d.opts = opts;
 	d.roundup = ROUNDUP_NEVER;
+	d.frac_blocks = opts->precision / 9 + 1;
 	return (d);
 }
