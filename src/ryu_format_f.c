@@ -16,7 +16,7 @@ char					*ft_format_f(t_decomposed_dbl d,
 									char *const result, int index)
 {
 	index = ft_format_int_without_exp(d, result, index);
-	if (d.opts->precision > 0 || d.opts->flags & FLAG_ALTERNATIVE_FORM)
+	if (d.show_dot)
 		result[index++] = '.';
 	if (d.e < 0)
 	{

@@ -38,5 +38,6 @@ t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 	d.opts = opts;
 	d.roundup = ROUNDUP_NEVER;
 	d.frac_blocks = opts->precision / 9 + 1;
+	d.show_dot = opts->precision > 0 || opts->flags & FLAG_ALTERNATIVE_FORM;
 	return (d);
 }

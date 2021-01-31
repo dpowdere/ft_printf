@@ -45,7 +45,6 @@ int		ft_format_exp(int32_t exp, t_float_format_options *opts,
 
 char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 {
-	const int print_decimal_point = d.opts->precision > 0 || d.opts->flags & FLAG_ALTERNATIVE_FORM;
 	++d.opts->precision;
 
 	uint32_t digits = 0;
@@ -62,8 +61,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 			digits = ft_mul_shift_mod1e9(
 				d.m << 8,
 				g_pow10_split[g_pow10_offset[idx] + i],
-				(int32_t)((p10bits - d.e) + 8)
-			);
+				(int32_t)((p10bits - d.e) + 8));
 			if (printed_digits != 0)
 			{
 				if (printed_digits + 9 > (uint32_t)d.opts->precision)
@@ -80,7 +78,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 				exp = i * 9 + (int32_t)available_digits - 1;
 				if (available_digits > (uint32_t)d.opts->precision)
 					break ;
-				if (print_decimal_point)
+				if (d.show_dot)
 					index = ft_append_d_digits(available_digits, digits, result, index);
 				else
 					result[index++] = (char)('0' + digits);
@@ -119,7 +117,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 				exp = -(i + 1) * 9 + (int32_t)available_digits - 1;
 				if (available_digits > (uint32_t)d.opts->precision)
 					break ;
-				if (print_decimal_point)
+				if (d.show_dot)
 					index = ft_append_d_digits(available_digits, digits, result, index);
 				else
 					result[index++] = (char)('0' + digits);
@@ -163,7 +161,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 		index = ft_append_c_digits(maximum, digits, result, index);
 	else
 	{
-		if (print_decimal_point)
+		if (d.show_dot)
 			index = ft_append_d_digits(maximum, digits, result, index);
 		else
 			result[index++] = (char)('0' + digits);

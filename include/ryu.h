@@ -68,6 +68,7 @@ typedef struct		s_decomposed_dbl
 	t_float_format_options	*opts;
 	t_roundup				roundup;
 	uint32_t				frac_blocks;
+	int						show_dot;
 }					t_decomposed_dbl;
 
 /*
