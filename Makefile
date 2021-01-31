@@ -46,12 +46,13 @@ CONTENTS = \
     ryu_fill_zeros.c \
     ryu_format_e.c \
     ryu_format_f.c \
-    ryu_format_frac_without_exp.c \
-    ryu_format_int_without_exp.c \
+    ryu_format_f_frac.c \
+    ryu_format_f_int.c \
+    ryu_roundup_e.c \
+    ryu_roundup_f.c \
     ryu_format_nan_or_infinity.c \
     ryu_format_sign.c \
     ryu_format_zero.c \
-    ryu_roundup_without_exp.c \
     ryu_utils.c \
 \
     ft_memcpy.c \

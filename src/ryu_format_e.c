@@ -14,7 +14,7 @@
 
 #include "libftprintf.h"
 
-int		ft_format_exp(int32_t exp, t_float_format_options *opts,
+int		ft_format_e_exp(int32_t exp, t_float_format_options *opts,
 						char *const result, int index)
 {
 	if (opts->flags & FLAG_USE_UPPERCASE)
@@ -166,37 +166,8 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 		else
 			result[index++] = (char)('0' + digits);
 	}
-	if (d.roundup != ROUNDUP_NEVER)
-	{
-		int round_index = index;
-		while (1)
-		{
-			--round_index;
-			char c;
-			if (round_index == -1 || ((c = result[round_index]) == '-'))
-			{
-				result[round_index + 1] = '1';
-				++exp;
-				break ;
-			}
-			if (c == '.')
-				continue ;
-			else if (c == '9')
-			{
-				result[round_index] = '0';
-				d.roundup = ROUNDUP_UNCONDITIONALLY;
-				continue ;
-			}
-			else
-			{
-				if (d.roundup == ROUNDUP_IF_ODD && c % 2 == 0)
-					break ;
-				result[round_index] = c + 1;
-				break ;
-			}
-		}
-	}
 
-	index = ft_format_exp(exp, d.opts, result, index);
+	index = ft_roundup_e(&d, &exp, result, index);
+	index = ft_format_e_exp(exp, d.opts, result, index);
 	return (result);
 }

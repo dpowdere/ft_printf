@@ -92,8 +92,8 @@ int						ft_fill_blocks(t_decomposed_dbl *d,
 	return (CONTINUE);
 }
 
-int						ft_format_frac_without_exp(t_decomposed_dbl *d,
-												char *const result, int index)
+int						ft_format_f_frac(t_decomposed_dbl *d,
+										char *const result, int index)
 {
 	int32_t			tab_index;
 	uint32_t		i;

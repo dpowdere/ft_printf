@@ -26,8 +26,8 @@ static inline uint32_t	ft_mshm(t_decomposed_dbl d,
 	return (digits);
 }
 
-int						ft_format_int_without_exp(t_decomposed_dbl d,
-													char *const s, int ix)
+int						ft_format_f_int(t_decomposed_dbl d,
+										char *const s, int ix)
 {
 	int			non_zero;
 	int32_t		i;

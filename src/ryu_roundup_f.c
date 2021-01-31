@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 19:17:11 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/31 18:52:37 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/02/01 00:16:33 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ static inline int		ft_round(t_decomposed_dbl *d, char *const result,
 	return (CONTINUE);
 }
 
-int						ft_roundup_without_exp(t_decomposed_dbl *d,
-												char *const result,
-												int index)
+int						ft_roundup_f(t_decomposed_dbl *d,
+									char *const result, int index)
 {
 	int	round_index;
 	int	dot_index;
@@ -59,7 +58,7 @@ int						ft_roundup_without_exp(t_decomposed_dbl *d,
 		round_index = index - 1;
 		dot_index = 0;
 		while ((state = ft_round(d, result,
-						&round_index, &dot_index)) == CONTINUE)
+									&round_index, &dot_index)) == CONTINUE)
 			--round_index;
 		if (state == STOP_AND_INCREMENT_IX)
 			result[index++] = '0';
