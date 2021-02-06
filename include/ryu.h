@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/02/01 01:01:43 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/02/06 14:28:22 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,22 @@ int					ft_append_nine_digits(uint32_t digits,
 int					ft_is_div_pow5(uint64_t value, uint32_t p);
 int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
+int					ft_format_e_case1(t_decomposed_dbl *d,
+							char *const s, int ix);
+int					ft_format_e_case2(t_decomposed_dbl *d,
+							char *const s, int ix);
+int					ft_format_e_case3(t_decomposed_dbl *d,
+							char *const s, int ix);
+int					ft_format_e_exp(t_decomposed_dbl *d,
+							char *const s, int ix);
 int					ft_format_f_frac(t_decomposed_dbl *d,
-							char *const result, int ix);
+							char *const s, int ix);
 int					ft_format_f_int(t_decomposed_dbl d, char *const s, int ix);
-int					ft_fill_zeros(int count, char *const result, int index);
+int					ft_fill_zeros(int count, char *const s, int ix);
 int					ft_format_sign(double n,
 							t_float_format_options *opts, char *const s);
-int					ft_roundup_e(t_decomposed_dbl *d,
-							char *const result, int index);
-int					ft_roundup_f(t_decomposed_dbl *d,
-							char *const result, int index);
+int					ft_roundup_e(t_decomposed_dbl *d, char *const s, int ix);
+int					ft_roundup_f(t_decomposed_dbl *d, char *const s, int ix);
 
 uint32_t			ft_decimal_len9(const uint32_t v);
 uint32_t			ft_mul_shift_mod1e9(const uint64_t m,
