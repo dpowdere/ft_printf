@@ -43,10 +43,10 @@ int		ft_format_e_exp(t_decomposed_dbl *d, char *const result, int index)
 
 int		ft_case1(t_decomposed_dbl *d, char *const result, int index)
 {
-	uint32_t idx;
-	uint32_t p10bits;
-	int32_t len;
-	int32_t i;
+	uint32_t	idx;
+	uint32_t	p10bits;
+	int32_t		len;
+	int32_t		i;
 
 	idx = d->e < 0 ? 0 : IX4EXP((uint32_t)d->e);
 	p10bits = POW10_BITS4IX(idx);
@@ -75,7 +75,8 @@ int		ft_case1(t_decomposed_dbl *d, char *const result, int index)
 			if (d->available_digits > (uint32_t)d->opts->precision)
 				break ;
 			if (d->show_dot)
-				index = ft_append_d_digits(d->available_digits, d->digits, result, index);
+				index = ft_append_d_digits(d->available_digits,
+											d->digits, result, index);
 			else
 				result[index++] = (char)('0' + d->digits);
 			d->printed_digits = d->available_digits;
@@ -88,9 +89,9 @@ int		ft_case1(t_decomposed_dbl *d, char *const result, int index)
 
 int		ft_case2(t_decomposed_dbl *d, char *const result, int index)
 {
-	int32_t idx;
-	int32_t i;
-	uint32_t p;
+	int32_t		idx;
+	int32_t		i;
+	uint32_t	p;
 
 	idx = -d->e / 16;
 	i = g_min_block_2[idx];
@@ -161,9 +162,11 @@ int		ft_case3(t_decomposed_dbl *d, char *const result, int index)
 		** precision was already increased by 1,
 		** so we don't need to write + 1 here.
 		*/
-		const int32_t rexp = (int32_t)d->opts->precision - d->exp;
-		const int32_t required_twos = -d->e - rexp;
-		int trailing_zeros = required_twos <= 0 ||
+		const int32_t	rexp = (int32_t)d->opts->precision - d->exp;
+		const int32_t	required_twos = -d->e - rexp;
+		int				trailing_zeros;
+
+		trailing_zeros = required_twos <= 0 ||
 			(required_twos < 60 && IS_DIV_POW2(d->m, (uint32_t)required_twos));
 		if (rexp < 0)
 			trailing_zeros = trailing_zeros && ft_is_div_pow5(d->m, -rexp);
