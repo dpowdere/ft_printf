@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 15:20:30 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/02/06 14:28:22 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/02/06 18:20:36 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,17 @@
 # include "aux.h"
 
 char				*ft_dtoa(double d, t_float_format_options *opts);
+int					ft_dtoa_get_exp(double d, t_float_format_options *opts);
 
-# define DBL_MANTISSA_BITS	52
-# define DBL_EXPONENT_BITS	11
-# define DBL_SIGN_BIT_SHIFT	(DBL_MANTISSA_BITS + DBL_EXPONENT_BITS)
-# define DBL_BIAS			1023
+# define DBL_EXP_MALLOC_ERROR	-1024
 
-# define POW10_ADDITIONAL_BITS 120
-# define POW10_BITS4IX(ix)	((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))
+# define DBL_MANTISSA_BITS		52
+# define DBL_EXPONENT_BITS		11
+# define DBL_SIGN_BIT_SHIFT		(DBL_MANTISSA_BITS + DBL_EXPONENT_BITS)
+# define DBL_BIAS				1023
+
+# define POW10_ADDITIONAL_BITS	120
+# define POW10_BITS4IX(ix)		((uint32_t)(16 * (ix) + POW10_ADDITIONAL_BITS))
 
 typedef enum		e_roundup
 {

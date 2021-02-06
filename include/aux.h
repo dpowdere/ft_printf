@@ -6,7 +6,7 @@
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 01:22:28 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/01/28 15:02:17 by dpowdere         ###   ########.fr       */
+/*   Updated: 2021/02/06 16:54:08 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ ssize_t						ft_write(int fd, const void *buf, size_t count);
 
 char						*ft_ji_base(t_max n, int base, int use_uppercase);
 char						*ft_ju_base(t_umax n, int base, int use_uppercase);
+char						*ft_float_zero_pad(char *s, double n, t_toolbox *t);
 char						*ft_format_ji(t_max n, t_int_format_options o);
 char						*ft_format_ju(t_umax n, t_int_format_options o);
 char						*ft_format_pointer(void *p, int min_digits);

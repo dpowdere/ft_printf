@@ -6,7 +6,7 @@
 #    By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/25 10:25:41 by dpowdere          #+#    #+#              #
-#    Updated: 2021/02/06 14:30:11 by dpowdere         ###   ########.fr        #
+#    Updated: 2021/02/06 16:55:05 by dpowdere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,7 @@ CONTENTS = \
     ft_printf.c \
 \
     conv_c.c \
-    conv_e.c \
-    conv_f.c \
-    conv_g.c \
+    conv_float.c \
     conv_hex.c \
     conv_int.c \
     conv_n.c \
@@ -37,6 +35,7 @@ CONTENTS = \
     parse_size.c \
     parse_width.c \
 \
+    float_utils.c \
     jtoa.c \
     j_base.c \
     ryu_decompose_dbl.c \

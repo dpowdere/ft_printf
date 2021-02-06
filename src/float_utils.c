@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conv_f.c                                           :+:      :+:    :+:   */
+/*   float_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpowdere <dpowdere@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/21 22:48:37 by dpowdere          #+#    #+#             */
-/*   Updated: 2021/02/06 16:28:21 by dpowdere         ###   ########.fr       */
+/*   Created: 2021/02/06 16:45:52 by dpowdere          #+#    #+#             */
+/*   Updated: 2021/02/06 16:47:38 by dpowdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include <stddef.h>
 #include <stdlib.h>
 
 #include "libftprintf.h"
 
-static inline t_float_format_options	ft_get_float_opts(t_spec spec)
-{
-	t_float_format_options	opts;
-
-	opts.output_type = FLOAT_FIXED;
-	opts.precision = spec.precision;
-	opts.flags = spec.flags;
-	if (spec.precision == UNSPECIFIED)
-		opts.precision = 6;
-	return (opts);
-}
-
-static inline char						*ft_get_padded_num(double n,
-													char *s,
-													size_t len,
-													t_toolbox *toolbox)
+static inline char			*ft_get_padded_num(double n,
+											char *s, size_t len,
+											t_toolbox *toolbox)
 {
 	size_t	diff;
 	size_t	i;
@@ -54,8 +40,8 @@ static inline char						*ft_get_padded_num(double n,
 	return (zero_padded);
 }
 
-static inline char						*ft_zero_pad(double n, char *s,
-													t_toolbox *toolbox)
+char						*ft_float_zero_pad(char *s, double n,
+												t_toolbox *toolbox)
 {
 	size_t	len;
 	char	*zero_padded;
@@ -73,26 +59,4 @@ static inline char						*ft_zero_pad(double n, char *s,
 			return (NULL);
 	}
 	return (zero_padded);
-}
-
-void									ft_conv_f(t_toolbox *toolbox,
-													va_list *arg_ptr)
-{
-	t_float_format_options	opts;
-	size_t					typing_width;
-	double					n;
-	char					*s;
-
-	n = va_arg(*arg_ptr, double);
-	opts = ft_get_float_opts(toolbox->spec);
-	s = ft_dtoa(n, &opts);
-	s = ft_zero_pad(n, s, toolbox);
-	if (s == NULL)
-	{
-		toolbox->error = PRINTF_MALLOC_ERROR;
-		return ;
-	}
-	typing_width = ft_strlen(s);
-	ft_print_field(s, typing_width, toolbox);
-	free(s);
 }
