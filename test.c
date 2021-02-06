@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
+#include <float.h>
 #include <limits.h>
 #include <locale.h>
 #include <math.h>
-#include <float.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "libftprintf.h"
 
@@ -14,18 +14,12 @@
 #define RESET	"\033[0m"
 #define YELLOW	"\033[33m"
 
-#define MAXBUF	1024
-
-
 #define pr(fmt, ...) \
 	{ \
 		int n1, n2; \
 		setvbuf(stdout, NULL, _IONBF, 0); \
-		printf("=== \"" BLUE BOLD); \
-		write(1, fmt, strlen(fmt)); \
-		printf(RESET "\" ======= " BLUE BOLD); \
-		printf(#__VA_ARGS__); \
-		printf(RESET "\n|" YELLOW); \
+		printf(BLUE BOLD "\n\"%s\", %s\n" RESET, fmt, #__VA_ARGS__); \
+		printf("|" YELLOW); \
 		n1 = printf(fmt, __VA_ARGS__); \
 		printf(RESET "| %d\n", n1); \
 		printf("|" YELLOW); \
@@ -83,7 +77,7 @@ int main(void)
 	pr("%-p", p);
 	pr("%-+03d", INT_MAX);
 	pr("%d", INT_MIN);
-	pr("%d", -2147483649);
+	pr("%d", -2147483648);
 	pr("%+d", 3);
 	pr("% d", 3);
 	pr("%+d", 0);
@@ -180,6 +174,12 @@ int main(void)
 	pr("%-010s", "abc");
 	pr("%010s", "abc");
 	pr("%7.p", NULL);
+
+	pr("%#.i", 0);
+	pr("%#.x", 0);
+	pr("%#.o", 0);
+
+	pr("%.0c %.%", 'x');
 
 	return 0;
 }
