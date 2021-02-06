@@ -41,7 +41,7 @@ static inline int		ft_round(t_decomposed_dbl *d,
 	return (CONTINUE);
 }
 
-int					ft_roundup_e(t_decomposed_dbl *d,
+int						ft_roundup_e(t_decomposed_dbl *d,
 							int32_t *exp, char *const result, int index)
 {
 	int round_index;

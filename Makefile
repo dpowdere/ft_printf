@@ -85,6 +85,10 @@ DEPFLAGS = -MMD -MP
 AR := ar
 ARFLAGS := rcusv
 
+# Uncomment on Ubuntu
+#CFLAGS += -DON_MACOS=0
+#ARFLAGS := rcuUsv
+
 .PHONY: all bonus clean fclean re test
 
 $(NAME): $(OBJS)

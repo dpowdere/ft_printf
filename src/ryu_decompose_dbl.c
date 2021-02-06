@@ -16,13 +16,11 @@ t_decomposed_dbl	ft_decompose_dbl(double n, t_float_format_options *opts)
 {
 	uint32_t			exponent;
 	uint64_t			mantissa;
-	uint64_t			segm;
 	uint64_t			mask;
 	t_decomposed_dbl	d;
 
-	segm = *(uint64_t *)&n >> DBL_MANTISSA_BITS;
 	mask = ((uint64_t)1u << DBL_EXPONENT_BITS) - 1;
-	exponent = (uint32_t)(segm & mask);
+	exponent = (uint32_t)((*(uint64_t *)&n >> DBL_MANTISSA_BITS) & mask);
 	mask = ((uint64_t)1u << DBL_MANTISSA_BITS) - 1;
 	mantissa = *(uint64_t *)&n & mask;
 	if (exponent == 0)

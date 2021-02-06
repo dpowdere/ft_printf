@@ -45,18 +45,29 @@ int		ft_format_e_exp(int32_t exp, t_float_format_options *opts,
 
 char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 {
+	uint32_t digits;
+	uint32_t printed_digits;
+	uint32_t available_digits;
+	int32_t exp;
+
+	digits = 0;
+	printed_digits = 0;
+	available_digits = 0;
+	exp = 0;
 	++d.opts->precision;
 
-	uint32_t digits = 0;
-	uint32_t printed_digits = 0;
-	uint32_t available_digits = 0;
-	int32_t exp = 0;
 	if (d.e >= -52)
 	{
-		const uint32_t idx = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
-		const uint32_t p10bits = POW10_BITS4IX(idx);
-		const int32_t len = (int32_t)LEN4IX(idx);
-		for (int32_t i = len - 1; i >= 0; --i)
+		uint32_t idx;
+		uint32_t p10bits;
+		int32_t len;
+		int32_t i;
+
+		idx = d.e < 0 ? 0 : IX4EXP((uint32_t)d.e);
+		p10bits = POW10_BITS4IX(idx);
+		len = (int32_t)LEN4IX(idx);
+		i = len - 1;
+		while (i >= 0)
 		{
 			digits = ft_mul_shift_mod1e9(
 				d.m << 8,
@@ -85,22 +96,27 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 				printed_digits = available_digits;
 				available_digits = 0;
 			}
+			--i;
 		}
 	}
 
 	if (d.e < 0 && available_digits == 0)
 	{
-		const int32_t idx = -d.e / 16;
-		for (int32_t i = g_min_block_2[idx]; i < 200; ++i)
+		int32_t idx;
+		int32_t i;
+		uint32_t p;
+
+		idx = -d.e / 16;
+		i = g_min_block_2[idx];
+		while (i < 200)
 		{
-			const uint32_t p = g_pow10_offset_2[idx] + (uint32_t)i - g_min_block_2[idx];
+			p = g_pow10_offset_2[idx] + (uint32_t)i - g_min_block_2[idx];
 			digits = (p >= g_pow10_offset_2[idx + 1])
 				? 0
 				: ft_mul_shift_mod1e9(
 					d.m << 8,
 					g_pow10_split_2[p],
-					ADDITIONAL_BITS_2 + (-d.e - 16 * idx) + 8
-				);
+					ADDITIONAL_BITS_2 + (-d.e - 16 * idx) + 8);
 			if (printed_digits != 0)
 			{
 				if (printed_digits + 9 > (uint32_t)d.opts->precision)
@@ -124,22 +140,28 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 				printed_digits = available_digits;
 				available_digits = 0;
 			}
+			++i;
 		}
 	}
 
-	const uint32_t maximum = d.opts->precision - printed_digits;
+	uint32_t maximum;
+	uint32_t last_digit;
+	uint32_t k;
+
+	maximum = d.opts->precision - printed_digits;
 	if (available_digits == 0)
 		digits = 0;
-	uint32_t last_digit = 0;
+	last_digit = 0;
 	if (available_digits > maximum)
 	{
-		for (uint32_t k = 0; k < available_digits - maximum; ++k)
+		k = 0;
+		while (k < available_digits - maximum)
 		{
 			last_digit = digits % 10;
 			digits /= 10;
+			++k;
 		}
 	}
-
 	if (last_digit != 5)
 		d.roundup = last_digit > 5 ? ROUNDUP_UNCONDITIONALLY : ROUNDUP_NEVER;
 	else
@@ -157,6 +179,7 @@ char	*ft_format_e(t_decomposed_dbl d, char *const result, int index)
 		}
 		d.roundup = trailing_zeros ? ROUNDUP_IF_ODD : ROUNDUP_UNCONDITIONALLY;
 	}
+
 	if (printed_digits != 0)
 		index = ft_append_c_digits(maximum, digits, result, index);
 	else
