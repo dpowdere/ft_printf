@@ -69,6 +69,10 @@ typedef struct		s_decomposed_dbl
 	t_roundup				roundup;
 	uint32_t				frac_blocks;
 	int						show_dot;
+	int32_t					exp;
+	uint32_t				digits;
+	uint32_t				available_digits;
+	uint32_t				printed_digits;
 }					t_decomposed_dbl;
 
 /*
@@ -127,7 +131,7 @@ int					ft_fill_zeros(int count, char *const result, int index);
 int					ft_format_sign(double n,
 							t_float_format_options *opts, char *const s);
 int					ft_roundup_e(t_decomposed_dbl *d,
-							int32_t *exp, char *const result, int index);
+							char *const result, int index);
 int					ft_roundup_f(t_decomposed_dbl *d,
 							char *const result, int index);
 

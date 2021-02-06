@@ -16,12 +16,12 @@
 #define STOP					1
 
 static inline int		ft_round(t_decomposed_dbl *d,
-							int32_t *exp, char *const result, int round_index)
+								char *const result, int round_index)
 {
 	if (round_index == -1 || result[round_index] == '-')
 	{
 		result[round_index + 1] = '1';
-		++*exp;
+		++d->exp;
 		return (STOP);
 	}
 	if (result[round_index] == '.')
@@ -42,14 +42,14 @@ static inline int		ft_round(t_decomposed_dbl *d,
 }
 
 int						ft_roundup_e(t_decomposed_dbl *d,
-							int32_t *exp, char *const result, int index)
+									char *const result, int index)
 {
 	int round_index;
 
 	if (d->roundup != ROUNDUP_NEVER)
 	{
 		round_index = index - 1;
-		while (ft_round(d, exp, result, round_index) == CONTINUE)
+		while (ft_round(d, result, round_index) == CONTINUE)
 			--round_index;
 	}
 	return (index);
