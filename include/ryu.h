@@ -125,6 +125,7 @@ int					ft_append_c_digits(const uint32_t count,
 int					ft_append_nine_digits(uint32_t digits,
 							char *const s, int ix);
 int					ft_is_div_pow5(uint64_t value, uint32_t p);
+int					ft_is_float_negative(double n);
 int					ft_is_nan_or_infinity(double n);
 int					ft_is_zero(double n);
 int					ft_format_e_case1(t_decomposed_dbl *d,

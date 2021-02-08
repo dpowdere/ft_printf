@@ -29,7 +29,7 @@ static inline char			*ft_get_padded_num(double n,
 	diff = toolbox->spec.width - len;
 	if ((zero_padded = malloc(toolbox->spec.width + 1)) == NULL)
 		return (NULL);
-	if (n < 0 ||
+	if (ft_is_float_negative(n) ||
 			toolbox->spec.flags & (FLAG_SHOW_PLUS | FLAG_SHOW_SPACE_PLUS))
 		zero_padded[i++] = s[j++];
 	while (diff-- > 0)

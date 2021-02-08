@@ -14,20 +14,28 @@
 
 #include "libftprintf.h"
 
-int	ft_format_sign(double n, t_float_format_options *opts, char *s)
+int	ft_is_float_negative(double n)
 {
 	const uint64_t	bits = *(uint64_t *)&n;
 	const uint64_t	sign_bit = bits >> DBL_SIGN_BIT_SHIFT;
 	const uint64_t	sign_mask = (uint64_t)1u;
 	const int		sign = (int)(sign_bit & sign_mask);
-	int				cursor_shift;
 
+	return (sign);
+}
+
+int	ft_format_sign(double n, t_float_format_options *opts, char *s)
+{
+	int	is_negative;
+	int	cursor_shift;
+
+	is_negative = ft_is_float_negative(n);
 	cursor_shift = 1;
-	if (sign)
+	if (is_negative)
 		*s = '-';
-	else if (!sign && opts->flags & FLAG_SHOW_PLUS)
+	else if (!is_negative && opts->flags & FLAG_SHOW_PLUS)
 		*s = '+';
-	else if (!sign && opts->flags & FLAG_SHOW_SPACE_PLUS)
+	else if (!is_negative && opts->flags & FLAG_SHOW_SPACE_PLUS)
 		*s = ' ';
 	else
 		cursor_shift = 0;
