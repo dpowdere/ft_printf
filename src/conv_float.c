@@ -93,12 +93,12 @@ void				ft_conv_g(t_toolbox *toolbox, va_list *arg_ptr)
 		if (exp >= -4 && exp < toolbox->spec.precision)
 		{
 			toolbox->spec.precision -= exp + 1;
-			s = ft_get_dtoa(n, toolbox, FLOAT_EXPONENTIAL);
+			s = ft_get_dtoa(n, toolbox, FLOAT_FIXED);
 		}
 		else
 		{
 			toolbox->spec.precision -= 1;
-			s = ft_get_dtoa(n, toolbox, FLOAT_FIXED);
+			s = ft_get_dtoa(n, toolbox, FLOAT_EXPONENTIAL);
 		}
 	}
 	if (s == NULL)
